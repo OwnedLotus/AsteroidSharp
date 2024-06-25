@@ -1,6 +1,9 @@
 ﻿using Raylib_CSharp.Windowing;
 using Raylib_CSharp.Rendering;
 using Raylib_CSharp.Colors;
+using Raylib_CSharp;
+
+Time.SetTargetFPS(60);
 
 Window.Init(800,480, "Hello World");
 

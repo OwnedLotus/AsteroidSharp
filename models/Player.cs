@@ -1,19 +1,17 @@
+using System.Diagnostics;
 using System.Numerics;
 
 namespace AsteroidSharp.Models;
 
-class Player
+[DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
+class Player(Position pos, Vector2 vel, float cof = 1)
 {
-    private float coefficientOfFriction;
-    public (int, int) Position { get; private set; }
-    public Vector2 Velocity { get; private set; }
-    
+    private float coefficientOfFriction = cof;
+    public Position Pos { get; private set; } = pos;
+    public Vector2 Velocity { get; private set; } = vel;
 
-
-    public Player((int,int) pos, Vector2 vel, float cof = 1)
+    private string GetDebuggerDisplay()
     {
-        Position = pos;
-        Velocity = vel;
-        coefficientOfFriction = cof;
+        throw new NotImplementedException();
     }
 }
