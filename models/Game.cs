@@ -1,3 +1,6 @@
+using AsteroidSharp.Models;
+using Raylib_CSharp.Interact;
+
 public enum GameState
 {
     Startup,
@@ -5,8 +8,33 @@ public enum GameState
     GameOver
 }
 
-public class Game(uint points, GameState state, uint numAsteroids)
+public class Game
 {
+    private Player player;
+    private List<Asteroid> asteroids;
+    public GameState state = GameState.Startup;
+
+    public uint points { get; private set; } = 0;
+    public uint numberOfAsteroids { get; private set; }
+
+
+    public Game()
+    {
+        player = new Player(new Position(0,0), new System.Numerics.Vector2(0f,0f));
+        asteroids = new List<Asteroid>();
+    }
+
+
+#region Private Methods
+#endregion
+
+#region Public Methods
+
+    public void SpawnAnotherAsteroid()
+    {
+        throw new NotImplementedException();
+    }
+
     public void LaunchGame()
     {
         throw new NotImplementedException();
@@ -14,11 +42,23 @@ public class Game(uint points, GameState state, uint numAsteroids)
 
     public void DrawGame()
     {
-        throw new NotImplementedException();
+        player.DrawPlayer();
+        foreach (var asteroid in asteroids)
+        {
+            asteroid.DrawAsteroid();
+        }
     }
 
-    public void UpdatePositions()
+    public void UpdatePositions(KeyboardKey key)
     {
-        throw new NotImplementedException();
+        player.MovePlayer(key);
+
+        foreach (var asteroid in asteroids)
+        {
+            asteroid.Move();
+        }
     }
+
+#endregion
+
 }

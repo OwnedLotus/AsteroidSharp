@@ -6,21 +6,11 @@ namespace AsteroidSharp.Models.Shapes;
 
 class Circle : IShape
 {
-    public Position pos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public float[] bounds { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public Position Pos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public int[] Bounds { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
     public void DrawShape()
     {
-        Graphics.DrawCircle(pos.X, pos.Y, bounds[0], Color.Black);
-    }
-
-    public float GetArea()
-    {
-        throw new NotImplementedException();
-    }
-
-    public int[] GetDimentsions()
-    {
-        throw new NotImplementedException();
+        Graphics.DrawCircle(Pos.X, Pos.Y, Bounds[0], Color.Black);
     }
 }

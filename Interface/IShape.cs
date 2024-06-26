@@ -2,10 +2,8 @@ using AsteroidSharp.Models;
 
 public interface IShape
 {
-    public Position pos { get; set; }
-    public float[] bounds { get; set; }
+    public Position Pos { get; set; }
+    public int[] Bounds { get; set; }
 
-    public float GetArea();
-    public int[] GetDimentsions();
     public void DrawShape();
 }
