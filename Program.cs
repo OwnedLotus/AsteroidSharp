@@ -8,20 +8,22 @@ Time.SetTargetFPS(60);
 Window.Init(800,480, "Hello World");
 
 var game = new Game();
+game.state = GameState.Playing;
 
 while (!Window.ShouldClose())
 {
     switch (game.state)
     {
         case GameState.Startup:
-            game.LaunchGame();
+            LaunchGame();
             break;
         
         case GameState.Playing:
-            RunGame();
+            GameLoop();
             break;
         
         case GameState.GameOver:
+            RunGameOver();
             break;
         
         default:
@@ -40,8 +42,18 @@ while (!Window.ShouldClose())
 
 Window.Close();
 
-// activates once a frame -- loop only when needed
-void RunGame()
+void LaunchGame()
 {
+    throw new NotImplementedException();
+}
 
+// activates once a frame -- loop only when needed
+void GameLoop()
+{
+    game.
+}
+
+void RunGameOver()
+{
+    throw new NotImplementedException();
 }

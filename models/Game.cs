@@ -30,12 +30,19 @@ public class Game
 
 #region Public Methods
 
-    public void SpawnAnotherAsteroid()
+    public void RunGame()
     {
-        throw new NotImplementedException();
+        // move Player
+        player.MovePlayer();
+
+        // move Asteroids
+        foreach (var asteroid in asteroids)
+        {
+            asteroid.Move();
+        }
     }
 
-    public void LaunchGame()
+    public void SpawnAnotherAsteroid()
     {
         throw new NotImplementedException();
     }
