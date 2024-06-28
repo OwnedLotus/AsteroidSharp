@@ -1,4 +1,6 @@
+using System.Numerics;
 using AsteroidSharp.Models;
+using AsteroidSharp.Models.Shapes;
 using Raylib_CSharp.Interact;
 
 public enum GameState
@@ -20,15 +22,15 @@ public class Game
 
     public Game()
     {
-        player = new Player(new Position(0,0), new System.Numerics.Vector2(0f,0f));
+        player = new Player(new Vector2(0, 0), new Vector2(0f, 0f), new Square());
         asteroids = new List<Asteroid>();
     }
 
 
-#region Private Methods
-#endregion
+    #region Private Methods
+    #endregion
 
-#region Public Methods
+    #region Public Methods
 
     public void RunGame()
     {
@@ -58,7 +60,7 @@ public class Game
 
     public void UpdatePositions(KeyboardKey key)
     {
-        player.MovePlayer(key);
+        player.MovePlayer();
 
         foreach (var asteroid in asteroids)
         {
@@ -66,6 +68,6 @@ public class Game
         }
     }
 
-#endregion
+    #endregion
 
 }

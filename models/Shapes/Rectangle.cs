@@ -5,11 +5,10 @@ namespace AsteroidSharp.Models.Shapes;
 
 class DrawRectangle : IShape
 {
-    public Position Pos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public int[] Bounds { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-    public void DrawShape()
+    public void DrawShape(int x, int y)
     {
-        Graphics.DrawRectangle(Pos.X, Pos.Y, Bounds[0], Bounds[1], Color.Black);
+        Graphics.DrawRectangle(x, y, Bounds[0], Bounds[1], Color.Black);
     }
 }

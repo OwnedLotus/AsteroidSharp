@@ -5,7 +5,7 @@ using Raylib_CSharp;
 
 Time.SetTargetFPS(60);
 
-Window.Init(800,480, "Hello World");
+Window.Init(800, 480, "Hello World");
 
 var game = new Game();
 game.state = GameState.Playing;
@@ -17,19 +17,19 @@ while (!Window.ShouldClose())
         case GameState.Startup:
             LaunchGame();
             break;
-        
+
         case GameState.Playing:
             GameLoop();
             break;
-        
+
         case GameState.GameOver:
             RunGameOver();
             break;
-        
+
         default:
             break;
     }
-    
+
     Graphics.BeginDrawing();
     Graphics.ClearBackground(Color.White);
 
@@ -50,7 +50,6 @@ void LaunchGame()
 // activates once a frame -- loop only when needed
 void GameLoop()
 {
-    game.
 }
 
 void RunGameOver()

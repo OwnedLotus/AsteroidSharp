@@ -13,7 +13,7 @@ public class Asteroid(IShape shape, float speed)
     public Vector2 NormalizedVelocity { get; private set; }
 
 
-#region Private Methods
+    #region Private Methods
 
     private void SpawnAsteroid(uint xLength, uint yLength)
     {
@@ -29,9 +29,9 @@ public class Asteroid(IShape shape, float speed)
         throw new NotImplementedException();
     }
 
-#endregion
+    #endregion
 
-#region Public Methods
+    #region Public Methods
 
     public void Move()
     {
@@ -43,6 +43,6 @@ public class Asteroid(IShape shape, float speed)
         Shape.DrawShape((int)Pos.X, (int)Pos.Y);
     }
 
-#endregion
+    #endregion
 
 }
