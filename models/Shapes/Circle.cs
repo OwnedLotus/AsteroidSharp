@@ -1,15 +1,23 @@
 using Raylib_CSharp.Rendering;
 using Raylib_CSharp.Colors;
+using System.Numerics;
 
 
 namespace AsteroidSharp.Models.Shapes;
 
 class Circle : IShape
 {
-    public int[] Bounds { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    private int[] _bounds;
 
-    public void DrawShape(int x, int y)
+    public int[] Bounds { get => _bounds; private set => _bounds = value; }
+
+    public Circle(int bound)
     {
-        Graphics.DrawCircle(x, y, Bounds[0], Color.Black);
+        Bounds = new int[] { bound };
+    }
+
+    public void DrawShape(Vector2 pos)
+    {
+        Graphics.DrawCircle((int)pos.X, (int)pos.Y, Bounds[0], Color.Black);
     }
 }

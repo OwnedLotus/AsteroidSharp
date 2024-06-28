@@ -5,9 +5,11 @@ using Raylib_CSharp;
 
 Time.SetTargetFPS(60);
 
-Window.Init(800, 480, "Hello World");
+(int, int) window = (800, 480);
 
-var game = new Game();
+Window.Init(window.Item1, window.Item2, "Hello World");
+
+var game = new Game(window);
 game.state = GameState.Playing;
 
 while (!Window.ShouldClose())

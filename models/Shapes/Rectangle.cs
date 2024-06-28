@@ -1,14 +1,20 @@
 using Raylib_CSharp.Rendering;
 using Raylib_CSharp.Colors;
+using System.Numerics;
 
 namespace AsteroidSharp.Models.Shapes;
 
-class DrawRectangle : IShape
+class Rectangle : IShape
 {
-    public int[] Bounds { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public int[] Bounds { get; }
 
-    public void DrawShape(int x, int y)
+    public Rectangle(int[] bounds)
     {
-        Graphics.DrawRectangle(x, y, Bounds[0], Bounds[1], Color.Black);
+        
+    }
+
+    public void DrawShape(Vector2 pos)
+    {
+        Graphics.DrawRectangle((int)pos.X, (int)pos.Y, Bounds[0], Bounds[1], Color.Black);
     }
 }

@@ -37,7 +37,7 @@ class Player(Vector2 pos, Vector2 vel,IShape shape, float cof = 1, float s = 1, 
 #region Public Methods
     public void DrawPlayer()
     {
-        playerShape.DrawShape((int)Position.X, (int)Position.Y);
+        playerShape.DrawShape(pos);
     }
 
     public void MovePlayer()

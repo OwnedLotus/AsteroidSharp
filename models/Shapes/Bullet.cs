@@ -1,10 +1,14 @@
+using System.Numerics;
+
 namespace AsteroidSharp.Models.Shapes;
 
 class Bullet : IShape
 {
-    public int[] Bounds { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    private int[] _bounds;
 
-    public void DrawShape(int x, int y)
+    public int[] Bounds { get => _bounds; private set => _bounds = value; }
+
+    public void DrawShape(Vector2 pos)
     {
         throw new NotImplementedException();
     }

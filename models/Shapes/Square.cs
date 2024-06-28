@@ -1,14 +1,22 @@
 using Raylib_CSharp.Rendering;
 using Raylib_CSharp.Colors;
+using System.Numerics;
 
 namespace AsteroidSharp.Models.Shapes;
 
 class Square : IShape
 {
-    public int[] Bounds { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    private int[] _bound;
 
-    public void DrawShape(int x, int y)
+    public int[] Bounds { get => _bound; private set => _bound = value; }
+
+    public Square(int bound)
     {
-        Graphics.DrawRectangle(x, y, Bounds[0], Bounds[0], Color.Black);
+        Bounds = new int[] { bound };
+    }
+
+    public void DrawShape(Vector2 pos)
+    {
+        Graphics.DrawRectangle((int)pos.X, (int)pos.Y, Bounds[0], Bounds[0], Color.Black);
     }
 }

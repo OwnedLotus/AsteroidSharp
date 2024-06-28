@@ -15,15 +15,18 @@ public class Game
     private Player player;
     private List<Asteroid> asteroids;
     public GameState state = GameState.Startup;
+    private (int, int) windowDimensions;
 
     public uint points { get; private set; } = 0;
     public uint numberOfAsteroids { get; private set; }
 
 
-    public Game()
+    public Game((int, int) dimensions)
     {
-        player = new Player(new Vector2(0, 0), new Vector2(0f, 0f), new Square());
+        windowDimensions = dimensions;
+        player = new Player(new Vector2(windowDimensions.Item1 / 2, windowDimensions.Item2 / 2), new Vector2(0, 0), new Triangle(new int[]{10, 5}));
         asteroids = new List<Asteroid>();
+
     }
 
 
