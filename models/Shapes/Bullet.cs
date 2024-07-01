@@ -12,4 +12,14 @@ class Bullet : IShape
     {
         throw new NotImplementedException();
     }
+
+    public void RotateShapeClockwise(Vector2 pos, float rotateSpeed)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void RotateShapeCounterClockwise(Vector2 pos, float rotateSpeed)
+    {
+        throw new NotImplementedException();
+    }
 }

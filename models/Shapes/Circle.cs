@@ -20,4 +20,14 @@ class Circle : IShape
     {
         Graphics.DrawCircle((int)pos.X, (int)pos.Y, Bounds[0], Color.Black);
     }
+
+    public void RotateShapeClockwise(Vector2 pos, float rotateSpeed)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void RotateShapeCounterClockwise(Vector2 pos, float rotateSpeed)
+    {
+        throw new NotImplementedException();
+    }
 }
