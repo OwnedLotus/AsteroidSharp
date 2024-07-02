@@ -3,11 +3,11 @@ using AsteroidSharp.Models;
 
 public interface IShape
 {
-
+    
 
     public int[] Bounds { get; }
 
-    public void DrawShape(Vector2 pos);
-    public void RotateShapeClockwise(Vector2 pos, float rotateSpeed);
-    public void RotateShapeCounterClockwise(Vector2 pos, float rotateSpeed);
+    public void UpdateShape(Vector2 pos);
+    public void DrawShape();
+    public void RotateShape(Vector2 pos, float rotateSpeed);
 }

@@ -21,11 +21,11 @@ while (!Window.ShouldClose())
             break;
 
         case GameState.Playing:
-            GameLoop();
+            game.RunGame();
             break;
 
         case GameState.GameOver:
-            RunGameOver();
+            game.RunGameOver();
             break;
 
         default:
@@ -45,16 +45,6 @@ while (!Window.ShouldClose())
 Window.Close();
 
 void LaunchGame()
-{
-    throw new NotImplementedException();
-}
-
-// activates once a frame -- loop only when needed
-void GameLoop()
-{
-}
-
-void RunGameOver()
 {
     throw new NotImplementedException();
 }

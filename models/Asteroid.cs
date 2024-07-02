@@ -40,7 +40,7 @@ public class Asteroid(IShape shape, float speed)
 
     public void DrawAsteroid()
     {
-        Shape.DrawShape(Pos);
+        Shape.DrawShape();
     }
 
     #endregion

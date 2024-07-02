@@ -6,13 +6,14 @@ using Raylib_CSharp.Interact;
 namespace AsteroidSharp.Models;
 
 [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
-class Player(Vector2 pos, Vector2 vel,IShape shape, float cof = 1, float s = 1, ushort b = 5)
+class Player(Vector2 pos, Vector2 vel,IShape shape, float cof = 1, float s = 1, ushort b = 5, float r = 90)
 {
     private Vector2 position = pos;
     private ushort bullets = b;
     private Bullet bulletShape = new Bullet();
 
 
+    public float RotationAngle { get; private set; } = r;
     public float Speed { get; private set; } = s;
     private float coefficientOfFriction = cof;
     public Vector2 Position { get => position; }
@@ -37,17 +38,22 @@ class Player(Vector2 pos, Vector2 vel,IShape shape, float cof = 1, float s = 1, 
 #region Public Methods
     public void DrawPlayer()
     {
-        playerShape.DrawShape(pos);
+        playerShape.DrawShape();
     }
 
-    public void MovePlayer()
+    public void UpdatePlayer()
     {
+        playerShape.UpdateShape(this.position);
+
         if (Input.IsKeyDown(KeyboardKey.W)) position.Y -= Speed;
         if (Input.IsKeyDown(KeyboardKey.S)) position.Y += Speed;
-        if (Input.IsKeyDown(KeyboardKey.A)) position.X -= Speed;
-        if (Input.IsKeyDown(KeyboardKey.D)) position.X += Speed;
+
+        // rotation
+        if (Input.IsKeyDown(KeyboardKey.A)) playerShape.RotateShape(this.position, RotationAngle);
+        if (Input.IsKeyDown(KeyboardKey.D)) playerShape.RotateShape(this.position, -RotationAngle);
 
         if (Input.IsKeyDown(KeyboardKey.Space)) Shoot();
+
     }
 
     public void TeleportPlayerUp()

@@ -35,10 +35,10 @@ public class Game
 
     #region Public Methods
 
-    public void RunGame()
+    public void RunGame() 
     {
         // move Player
-        player.MovePlayer();
+        player.UpdatePlayer();
 
         // move Asteroids
         foreach (var asteroid in asteroids)
@@ -61,14 +61,14 @@ public class Game
         }
     }
 
-    public void UpdatePositions(KeyboardKey key)
+    public void RunGameOver()
     {
-        player.MovePlayer();
+        throw new NotImplementedException();
+    }
 
-        foreach (var asteroid in asteroids)
-        {
-            asteroid.Move();
-        }
+    public void LaunchGame()
+    {
+        throw new NotImplementedException();
     }
 
     #endregion
