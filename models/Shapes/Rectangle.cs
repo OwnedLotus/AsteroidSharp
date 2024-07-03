@@ -16,6 +16,8 @@ class Rectangle : IShape
         _bounds = bounds;
     }
 
+    public Color Color { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
     public void DrawShape()
     {
         throw new NotImplementedException();

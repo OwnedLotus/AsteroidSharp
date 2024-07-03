@@ -1,4 +1,5 @@
 using System.Numerics;
+using Raylib_CSharp.Colors;
 
 namespace AsteroidSharp.Models.Shapes;
 
@@ -13,6 +14,8 @@ class BulletShape : IShape
     {
         
     }
+
+    public Color Color { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
     public void DrawShape()
     {

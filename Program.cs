@@ -33,7 +33,7 @@ while (!Window.ShouldClose())
     }
 
     Graphics.BeginDrawing();
-    Graphics.ClearBackground(Color.White);
+    Graphics.ClearBackground(Color.Black);
 
     game.DrawGame();
     Graphics.DrawFPS(10,10);

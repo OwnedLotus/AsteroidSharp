@@ -13,6 +13,8 @@ class Circle : IShape
 
     private int _bound;
 
+    public Color Color { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
     public Circle(int bound)
     {
         _bound = bound;

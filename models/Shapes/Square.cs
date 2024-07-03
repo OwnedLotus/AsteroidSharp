@@ -16,6 +16,8 @@ class Square : IShape
         _bound = bound;
     }
 
+    public Color Color { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
     public void DrawShape()
     {
         throw new NotImplementedException();

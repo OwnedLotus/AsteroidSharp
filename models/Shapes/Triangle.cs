@@ -7,12 +7,15 @@ namespace AsteroidSharp.Models.Shapes;
 
 class Triangle : IShape
 {
+    private Color _color = Color.White;
     private Vector2[] localCoordinates;
     private Vector2[] globalCoordinates;
 
     private int[] _bounds;
 
     public int[] Bounds { get => _bounds; private set => _bounds = value; }
+    public Color Color { get => _color; set => _color = value; }
+
     public Triangle(int[] bounds, Vector2 orientation)
     {
         _bounds = new int[2];
@@ -32,7 +35,7 @@ class Triangle : IShape
 
     public void DrawShape()
     {
-        Graphics.DrawTriangle(globalCoordinates[0], globalCoordinates[1], globalCoordinates[2], Color.Black);
+        Graphics.DrawTriangle(globalCoordinates[0], globalCoordinates[1], globalCoordinates[2], _color);
     }
 
     public Vector2 RotateShape(Vector2 pos, float degreesRotatedPerIteration)
