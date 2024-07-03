@@ -13,7 +13,7 @@ class Triangle : IShape
     private int[] _bounds;
 
     public int[] Bounds { get => _bounds; private set => _bounds = value; }
-    public Triangle(int[] bounds)
+    public Triangle(int[] bounds, Vector2 orientation)
     {
         _bounds = new int[2];
 
@@ -22,7 +22,7 @@ class Triangle : IShape
         // this is the local offset of the three corners of the triangles
         localCoordinates = new Vector2[3]
         {
-            new Vector2(0,(float)-_bounds[0]),
+            orientation * -_bounds[0],
             new Vector2((float)-_bounds[1], bounds[0] / 2),
             new Vector2((float)_bounds[1], bounds[0] / 2)
         };
@@ -35,21 +35,27 @@ class Triangle : IShape
         Graphics.DrawTriangle(globalCoordinates[0], globalCoordinates[1], globalCoordinates[2], Color.Black);
     }
 
-    public void RotateShape(Vector2 pos, float degreesRotatedPerIteration)
+    public Vector2 RotateShape(Vector2 pos, float degreesRotatedPerIteration)
     {
         float thetaRadians = MathF.PI * degreesRotatedPerIteration / 180;
 
+        var newCoords = new Vector2[3];
 
         for (int i = 0; i < localCoordinates.Length; i++)
         {
-            localCoordinates[i] = new Vector2(
+            newCoords[i] = new Vector2(
                 localCoordinates[i].X * MathF.Cos(thetaRadians) - localCoordinates[i].Y * MathF.Sin(thetaRadians),
-                localCoordinates[i].X * MathF.Sin(thetaRadians) - localCoordinates[i].Y * MathF.Cos(thetaRadians)
+                localCoordinates[i].X * MathF.Sin(thetaRadians) + localCoordinates[i].Y * MathF.Cos(thetaRadians)
                 );
         }
+
+        localCoordinates = newCoords;
+        
+        //updated heading
+        return Vector2.Normalize(localCoordinates[0]);
     }
 
-    public void UpdateShape(Vector2 pos)
+    public Vector2 UpdateShape(Vector2 pos)
     {
         // the locals will be added to the absolute position to get the location for the points to be drawn
         for (int i = 0; i < localCoordinates.Length; i++)
@@ -57,5 +63,6 @@ class Triangle : IShape
             globalCoordinates[i] = localCoordinates[i] + pos;
         }
 
+        return Vector2.Normalize(localCoordinates[0]);
     }
 }

@@ -11,21 +11,19 @@ class Circle : IShape
     private Vector2[] globalCoordinates;
 
 
-    private int[] _bounds;
-
-    public int[] Bounds { get => _bounds; private set => _bounds = value; }
+    private int _bound;
 
     public Circle(int bound)
     {
-        Bounds = new int[] { bound };
+        _bound = bound;
     }
 
-    public void RotateShape(Vector2 pos, float rotateSpeed)
+    public Vector2 RotateShape(Vector2 pos, float rotateSpeed)
     {
         throw new NotImplementedException();
     }
 
-    public void UpdateShape(Vector2 pos)
+    public Vector2 UpdateShape(Vector2 pos)
     {
         throw new NotImplementedException();
     }

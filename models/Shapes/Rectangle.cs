@@ -9,11 +9,11 @@ class Rectangle : IShape
     private Vector2[] localCoordinates;
     private Vector2[] globalCoordinates;
 
-    public int[] Bounds { get; }
+    private int[] _bounds;
 
     public Rectangle(int[] bounds)
     {
-        
+        _bounds = bounds;
     }
 
     public void DrawShape()
@@ -21,12 +21,12 @@ class Rectangle : IShape
         throw new NotImplementedException();
     }
 
-    public void RotateShape(Vector2 pos, float rotateSpeed)
+    public Vector2 RotateShape(Vector2 pos, float rotateSpeed)
     {
         throw new NotImplementedException();
     }
 
-    public void UpdateShape(Vector2 pos)
+    public Vector2 UpdateShape(Vector2 pos)
     {
         throw new NotImplementedException();
     }
