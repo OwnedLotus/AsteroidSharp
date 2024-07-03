@@ -41,6 +41,7 @@ class Triangle : IShape
 
         var newCoords = new Vector2[3];
 
+        // runs the formula of rotation for every coordinate in the shape
         for (int i = 0; i < localCoordinates.Length; i++)
         {
             newCoords[i] = new Vector2(
