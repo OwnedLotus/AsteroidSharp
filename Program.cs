@@ -7,7 +7,7 @@ Time.SetTargetFPS(60);
 
 (int, int) window = (800, 480);
 
-Window.Init(window.Item1, window.Item2, "Hello World");
+Window.Init(window.Item1, window.Item2, "AsteroidSharp");
 
 var game = new Game(window);
 game.state = GameState.Playing;
