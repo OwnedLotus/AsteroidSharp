@@ -21,7 +21,7 @@ class Triangle : IShape
         _bounds = new int[2];
 
         Bounds = bounds;
-    
+
         // this is the local offset of the three corners of the triangles
         localCoordinates = new Vector2[3]
         {
@@ -35,7 +35,7 @@ class Triangle : IShape
 
     public void DrawShape()
     {
-        Graphics.DrawTriangle(globalCoordinates[0], globalCoordinates[1], globalCoordinates[2], _color);
+        Graphics.DrawTriangleLines(globalCoordinates[0], globalCoordinates[1], globalCoordinates[2], _color);
     }
 
     public Vector2 RotateShape(Vector2 pos, float degreesRotatedPerIteration)
@@ -54,7 +54,7 @@ class Triangle : IShape
         }
 
         localCoordinates = newCoords;
-        
+
         //updated heading
         return Vector2.Normalize(localCoordinates[0]);
     }

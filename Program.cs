@@ -17,7 +17,6 @@ while (!Window.ShouldClose())
     switch (game.state)
     {
         case GameState.Startup:
-            LaunchGame();
             break;
 
         case GameState.Playing:
@@ -36,7 +35,7 @@ while (!Window.ShouldClose())
     Graphics.ClearBackground(Color.Black);
 
     game.DrawGame();
-    Graphics.DrawFPS(10,10);
+    Graphics.DrawFPS(10, 10);
 
     // Graphics.DrawText("Hello, world!", 12, 12, 20, Color.Black);
 
@@ -44,8 +43,3 @@ while (!Window.ShouldClose())
 }
 
 Window.Close();
-
-void LaunchGame()
-{
-    throw new NotImplementedException();
-}

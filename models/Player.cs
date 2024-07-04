@@ -26,16 +26,16 @@ class Player
     {
         _position = pos;
         bullets = b;
-        bulletShape =  new BulletShape(3);
+        bulletShape = new BulletShape(3);
         RotationAngle = r;
         Speed = s;
         coefficientOfFriction = cof;
-        playerShape = new Triangle(new int[] {10,5}, Vector2.UnitY);
+        playerShape = new Triangle(new int[] { 10, 5 }, Vector2.UnitY);
     }
 
 
 
-#region Private Methods
+    #region Private Methods
 
     private void Shoot()
     {
@@ -47,9 +47,9 @@ class Player
         throw new NotImplementedException();
     }
 
-#endregion
+    #endregion
 
-#region Public Methods
+    #region Public Methods
     public void DrawPlayer()
     {
         playerShape.DrawShape();
@@ -64,7 +64,6 @@ class Player
         // System.Console.WriteLine(_heading);
 
         // dampening forwards momentum
-        // if (Input.IsKeyDown(KeyboardKey.S)) _heading *= Speed;
 
         // rotation
         if (Input.IsKeyDown(KeyboardKey.A)) playerShape.RotateShape(_position, -RotationAngle);
@@ -76,7 +75,7 @@ class Player
 
     public void TeleportPlayerUp()
     {
-        _position.Y = 0;        
+        _position.Y = 0;
     }
     public void TeleportPlayerLeft()
     {
@@ -94,5 +93,5 @@ class Player
     }
 
 
-#endregion
+    #endregion
 }

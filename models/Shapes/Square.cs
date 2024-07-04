@@ -8,7 +8,7 @@ class Square : IShape
 {
     private Vector2[] localCoordinates;
     private Vector2[] globalCoordinates;
-    
+
     private int _bound;
 
     public Square(int bound)
@@ -20,7 +20,7 @@ class Square : IShape
 
     public void DrawShape()
     {
-        throw new NotImplementedException();
+        Graphics.DrawRectangle()
     }
 
     public Vector2 RotateShape(Vector2 pos, float rotateSpeed)

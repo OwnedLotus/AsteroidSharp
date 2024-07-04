@@ -7,13 +7,12 @@ namespace AsteroidSharp.Models.Shapes;
 
 class Circle : IShape
 {
-    private Vector2[] localCoordinates;
-    private Vector2[] globalCoordinates;
-
+    private Vector2 position;
+    private Color _color;
 
     private int _bound;
 
-    public Color Color { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public Color Color { get => _color; set => _color = value; }
 
     public Circle(int bound)
     {
@@ -22,16 +21,18 @@ class Circle : IShape
 
     public Vector2 RotateShape(Vector2 pos, float rotateSpeed)
     {
-        throw new NotImplementedException();
+        // not useful
+        return Vector2.Normalize(position);
     }
 
     public Vector2 UpdateShape(Vector2 pos)
     {
-        throw new NotImplementedException();
+        position = pos;
+        return Vector2.Normalize(position);
     }
 
     public void DrawShape()
     {
-        throw new NotImplementedException();
+        Graphics.DrawCircleLinesV(position, _bound, _color);
     }
 }
