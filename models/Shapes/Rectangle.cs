@@ -11,9 +11,14 @@ class Rectangle : IShape
 
     private int[] _bounds;
 
+    public Vector2[] Corners { get => globalCoordinates; private set => globalCoordinates = value; }
+
+
     public Rectangle(int[] bounds)
     {
         _bounds = bounds;
+        globalCoordinates = new Vector2[4];
+        localCoordinates = new Vector2[4];
     }
 
     public Color Color { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

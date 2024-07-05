@@ -13,6 +13,7 @@ class Circle : IShape
     private int _bound;
 
     public Color Color { get => _color; set => _color = value; }
+    public Vector2[] Corners { get => throw new NotImplementedException(); private set => throw new NotImplementedException(); }
 
     public Circle(int bound)
     {

@@ -1,7 +1,6 @@
 using Raylib_CSharp.Rendering;
 using Raylib_CSharp.Colors;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 
 namespace AsteroidSharp.Models.Shapes;
 
@@ -12,6 +11,8 @@ class Triangle : IShape
     private Vector2[] globalCoordinates;
 
     private int[] _bounds;
+
+    public Vector2[] Corners { get => globalCoordinates; private set => globalCoordinates = value; }
 
     public int[] Bounds { get => _bounds; private set => _bounds = value; }
     public Color Color { get => _color; set => _color = value; }

@@ -24,6 +24,11 @@ public class Asteroid(IShape shape, float speed)
         var yScaler = rng.NextSingle();
     }
 
+    private void CheckCollisions()
+    {
+    }
+
+
     private string GetDebuggerDisplay()
     {
         throw new NotImplementedException();
