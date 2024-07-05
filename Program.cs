@@ -17,6 +17,7 @@ while (!Window.ShouldClose())
     switch (game.state)
     {
         case GameState.Startup:
+            game.LaunchGame();
             break;
 
         case GameState.Playing:

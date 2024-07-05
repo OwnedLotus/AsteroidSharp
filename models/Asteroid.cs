@@ -4,11 +4,12 @@ using System.Numerics;
 namespace AsteroidSharp.Models;
 
 [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
-public class Asteroid(IShape shape, float speed)
+public class Asteroid(IShape shape, float s)
 {
-    private float speed = speed;
+    private float _speed = s;
+    private int _rotationAngle;
+    private IShape _shape = shape;
 
-    public IShape Shape { get; private set; } = shape;
     public Vector2 Pos { get; private set; }
     public Vector2 NormalizedVelocity { get; private set; }
 
@@ -29,18 +30,24 @@ public class Asteroid(IShape shape, float speed)
         throw new NotImplementedException();
     }
 
+    private void RotateAsteroid()
+    {
+        _shape.RotateShape(Pos, _rotationAngle);
+    }
+
     #endregion
 
     #region Public Methods
 
     public void Move()
     {
-        Pos += NormalizedVelocity * speed;
+        Pos += NormalizedVelocity * _speed;
+        RotateAsteroid();
     }
 
     public void DrawAsteroid()
     {
-        Shape.DrawShape();
+        _shape.DrawShape();
     }
 
     #endregion
