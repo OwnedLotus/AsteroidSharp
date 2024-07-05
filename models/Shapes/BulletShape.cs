@@ -1,4 +1,5 @@
 using System.Numerics;
+using Raylib_CSharp.Rendering;
 using Raylib_CSharp.Colors;
 
 namespace AsteroidSharp.Models.Shapes;
@@ -7,19 +8,25 @@ class BulletShape : IShape
 {
     private Vector2[] localCoordinates;
     private Vector2[] globalCoordinates;
-    
-    private uint _length;
+    private Vector2 _direction;
+    private ushort length;
+    private ushort totalLength;
 
-    public BulletShape(uint length)
+    public Vector2[] Corners { get => globalCoordinates; private set => globalCoordinates = value; }
+    public Color Color { get; set; }
+
+    public BulletShape(ushort length, Vector2 direction)
     {
-        
+        localCoordinates = new Vector2[2];
+        globalCoordinates = new Vector2[2];
+        _direction = direction;
+        length = 0;
+        totalLength = length;
     }
-
-    public Color Color { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
     public void DrawShape()
     {
-        throw new NotImplementedException();
+        Graphics.DrawLineV(globalCoordinates[0], globalCoordinates[1], Color.Red);
     }
 
     public Vector2 RotateShape(Vector2 pos, float rotateSpeed)

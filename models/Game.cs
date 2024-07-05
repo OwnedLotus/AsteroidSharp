@@ -22,6 +22,7 @@ public class Game
     public Game((int, int) dimensions)
     {
         windowDimensions = dimensions;
+        player = new Player(new Vector2(windowDimensions.Item1 / 2, windowDimensions.Item2 / 2), new Vector2(0, 0));
     }
 
 
@@ -32,8 +33,8 @@ public class Game
 
     public void LaunchGame()
     {
-        player = new Player(new Vector2(windowDimensions.Item1 / 2, windowDimensions.Item2 / 2), new Vector2(0, 0));
         asteroids = new List<Asteroid>();
+        state = GameState.Playing;
     }
 
 

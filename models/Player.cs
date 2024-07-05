@@ -26,7 +26,7 @@ class Player
     {
         _position = pos;
         bullets = b;
-        bulletShape = new BulletShape(3);
+        //bulletShape = new BulletShape(3);
         RotationAngle = r;
         Speed = s;
         coefficientOfFriction = cof;
