@@ -41,7 +41,6 @@ public class Game
     public void RunGame()
     {
         // move Player
-
         player?.UpdatePlayer();
 
         // move Asteroids
@@ -56,7 +55,7 @@ public class Game
 
     public void SpawnAnotherAsteroid()
     {
-        throw new NotImplementedException();
+        asteroids?.Add(new Asteroid());
     }
 
     public void DrawGame()
