@@ -1,5 +1,4 @@
 using System.Numerics;
-using AsteroidSharp.Models;
 using Raylib_CSharp.Colors;
 
 public interface IShape
