@@ -22,7 +22,7 @@ class Circle : IShape
 
     public Vector2 RotateShape(Vector2 pos, float rotateSpeed)
     {
-        // not useful
+        // not useful but for polymorphism this will just return the normalized position "Heading"
         return Vector2.Normalize(position);
     }
 
