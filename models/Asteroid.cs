@@ -4,11 +4,11 @@ using System.Numerics;
 namespace AsteroidSharp.Models;
 
 [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
-public class Asteroid(IShape shape, float s)
+public class Asteroid()
 {
-    private float _speed = s;
+    private float _speed;
     private int _rotationAngle;
-    private IShape _shape = shape;
+    private IShape? _shape;
 
     public Vector2 Pos { get; private set; }
     public Vector2 NormalizedVelocity { get; private set; }
@@ -23,6 +23,25 @@ public class Asteroid(IShape shape, float s)
         // !TODO the idea is to use the 0 -> 1 float to scale how far along the axis the astroid is to spawn
         var xScaler = rng.NextSingle();
         var yScaler = rng.NextSingle();
+
+        _speed = rng.Next(0, 10);
+        int shapeRng = rng.Next(0, 4);
+
+        switch (shapeRng)
+        {
+            case 0:
+                _shape = new Shapes.Circle(5);
+                break;
+            case 1:
+                _shape = new Shapes.Square(5);
+                break;
+            case 2:
+                _shape = new Shapes.Triangle(new int[] { 10, 5 }, Vector2.UnitY);
+                break;
+            case 3:
+                _shape = new Shapes.Rectangle(new int[] { 10, 5 });
+                break;
+        }
     }
 
     private void CheckCollisions()
@@ -37,7 +56,7 @@ public class Asteroid(IShape shape, float s)
 
     private void RotateAsteroid()
     {
-        _shape.RotateShape(Pos, _rotationAngle);
+        _shape?.RotateShape(Pos, _rotationAngle);
     }
 
     #endregion
@@ -52,7 +71,7 @@ public class Asteroid(IShape shape, float s)
 
     public void DrawAsteroid()
     {
-        _shape.DrawShape();
+        _shape?.DrawShape();
     }
 
     #endregion
