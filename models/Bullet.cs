@@ -27,6 +27,4 @@ class Bullet(BulletShape bs, Vector2 pos, Vector2 heading, Color color)
     {
         throw new NotImplementedException();
     }
-
-
 }
