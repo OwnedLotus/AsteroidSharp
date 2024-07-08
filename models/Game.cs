@@ -35,6 +35,7 @@ public class Game
     {
         asteroids = new List<Asteroid>();
         state = GameState.Playing;
+        asteroids.Add(new Asteroid(10,5));
     }
 
 
@@ -55,7 +56,7 @@ public class Game
 
     public void SpawnAnotherAsteroid()
     {
-        asteroids?.Add(new Asteroid());
+        asteroids?.Add(new Asteroid(10,5));
     }
 
     public void DrawGame()
