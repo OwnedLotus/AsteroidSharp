@@ -10,25 +10,23 @@ class Triangle : IShape
     private Vector2[] localCoordinates;
     private Vector2[] globalCoordinates;
 
-    private int[] _bounds;
+    private Vector2 _bounds;
 
     public Vector2[] Corners { get => globalCoordinates; private set => globalCoordinates = value; }
 
-    public int[] Bounds { get => _bounds; private set => _bounds = value; }
-    public Color Color { get => _color; set => _color = value; }
+    public Vector2 Bounds { get => _bounds; private set => _bounds = value; }
+    public Color ShapeColor { get => _color; set => _color = value; }
 
-    public Triangle(int[] bounds, Vector2 orientation)
+    public Triangle(Vector2 bounds, Vector2 orientation)
     {
-        _bounds = new int[2];
-
         Bounds = bounds;
 
         // this is the local offset of the three corners of the triangles
         localCoordinates = new Vector2[3]
         {
-            orientation * -_bounds[0],
-            new Vector2((float)-_bounds[1], bounds[0] / 2),
-            new Vector2((float)_bounds[1], bounds[0] / 2)
+            orientation * -_bounds.X,
+            new Vector2(-_bounds.Y, bounds.X / 2),
+            new Vector2(_bounds.Y, bounds.X / 2)
         };
 
         globalCoordinates = new Vector2[3];

@@ -11,11 +11,12 @@ class BulletShape : IShape
     private Vector2 _direction;
     private ushort length;
     private ushort totalLength;
+    private Color _color;
 
     public Vector2[] Corners { get => globalCoordinates; private set => globalCoordinates = value; }
-    public Color Color { get; set; }
+    public Color ShapeColor { get; set; }
 
-    public BulletShape(ushort length, Vector2 direction)
+    public BulletShape(ushort length, Vector2 direction, Color color)
     {
         localCoordinates = new Vector2[2];
         globalCoordinates = new Vector2[2];

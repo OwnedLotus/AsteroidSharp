@@ -3,7 +3,7 @@ using Raylib_CSharp.Colors;
 
 public interface IShape
 {
-    Color Color { get; set; }
+    Color ShapeColor { get; }
     public Vector2[] Corners { get; }
 
     public Vector2 UpdateShape(Vector2 pos);
