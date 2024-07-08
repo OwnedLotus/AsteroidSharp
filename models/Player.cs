@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Raylib_CSharp.Colors;
 using System.Numerics;
 using AsteroidSharp.Models.Shapes;
 using Raylib_CSharp.Interact;
@@ -30,8 +31,8 @@ class Player
         RotationAngle = r;
         Speed = s;
         coefficientOfFriction = cof;
-        playerShape = new Triangle(new int[] { 10, 5 }, Vector2.UnitY);
-        bulletShape = new BulletShape(5, Vector2.UnitY);
+        playerShape = new Triangle(new Vector2(10,5), Vector2.UnitY);
+        bulletShape = new BulletShape(5, Vector2.UnitY, Color.Red);
     }
 
 
