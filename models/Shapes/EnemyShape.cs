@@ -7,9 +7,10 @@ namespace AsteroidSharp.Models.Shapes;
 
 class EnemyShape : IShape
 {
+    private Color _color;
 
     public Vector2[] Corners { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public Color Color { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public Color ShapeColor { get => _color; set => _color = value; }
 
 
     public Vector2 UpdateShape(Vector2 position)

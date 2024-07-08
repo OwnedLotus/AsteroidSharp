@@ -1,10 +1,11 @@
 using System.Diagnostics;
+using Raylib_CSharp.Colors;
 using System.Numerics;
 
 namespace AsteroidSharp.Models;
 
 [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
-public class Asteroid()
+public class Asteroid
 {
     private float _speed;
     private int _rotationAngle;
@@ -13,10 +14,7 @@ public class Asteroid()
     public Vector2 Pos { get; private set; }
     public Vector2 NormalizedVelocity { get; private set; }
 
-
-    #region Private Methods
-
-    private void SpawnAsteroid(uint xLength, uint yLength)
+    public Asteroid(uint xLength, uint  yLength)
     {
         Random rng = new();
 
@@ -33,16 +31,19 @@ public class Asteroid()
                 _shape = new Shapes.Circle(5);
                 break;
             case 1:
-                _shape = new Shapes.Square(5);
+                _shape = new Shapes.Square(5, Color.Brown);
                 break;
             case 2:
-                _shape = new Shapes.Triangle(new int[] { 10, 5 }, Vector2.UnitY);
+                _shape = new Shapes.Triangle(new Vector2(10,5), Vector2.UnitY);
                 break;
             case 3:
-                _shape = new Shapes.Rectangle(new int[] { 10, 5 });
+                _shape = new Shapes.Rectangle(new Vector2(10,5), Color.Brown);
                 break;
         }
     }
+
+
+    #region Private Methods
 
     private void CheckCollisions()
     {
