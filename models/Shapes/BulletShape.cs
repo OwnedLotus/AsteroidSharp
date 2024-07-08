@@ -31,7 +31,23 @@ class BulletShape : IShape
 
     public Vector2 RotateShape(Vector2 pos, float rotateSpeed)
     {
-        throw new NotImplementedException();
+        float thetaRadians = MathF.PI * rotateSpeed / 180;
+
+        var newCoords = new Vector2[3];
+
+        // runs the formula of rotation for every coordinate in the shape
+        for (int i = 0; i < localCoordinates.Length; i++)
+        {
+            newCoords[i] = new Vector2(
+                localCoordinates[i].X * MathF.Cos(thetaRadians) - localCoordinates[i].Y * MathF.Sin(thetaRadians),
+                localCoordinates[i].X * MathF.Sin(thetaRadians) + localCoordinates[i].Y * MathF.Cos(thetaRadians)
+                );
+        }
+
+        localCoordinates = newCoords;
+
+        //updated heading
+        return Vector2.Normalize(localCoordinates[0]);
     }
 
     public Vector2 UpdateShape(Vector2 pos)

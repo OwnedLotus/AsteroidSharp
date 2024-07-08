@@ -31,6 +31,7 @@ class Player
         Speed = s;
         coefficientOfFriction = cof;
         playerShape = new Triangle(new int[] { 10, 5 }, Vector2.UnitY);
+        bulletShape = new BulletShape(5, Vector2.UnitY);
     }
 
 
