@@ -10,7 +10,6 @@ Time.SetTargetFPS(60);
 Window.Init(window.Item1, window.Item2, "AsteroidSharp");
 
 var game = new Game(window);
-game.state = GameState.Playing;
 
 while (!Window.ShouldClose())
 {
