@@ -35,7 +35,7 @@ public class Game
     {
         asteroids = new List<Asteroid>();
         state = GameState.Playing;
-        asteroids.Add(new Asteroid(10,5, new Vector2(windowDimensions.Item1 / 2, windowDimensions.Item2 / 2)));
+        asteroids.Add(new Asteroid(10, 5, new Vector2(windowDimensions.Item1 / 2, windowDimensions.Item2 / 2)));
     }
 
 
@@ -62,6 +62,7 @@ public class Game
     public void DrawGame()
     {
         player?.DrawPlayer();
+        
         if (asteroids is not null)
         {
             foreach (var asteroid in asteroids)

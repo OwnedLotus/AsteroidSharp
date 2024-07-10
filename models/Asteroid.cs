@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Raylib_CSharp.Colors;
 using System.Numerics;
 using System.Diagnostics.Contracts;
+using Raylib_CSharp.Rendering;
 
 namespace AsteroidSharp.Models;
 
@@ -51,6 +52,9 @@ public class Asteroid
         {
             
         }
+        
+        if(_shape is not null)
+            _shape.UpdateShape((Vector2)_position);
     }
 
 
@@ -78,12 +82,16 @@ public class Asteroid
 
     public void Move()
     {
-        Pos += NormalizedVelocity * _speed;
+        if (_position is not null)
+            _position += NormalizedVelocity * _speed;
         RotateAsteroid();
     }
 
     public void DrawAsteroid()
     {
+        // if(_position is not null)
+        // Graphics.DrawRectangleV((Vector2)_position, new Vector2(10, 5), Color.Brown);
+
         _shape?.DrawShape();
     }
 
