@@ -10,14 +10,14 @@ namespace AsteroidSharp.Models;
 public class Asteroid
 {
     private float _speed;
-    private int _rotationAngle;
+    private float _rotationAngle;
     private IShape? _shape;
     private Vector2? _position;
 
-    public Vector2 position { get; private set ; }
-    public Vector2 NormalizedVelocity { get; private set; }
+    public Vector2 position { get; private set; }
+    public Vector2 NormalizedVelocity { get; private set; } = new Vector2(0.5f,0.5f);
 
-    public Asteroid(uint xLength, uint  yLength, Vector2? pos = null)
+    public Asteroid(uint xLength, uint  yLength, Vector2? pos = null, float rotate = 10f, float s = 2)
     {
         Random rng = new();
 
@@ -27,6 +27,8 @@ public class Asteroid
 
         _speed = rng.Next(0, 10);
         int shapeRng = rng.Next(0, 4);
+        // TODO! remove after debug movement
+        shapeRng = 3;
 
         switch (shapeRng)
         {
@@ -53,8 +55,11 @@ public class Asteroid
             
         }
         
-        if(_shape is not null)
+        if(_shape is not null && _position is not null)
             _shape.UpdateShape((Vector2)_position);
+
+        _rotationAngle = rotate;
+        _speed = s;
     }
 
 
@@ -85,6 +90,9 @@ public class Asteroid
         if (_position is not null)
             _position += NormalizedVelocity * _speed;
         RotateAsteroid();
+
+        if(_shape is not null && _position is not null)
+            _shape.UpdateShape((Vector2)_position);
     }
 
     public void DrawAsteroid()

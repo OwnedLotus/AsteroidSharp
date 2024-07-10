@@ -1,11 +1,14 @@
 using Raylib_CSharp.Rendering;
 using Raylib_CSharp.Colors;
 using System.Numerics;
+using Raylib_CSharp.Geometry;
 
 namespace AsteroidSharp.Models.Shapes;
 
 class Rectangle : IShape
 {
+    Raylib_CSharp.Transformations.Rectangle rectangle = new Raylib_CSharp.Transformations.Rectangle();
+
     private Vector2[] localCoordinates;
     private Vector2[] globalCoordinates;
 
@@ -20,21 +23,30 @@ class Rectangle : IShape
     {
         _bounds = bounds;
         globalCoordinates = new Vector2[4];
-        localCoordinates = new Vector2[4];
+        localCoordinates = new Vector2[4] 
+        {
+            new Vector2(-_bounds.X / 2, -_bounds.Y / 2),
+            new Vector2(_bounds.X / 2, -_bounds.Y / 2),
+            new Vector2(-_bounds.X / 2, _bounds.Y / 2),
+            new Vector2(_bounds.X / 2, _bounds.Y / 2),
+        };
         ShapeColor = color;
     }
 
 
     public void DrawShape()
     {
-        Graphics.DrawRectangleV(globalCoordinates[0], _bounds, ShapeColor);
+        Graphics.DrawLine((int)globalCoordinates[0].X, (int)globalCoordinates[0].Y, (int)globalCoordinates[1].X, (int)globalCoordinates[1].Y, _color);
+        Graphics.DrawLine((int)globalCoordinates[0].X, (int)globalCoordinates[0].Y, (int)globalCoordinates[2].X, (int)globalCoordinates[2].Y, _color);
+        Graphics.DrawLine((int)globalCoordinates[1].X, (int)globalCoordinates[1].Y, (int)globalCoordinates[3].X, (int)globalCoordinates[3].Y, _color);
+        Graphics.DrawLine((int)globalCoordinates[2].X, (int)globalCoordinates[2].Y, (int)globalCoordinates[3].X, (int)globalCoordinates[3].Y, _color); 
     }
 
     public Vector2 RotateShape(Vector2 pos, float rotateSpeed)
     {
         float thetaRadians = MathF.PI * rotateSpeed / 180;
 
-        var newCoords = new Vector2[3];
+        var newCoords = new Vector2[4];
 
         // runs the formula of rotation for every coordinate in the shape
         for (int i = 0; i < localCoordinates.Length; i++)
