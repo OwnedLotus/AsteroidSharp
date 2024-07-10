@@ -1,5 +1,6 @@
 using System.Numerics;
 using AsteroidSharp.Models;
+using Raylib_CSharp.Interact;
 
 public enum GameState
 {
@@ -53,6 +54,10 @@ public class Game
                 asteroid.Move();
             }
         }
+
+        if (Input.IsKeyDown(KeyboardKey.Enter) && state != GameState.Paused) state = GameState.Paused;
+        if (Input.IsKeyDown(KeyboardKey.Enter) && state == GameState.Paused) state = GameState.Playing;
+
     }
 
     public void SpawnAnotherAsteroid()
