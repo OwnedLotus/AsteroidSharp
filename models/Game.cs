@@ -5,6 +5,7 @@ public enum GameState
 {
     Startup,
     Playing,
+    Paused,
     GameOver
 }
 

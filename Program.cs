@@ -26,8 +26,7 @@ while (!Window.ShouldClose())
         case GameState.GameOver:
             game.RunGameOver();
             break;
-
-        default:
+        case GameState.Paused:
             break;
     }
 
