@@ -35,7 +35,7 @@ public class Game
     {
         asteroids = new List<Asteroid>();
         state = GameState.Playing;
-        asteroids.Add(new Asteroid(10,5));
+        asteroids.Add(new Asteroid(10,5, new Vector2(windowDimensions.Item1 / 2, windowDimensions.Item2 / 2)));
     }
 
 

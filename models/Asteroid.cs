@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Raylib_CSharp.Colors;
 using System.Numerics;
+using System.Diagnostics.Contracts;
 
 namespace AsteroidSharp.Models;
 
@@ -10,11 +11,12 @@ public class Asteroid
     private float _speed;
     private int _rotationAngle;
     private IShape? _shape;
+    private Vector2? _position;
 
-    public Vector2 Pos { get; private set; }
+    public Vector2 position { get; private set ; }
     public Vector2 NormalizedVelocity { get; private set; }
 
-    public Asteroid(uint xLength, uint  yLength)
+    public Asteroid(uint xLength, uint  yLength, Vector2? pos = null)
     {
         Random rng = new();
 
@@ -40,6 +42,15 @@ public class Asteroid
                 _shape = new Shapes.Rectangle(new Vector2(10,5), Color.Brown);
                 break;
         }
+
+        if (pos is not null)
+        {
+            _position = pos;
+        }
+        else
+        {
+            
+        }
     }
 
 
@@ -57,7 +68,8 @@ public class Asteroid
 
     private void RotateAsteroid()
     {
-        _shape?.RotateShape(Pos, _rotationAngle);
+        if (_position is not null)
+            _shape?.RotateShape((Vector2)_position, _rotationAngle);
     }
 
     #endregion
