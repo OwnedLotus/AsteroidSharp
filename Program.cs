@@ -5,9 +5,9 @@ using Raylib_CSharp;
 
 Time.SetTargetFPS(60);
 
-(int, int) window = (800, 480);
+(uint, uint) window = (800, 480);
 
-Window.Init(window.Item1, window.Item2, "AsteroidSharp");
+Window.Init((int)window.Item1, (int)window.Item2, "AsteroidSharp");
 
 var game = new Game(window);
 

@@ -9,9 +9,7 @@ class BulletShape : IShape
     private Vector2[] localCoordinates;
     private Vector2[] globalCoordinates;
     private Vector2 _direction;
-    private ushort length;
     private ushort totalLength;
-    private Color _color;
 
     public Vector2[] Corners { get => globalCoordinates; private set => globalCoordinates = value; }
     public Color ShapeColor { get; set; }

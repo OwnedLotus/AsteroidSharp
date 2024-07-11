@@ -7,8 +7,6 @@ namespace AsteroidSharp.Models.Shapes;
 
 class Rectangle : IShape
 {
-    Raylib_CSharp.Transformations.Rectangle rectangle = new Raylib_CSharp.Transformations.Rectangle();
-
     private Vector2[] localCoordinates;
     private Vector2[] globalCoordinates;
 
