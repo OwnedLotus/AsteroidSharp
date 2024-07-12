@@ -15,6 +15,7 @@ class Player
     private ushort bullets;
     private BulletShape bulletShape;
     private float _momentum;
+    private Vector2 _previousPosition;
 
 
     public float RotationAngle { get; private set; }
@@ -67,15 +68,13 @@ class Player
     public void UpdatePlayer((uint, uint) dimensions)
     {
         _heading = playerShape.UpdateShape(_position);
+        var newPos = _position + _heading * Speed;
 
         if (Input.IsKeyDown(KeyboardKey.W))
         {
-            _heading *= 5f;
-            _position += _heading * Speed;
+            _position = newPos;
+            _momentum = Speed;
         }
-
-        // dampening forwards momentum
-        if (Input.IsKeyDown(KeyboardKey.S) && _heading.Length() > 1f) _heading *= 0.9f;
 
         // rotation
         if (Input.IsKeyDown(KeyboardKey.A)) playerShape.RotateShape(_position, -RotationAngle);
@@ -88,6 +87,7 @@ class Player
         if (_position.Y > dimensions.Item2) TeleportPlayerUp();
         if (_position.X < 0) TeleportPlayerRight(dimensions.Item1);
         if (_position.X > dimensions.Item1) TeleportPlayerLeft();
+
     }
 
     #endregion
