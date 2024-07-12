@@ -1,8 +1,7 @@
 using System.Diagnostics;
 using Raylib_CSharp.Colors;
 using System.Numerics;
-using System.Diagnostics.Contracts;
-using Raylib_CSharp.Rendering;
+
 
 namespace AsteroidSharp.Models;
 
