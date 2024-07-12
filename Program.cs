@@ -36,8 +36,6 @@ while (!Window.ShouldClose())
     game.DrawGame();
     Graphics.DrawFPS(10, 10);
 
-    // Graphics.DrawText("Hello, world!", 12, 12, 20, Color.Black);
-
     Graphics.EndDrawing();
 }
 
