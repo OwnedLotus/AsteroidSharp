@@ -1,4 +1,4 @@
-﻿using Raylib_CSharp.Windowing;
+using Raylib_CSharp.Windowing;
 using Raylib_CSharp.Rendering;
 using Raylib_CSharp.Colors;
 using Raylib_CSharp;

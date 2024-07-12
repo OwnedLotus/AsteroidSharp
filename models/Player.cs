@@ -33,10 +33,10 @@ class Player
         RotationAngle = r;
         Speed = s;
         coefficientOfFriction = cof;
-        playerShape = new Triangle(new Vector2(10,5), Vector2.UnitY);
+        playerShape = new Triangle(new Vector2(10, 5), Vector2.UnitY);
         bulletShape = new BulletShape(5, Vector2.UnitY, Color.Red);
         _momentum = m;
-    
+
     }
 
     #region Private Methods
@@ -47,7 +47,7 @@ class Player
     }
 
     private void TeleportPlayerUp() => _position.Y = 0;
-    private void TeleportPlayerLeft() =>  _position.X = 0;
+    private void TeleportPlayerLeft() => _position.X = 0;
     private void TeleportPlayerDown(uint worldHeight) => _position.Y = worldHeight;
     private void TeleportPlayerRight(uint worldLength) => _position.X = worldLength;
 
@@ -64,11 +64,10 @@ class Player
         playerShape.DrawShape();
     }
 
-    public void UpdatePlayer((uint,uint) dimensions)
+    public void UpdatePlayer((uint, uint) dimensions)
     {
         _heading = playerShape.UpdateShape(_position);
 
-        if (Input.IsKeyDown(KeyboardKey.W)) 
         if (Input.IsKeyDown(KeyboardKey.W))
         {
             _heading *= 5f;
@@ -85,10 +84,10 @@ class Player
         if (Input.IsKeyDown(KeyboardKey.Space)) Shoot();
 
 
-        if(_position.Y < 0) TeleportPlayerDown(dimensions.Item2);
-        if(_position.Y > dimensions.Item2) TeleportPlayerUp();
-        if(_position.X < 0) TeleportPlayerRight(dimensions.Item1);
-        if(_position.X > dimensions.Item1) TeleportPlayerLeft();
+        if (_position.Y < 0) TeleportPlayerDown(dimensions.Item2);
+        if (_position.Y > dimensions.Item2) TeleportPlayerUp();
+        if (_position.X < 0) TeleportPlayerRight(dimensions.Item1);
+        if (_position.X > dimensions.Item1) TeleportPlayerLeft();
     }
 
     #endregion

@@ -9,10 +9,9 @@ class Enemy(Vector2 StartingPosition, Vector2 localDirection, float s)
 {
     private Vector2 _pos = StartingPosition;
     private Vector2 _heading = localDirection;
-    private IShape _shape = new EnemyShape();
+    private IShape _shape;
     private float _speed = s;
     private Queue<Bullet> _bullets = new Queue<Bullet>();
-
 
     public void DrawEnemy()
     {

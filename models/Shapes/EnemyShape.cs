@@ -12,6 +12,10 @@ class EnemyShape : IShape
     public Vector2[] Corners { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public Color ShapeColor { get => _color; set => _color = value; }
 
+    public EnemyShape()
+    {
+
+    }
 
     public Vector2 UpdateShape(Vector2 position)
     {
