@@ -24,6 +24,6 @@ class Enemy(Vector2 StartingPosition, Vector2 localDirection, float s)
     }
     public void EnemyShoot()
     {
-        _bullets.Enqueue(new Bullet(new BulletShape(5, _heading, Color.Red), _pos, _heading, Color.Red, 2));
+        _bullets.Enqueue(new Bullet());
     }
 }

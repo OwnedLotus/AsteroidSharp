@@ -4,33 +4,36 @@ using Raylib_CSharp.Colors;
 
 namespace AsteroidSharp.Models;
 
-class Bullet(BulletShape bs, Vector2 pos, Vector2 heading, Color color, float s = 1)
+class Bullet()
 {
-    private BulletShape _shape = bs;
-    private Vector2 _position = pos;
-    private Vector2 _heading = heading;
-    private Color _color = color;
-    private float _bulletspeed = s;
+    private BulletShape? _shape;
+    private Vector2 _position;
+    private Vector2 _heading;
+    private Color _color;
+    private float _bulletspeed;
+    public Vector2 Position { get => _position; set => _position = value; }
+
+    public void SpawnBullet(Vector2 pos, Vector2 heading, Color color, float speed, ushort length)
+    {
+        _position = pos;
+        _heading = heading;
+        _color = color;
+        _bulletspeed = speed;
+        _shape = new BulletShape(_position, _heading, _color);
+    }
 
     public void DrawBullet()
     {
-        _shape.DrawShape();
+        if(_shape is not null)
+            _shape.DrawShape();
     }
 
     public void Move()
     {
-        _position += _heading * _bulletspeed;
-
-        _shape.UpdateShape(_position);
-    }
-
-    // I have not decided how I want to check for collisions
-    // Every idea that I have seems to me slow
-    public bool CollisionCheck(Vector2 collisionPoint)
-    {
-        if (collisionPoint == _position)
-            return true;
-        else
-            return false;
+        if (_shape is not null)
+        {
+            _position += _heading * _bulletspeed;
+            _shape.UpdateShape(_position);
+        }
     }
 }

@@ -12,10 +12,11 @@ class Player
     // oriented up
     private Vector2 _heading;
     private Vector2 _position;
-    private ushort bullets;
-    private BulletShape bulletShape;
     private float _momentum;
-    private Vector2 _previousPosition;
+    // private Vector2 _previousPosition;
+    private Queue<Bullet> bullets;
+    private Queue<Bullet> activeBullets;
+    private uint numberOfBullets = 5;
 
 
     public float RotationAngle { get; private set; }
@@ -26,25 +27,41 @@ class Player
     public Vector2 Heading { get => _heading; private set => _heading = Vector2.Normalize(value); }
     private Triangle playerShape;
 
-    public Player(Vector2 pos, Vector2 vel, float cof = 1, float s = 2, ushort b = 5, float r = 5, float m = 1)
+    public Player(Vector2 pos, Vector2 vel, float cof = 1, float s = 2, float r = 5, float m = 1)
     {
         _position = pos;
-        bullets = b;
-        //bulletShape = new BulletShape(3);
         RotationAngle = r;
         Speed = s;
         coefficientOfFriction = cof;
         playerShape = new Triangle(new Vector2(10, 5), Vector2.UnitY);
-        bulletShape = new BulletShape(5, Vector2.UnitY, Color.Red);
         _momentum = m;
+        bullets = new Queue<Bullet>();
+        activeBullets = new Queue<Bullet>();
 
+        for (int i = 0; i < numberOfBullets; i++)
+        {
+            bullets.Enqueue(new Bullet());
+        }
     }
 
     #region Private Methods
 
     private void Shoot()
     {
-        bullets--;
+        Bullet shotBullet;
+
+        var success = bullets.TryDequeue(out shotBullet!);
+
+        if(success && shotBullet is not null)
+        {
+            shotBullet.Position = _position;
+            activeBullets.Enqueue(shotBullet);
+        }
+    }
+
+    private void DespawnBullet()
+    {
+        bullets.Enqueue(activeBullets.Dequeue());
     }
 
     private void TeleportPlayerUp() => _position.Y = 0;
@@ -63,6 +80,11 @@ class Player
     public void DrawPlayer()
     {
         playerShape.DrawShape();
+
+        foreach (var bullet in activeBullets)
+        {
+            bullet.DrawBullet();
+        }
     }
 
     public void UpdatePlayer((uint, uint) dimensions)
@@ -87,7 +109,6 @@ class Player
         if (_position.Y > dimensions.Item2) TeleportPlayerUp();
         if (_position.X < 0) TeleportPlayerRight(dimensions.Item1);
         if (_position.X > dimensions.Item1) TeleportPlayerLeft();
-
     }
 
     #endregion
