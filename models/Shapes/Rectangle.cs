@@ -3,7 +3,6 @@ using Raylib_CSharp.Colors;
 using Raylib_CSharp.Collision;
 using System.Numerics;
 
-
 namespace AsteroidSharp.Models.Shapes;
 
 class Rectangle : IShape
@@ -18,6 +17,7 @@ class Rectangle : IShape
     public Color ShapeColor { get => _color; private set => _color = value; }
     public RayCollision Collision { get => throw new NotImplementedException(); private set => throw new NotImplementedException(); }
 
+    public Raylib_CSharp.Transformations.Rectangle Rect => throw new NotImplementedException();
 
     public Rectangle(Vector2 bounds, Color color)
     {

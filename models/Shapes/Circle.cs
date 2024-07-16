@@ -2,7 +2,6 @@ using Raylib_CSharp.Rendering;
 using Raylib_CSharp.Colors;
 using System.Numerics;
 
-
 namespace AsteroidSharp.Models.Shapes;
 
 class Circle : IShape
@@ -14,6 +13,8 @@ class Circle : IShape
 
     public Color ShapeColor { get => _color; set => _color = value; }
     public Vector2[] Corners { get => throw new NotImplementedException(); private set => throw new NotImplementedException(); }
+
+    Raylib_CSharp.Transformations.Rectangle IShape.Rect => throw new NotImplementedException();
 
     public Circle(int bound)
     {

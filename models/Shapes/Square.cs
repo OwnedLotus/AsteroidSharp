@@ -13,6 +13,8 @@ class Square : IShape
     public Color ShapeColor { get => _color; private set => _color = value; }
     public Vector2[] Corners { get => globalCoordinates; private set => globalCoordinates = value; }
 
+    public Raylib_CSharp.Transformations.Rectangle Rect => throw new NotImplementedException();
+
     private Vector2 _bounds;
 
     public Square(int bound, Color color)

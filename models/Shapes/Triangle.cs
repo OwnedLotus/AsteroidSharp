@@ -17,6 +17,8 @@ class Triangle : IShape
     public Vector2 Bounds { get => _bounds; private set => _bounds = value; }
     public Color ShapeColor { get => _color; set => _color = value; }
 
+    public Raylib_CSharp.Transformations.Rectangle Rect => throw new NotImplementedException();
+
     public Triangle(Vector2 bounds, Vector2 orientation)
     {
         Bounds = bounds;
