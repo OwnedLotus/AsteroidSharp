@@ -25,8 +25,9 @@ class Player
     public Vector2 Position { get => _position; }
     public Vector2 Heading { get => _heading; private set => _heading = Vector2.Normalize(value); }
     private Triangle playerShape;
+    private (uint, uint) windowDimensions;
 
-    public Player(Vector2 pos, Vector2 vel, float cof = 1, float s = 2, float r = 5, float m = 1)
+    public Player(Vector2 pos, Vector2 vel, (uint, uint) dimensions, float cof = 1, float s = 2, float r = 5, float m = 1)
     {
         _position = pos;
         RotationAngle = r;
@@ -37,6 +38,7 @@ class Player
         bullets = new Queue<Bullet>();
         activeBullets = new Queue<Bullet>();
         _heading = -Vector2.UnitY;
+        windowDimensions = dimensions;
 
         for (int i = 0; i < numberOfBullets; i++)
         {
@@ -68,8 +70,8 @@ class Player
 
     private void TeleportPlayerUp() => _position.Y = 0;
     private void TeleportPlayerLeft() => _position.X = 0;
-    private void TeleportPlayerDown(uint worldHeight) => _position.Y = worldHeight;
-    private void TeleportPlayerRight(uint worldLength) => _position.X = worldLength;
+    private void TeleportPlayerDown() => _position.Y = windowDimensions.Item2;
+    private void TeleportPlayerRight() => _position.X = windowDimensions.Item1;
 
     private string GetDebuggerDisplay()
     {
@@ -89,7 +91,7 @@ class Player
         }
     }
 
-    public void UpdatePlayer((uint, uint) dimensions, float deltaTime)
+    public void UpdatePlayer(float deltaTime)
     {
         _heading = playerShape.UpdateShape(_position);
         var newPos = _position + _heading * Speed;
@@ -97,9 +99,9 @@ class Player
         foreach (var bullet in activeBullets)
         {
             if (bullet.Position.X < 0 ||
-                    bullet.Position.Y <0 ||
-                    bullet.Position.X > dimensions.Item1 ||
-                    bullet.Position.Y > dimensions.Item2)
+                    bullet.Position.Y < 0 ||
+                    bullet.Position.X > windowDimensions.Item1 ||
+                    bullet.Position.Y > windowDimensions.Item2)
                     DespawnBullet();
 
             bullet.Move(deltaTime);
@@ -118,10 +120,10 @@ class Player
         if (Input.IsKeyDown(KeyboardKey.Space)) Shoot();
 
 
-        if (_position.Y < 0) TeleportPlayerDown(dimensions.Item2);
-        if (_position.Y > dimensions.Item2) TeleportPlayerUp();
-        if (_position.X < 0) TeleportPlayerRight(dimensions.Item1);
-        if (_position.X > dimensions.Item1) TeleportPlayerLeft();
+        if (_position.Y < 0) TeleportPlayerDown();
+        if (_position.Y > windowDimensions.Item2) TeleportPlayerUp();
+        if (_position.X < 0) TeleportPlayerRight();
+        if (_position.X > windowDimensions.Item1) TeleportPlayerLeft();
     }
 
     #endregion
