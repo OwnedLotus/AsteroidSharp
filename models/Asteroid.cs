@@ -2,7 +2,6 @@ using System.Diagnostics;
 using Raylib_CSharp.Colors;
 using System.Numerics;
 
-
 namespace AsteroidSharp.Models;
 
 [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
@@ -11,13 +10,13 @@ public class Asteroid
     private float _speed;
     private float _rotationAngle;
     private IShape? _shape;
-    private Vector2? _position;
+    private Vector2 _position;
     private Vector2 _heading;
 
-    public Vector2 position { get; private set; }
-    public Vector2 Heading { get => _heading; private set => _heading = Vector2.Normalize(value); }
+    public Vector2 position { get => _position; private set => _position = value; }
+    public Vector2 Heading { get => _heading; private set => _heading = value; }
 
-    public Asteroid((uint, uint) dimensions, Vector2? pos = null, float rotate = 10f, float s = 2)
+    public Asteroid((uint, uint) dimensions, float rotate = 10f, float s = 2)
     {
         Random rng = new();
 
@@ -26,6 +25,7 @@ public class Asteroid
         var yScaler = rng.NextSingle();
 
         _position = new Vector2(xScaler, yScaler);
+        _heading = Vector2.UnitY;
 
         _speed = rng.Next(0, 10);
         int shapeRng = rng.Next(0, 4);
@@ -48,16 +48,7 @@ public class Asteroid
                 break;
         }
 
-        if (pos is not null)
-        {
-            _position = pos;
-        }
-        else
-        {
-
-        }
-
-        if (_shape is not null && _position is not null)
+        if (_shape is not null)
             _shape.UpdateShape((Vector2)_position);
 
         _rotationAngle = rotate;
@@ -66,11 +57,6 @@ public class Asteroid
 
     #region Private Methods
 
-    private void CheckCollisions()
-    {
-    }
-
-
     private string GetDebuggerDisplay()
     {
         throw new NotImplementedException();
@@ -78,8 +64,7 @@ public class Asteroid
 
     private void RotateAsteroid()
     {
-        if (_position is not null)
-            _shape?.RotateShape((Vector2)_position, _rotationAngle);
+        _shape?.RotateShape((Vector2)_position, _rotationAngle);
     }
 
     #endregion
@@ -88,11 +73,10 @@ public class Asteroid
 
     public void Move(float deltaTime)
     {
-        if (_position is not null)
-            _position += Heading * _speed * deltaTime;
+        _position += Heading * _speed * deltaTime;
         RotateAsteroid();
 
-        if (_shape is not null && _position is not null)
+        if (_shape is not null)
             _shape.UpdateShape((Vector2)_position);
     }
 

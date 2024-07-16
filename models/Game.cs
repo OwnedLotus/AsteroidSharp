@@ -25,7 +25,7 @@ public class Game
     public Game((uint, uint) dimensions)
     {
         windowDimensions = dimensions;
-        player = new Player(new Vector2(windowDimensions.Item1 / 2, windowDimensions.Item2 / 2), new Vector2(0, 0));
+        player = new Player(new Vector2(windowDimensions.Item1 / 2, windowDimensions.Item2 / 2), new Vector2(0, 0), dimensions);
     }
 
 
@@ -38,7 +38,7 @@ public class Game
     {
         asteroids = new List<Asteroid>();
         state = GameState.Playing;
-        asteroids.Add(new Asteroid(windowDimensions, new Vector2(windowDimensions.Item1 / 2, windowDimensions.Item2 / 2)));
+        asteroids.Add(new Asteroid(windowDimensions));
     }
 
 
@@ -47,7 +47,7 @@ public class Game
         float deltaTime = Time.GetFrameTime();
 
         // move Player
-        player?.UpdatePlayer(windowDimensions, deltaTime);
+        player?.UpdatePlayer(deltaTime);
 
         // move Asteroids
         if (asteroids is not null)
