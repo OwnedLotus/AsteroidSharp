@@ -18,7 +18,6 @@ class Player
     private Queue<Bullet> activeBullets;
     private uint numberOfBullets = 5;
 
-
     public float RotationAngle { get; private set; }
     public float Speed { get; private set; }
 

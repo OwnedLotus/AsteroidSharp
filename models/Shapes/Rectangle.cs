@@ -1,7 +1,8 @@
 using Raylib_CSharp.Rendering;
 using Raylib_CSharp.Colors;
+using Raylib_CSharp.Collision;
 using System.Numerics;
-using Raylib_CSharp.Geometry;
+
 
 namespace AsteroidSharp.Models.Shapes;
 
@@ -15,13 +16,14 @@ class Rectangle : IShape
 
     public Vector2[] Corners { get => globalCoordinates; private set => globalCoordinates = value; }
     public Color ShapeColor { get => _color; private set => _color = value; }
+    public RayCollision Collision { get => throw new NotImplementedException(); private set => throw new NotImplementedException(); }
 
 
     public Rectangle(Vector2 bounds, Color color)
     {
         _bounds = bounds;
         globalCoordinates = new Vector2[4];
-        localCoordinates = new Vector2[4] 
+        localCoordinates = new Vector2[4]
         {
             new Vector2(-_bounds.X / 2, -_bounds.Y / 2),
             new Vector2(_bounds.X / 2, -_bounds.Y / 2),
@@ -37,7 +39,7 @@ class Rectangle : IShape
         Graphics.DrawLine((int)globalCoordinates[0].X, (int)globalCoordinates[0].Y, (int)globalCoordinates[1].X, (int)globalCoordinates[1].Y, _color);
         Graphics.DrawLine((int)globalCoordinates[0].X, (int)globalCoordinates[0].Y, (int)globalCoordinates[2].X, (int)globalCoordinates[2].Y, _color);
         Graphics.DrawLine((int)globalCoordinates[1].X, (int)globalCoordinates[1].Y, (int)globalCoordinates[3].X, (int)globalCoordinates[3].Y, _color);
-        Graphics.DrawLine((int)globalCoordinates[2].X, (int)globalCoordinates[2].Y, (int)globalCoordinates[3].X, (int)globalCoordinates[3].Y, _color); 
+        Graphics.DrawLine((int)globalCoordinates[2].X, (int)globalCoordinates[2].Y, (int)globalCoordinates[3].X, (int)globalCoordinates[3].Y, _color);
     }
 
     public Vector2 RotateShape(Vector2 pos, float rotateSpeed)
