@@ -1,6 +1,7 @@
 using System.Numerics;
 using AsteroidSharp.Models;
 using Raylib_CSharp.Interact;
+using Raylib_CSharp;
 
 public enum GameState
 {
@@ -43,15 +44,17 @@ public class Game
 
     public void RunGame()
     {
+        float deltaTime = Time.GetFrameTime();
+
         // move Player
-        player?.UpdatePlayer(windowDimensions);
+        player?.UpdatePlayer(windowDimensions, deltaTime);
 
         // move Asteroids
         if (asteroids is not null)
         {
             foreach (var asteroid in asteroids)
             {
-                asteroid.Move();
+                asteroid.Move(deltaTime);
             }
         }
 
@@ -68,7 +71,7 @@ public class Game
     public void DrawGame()
     {
         player?.DrawPlayer();
-        
+
         if (asteroids is not null)
         {
             foreach (var asteroid in asteroids)

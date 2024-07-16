@@ -52,7 +52,7 @@ class Player
 
         var success = bullets.TryDequeue(out shotBullet!);
 
-        if(success && shotBullet is not null)
+        if (success && shotBullet is not null)
         {
             shotBullet.Position = _position;
             activeBullets.Enqueue(shotBullet);
@@ -87,10 +87,10 @@ class Player
         }
     }
 
-    public void UpdatePlayer((uint, uint) dimensions)
+    public void UpdatePlayer((uint, uint) dimensions, float deltaTime)
     {
         _heading = playerShape.UpdateShape(_position);
-        var newPos = _position + _heading * Speed;
+        var newPos = _position + _heading * Speed * deltaTime;
 
         if (Input.IsKeyDown(KeyboardKey.W))
         {

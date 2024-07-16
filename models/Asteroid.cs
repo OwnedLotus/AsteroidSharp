@@ -25,7 +25,7 @@ public class Asteroid
         var xScaler = rng.NextSingle();
         var yScaler = rng.NextSingle();
 
-        _position = new Vector2(xScaler,yScaler);
+        _position = new Vector2(xScaler, yScaler);
 
         _speed = rng.Next(0, 10);
         int shapeRng = rng.Next(0, 4);
@@ -41,10 +41,10 @@ public class Asteroid
                 _shape = new Shapes.Square(5, Color.Brown);
                 break;
             case 2:
-                _shape = new Shapes.Triangle(new Vector2(10,5), Vector2.UnitY);
+                _shape = new Shapes.Triangle(new Vector2(10, 5), Vector2.UnitY);
                 break;
             case 3:
-                _shape = new Shapes.Rectangle(new Vector2(10,5), Color.Brown);
+                _shape = new Shapes.Rectangle(new Vector2(10, 5), Color.Brown);
                 break;
         }
 
@@ -54,10 +54,10 @@ public class Asteroid
         }
         else
         {
-            
+
         }
-        
-        if(_shape is not null && _position is not null)
+
+        if (_shape is not null && _position is not null)
             _shape.UpdateShape((Vector2)_position);
 
         _rotationAngle = rotate;
@@ -86,13 +86,13 @@ public class Asteroid
 
     #region Public Methods
 
-    public void Move()
+    public void Move(float deltaTime)
     {
         if (_position is not null)
-            _position += Heading * _speed;
+            _position += Heading * _speed * deltaTime;
         RotateAsteroid();
 
-        if(_shape is not null && _position is not null)
+        if (_shape is not null && _position is not null)
             _shape.UpdateShape((Vector2)_position);
     }
 
