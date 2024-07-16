@@ -36,11 +36,14 @@ class Player
         _momentum = m;
         bullets = new Queue<Bullet>();
         activeBullets = new Queue<Bullet>();
+        _heading = -Vector2.UnitY;
 
         for (int i = 0; i < numberOfBullets; i++)
         {
             bullets.Enqueue(new Bullet());
         }
+
+        Shoot();
     }
 
     #region Private Methods
@@ -53,7 +56,7 @@ class Player
 
         if (success && shotBullet is not null)
         {
-            shotBullet.Position = _position;
+            shotBullet.SpawnBullet(_position, _heading, Color.Red, 2, 5);
             activeBullets.Enqueue(shotBullet);
         }
     }
@@ -89,7 +92,18 @@ class Player
     public void UpdatePlayer((uint, uint) dimensions, float deltaTime)
     {
         _heading = playerShape.UpdateShape(_position);
-        var newPos = _position + _heading * Speed * deltaTime;
+        var newPos = _position + _heading * Speed;
+
+        foreach (var bullet in activeBullets)
+        {
+            if (bullet.Position.X < 0 ||
+                    bullet.Position.Y <0 ||
+                    bullet.Position.X > dimensions.Item1 ||
+                    bullet.Position.Y > dimensions.Item2)
+                    DespawnBullet();
+
+            bullet.Move(deltaTime);
+        }
 
         if (Input.IsKeyDown(KeyboardKey.W))
         {

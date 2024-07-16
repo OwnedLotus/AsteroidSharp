@@ -13,12 +13,14 @@ class BulletShape : IShape
     public Vector2[] Corners { get => globalCoordinates; private set => globalCoordinates = value; }
     public Color ShapeColor { get; set; }
 
+    public Raylib_CSharp.Transformations.Rectangle Rect => throw new NotImplementedException();
+
     public BulletShape( Vector2 pos, Vector2 direction, Color color)
     {
         globalCoordinates = new Vector2[2]
         {
             pos,
-            new Vector2(pos.X * .75f, pos.Y * .75f)
+            new Vector2(pos.X, pos.Y * 1.1f)
         };
         _direction = direction;
         localCoordinates = new Vector2[0];
@@ -53,6 +55,7 @@ class BulletShape : IShape
 
     public Vector2 UpdateShape(Vector2 pos)
     {
-        throw new NotImplementedException();
+        globalCoordinates[1] = globalCoordinates[0];
+        return globalCoordinates[0] = pos;
     }
 }

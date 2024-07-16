@@ -4,7 +4,7 @@ using Raylib_CSharp.Colors;
 
 namespace AsteroidSharp.Models;
 
-class Bullet()
+class Bullet
 {
     private BulletShape? _shape;
     private Vector2 _position;
@@ -28,7 +28,7 @@ class Bullet()
             _shape.DrawShape();
     }
 
-    public void Move()
+    public void Move(float deltaTime)
     {
         if (_shape is not null)
         {
