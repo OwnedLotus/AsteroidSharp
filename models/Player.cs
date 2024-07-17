@@ -16,7 +16,7 @@ class Player
     // private Vector2 _previousPosition;
     private Queue<Bullet> bullets;
     private List<Bullet> activeBullets;
-    private uint numberOfBullets = 20;
+    private uint numberOfBullets = 30;
 
     public float RotationAngle { get; private set; }
     public float Speed { get; private set; }
@@ -56,7 +56,7 @@ class Player
 
         if (success && shotBullet is not null)
         {
-            shotBullet.SpawnBullet(_position, _heading, Color.Red, 2, 5);
+            shotBullet.SpawnBullet(_position, _heading, Color.Red, 10, 5);
             activeBullets.Add(shotBullet);
         }
     }
@@ -102,13 +102,9 @@ class Player
                     activeBullets[i].Position.Y < 0 ||
                     activeBullets[i].Position.X > windowDimensions.Item1 ||
                     activeBullets[i].Position.Y > windowDimensions.Item2)
-            {
                 DespawnBullet(activeBullets[i]);
-            }
             else
-            {
                 activeBullets[i].Move(deltaTime);
-            }
         }
 
         if (Input.IsKeyDown(KeyboardKey.W))
