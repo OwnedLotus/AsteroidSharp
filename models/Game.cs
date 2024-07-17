@@ -46,7 +46,7 @@ public class Game
         // move Player
         player?.UpdatePlayer(deltaTime);
 
-        // move Asteroids
+        // move all Asteroids
         if (asteroids is not null)
         {
             foreach (var asteroid in asteroids)

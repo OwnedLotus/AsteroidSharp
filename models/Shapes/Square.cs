@@ -1,4 +1,5 @@
 using Raylib_CSharp.Rendering;
+using Raylib_CSharp.Transformations;
 using Raylib_CSharp.Colors;
 using System.Numerics;
 
@@ -9,11 +10,12 @@ class Square : IShape
     private Vector2[] localCoordinates;
     private Vector2[] globalCoordinates;
     private Color _color;
+    private Rectangle _rectangle;
 
     public Color ShapeColor { get => _color; private set => _color = value; }
     public Vector2[] Corners { get => globalCoordinates; private set => globalCoordinates = value; }
 
-    public Raylib_CSharp.Transformations.Rectangle Rect => throw new NotImplementedException();
+    public Rectangle Rectangle { get => _rectangle; }
 
     private Vector2 _bounds;
 

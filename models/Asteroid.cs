@@ -44,12 +44,12 @@ public class Asteroid
                 _shape = new Shapes.Triangle(new Vector2(10, 5), Vector2.UnitY);
                 break;
             case 3:
-                _shape = new Shapes.Rectangle(new Vector2(10, 5), Color.Brown);
+                _shape = new Shapes.Rect(new Vector2(10, 5), Color.Brown);
                 break;
         }
 
         if (_shape is not null)
-            _shape.UpdateShape((Vector2)_position);
+            _shape.UpdateShape(_position);
 
         _rotationAngle = rotate;
         _speed = s;
@@ -64,7 +64,7 @@ public class Asteroid
 
     private void RotateAsteroid()
     {
-        _shape?.RotateShape((Vector2)_position, _rotationAngle);
+        _shape?.RotateShape(_position, _rotationAngle);
     }
 
     #endregion
@@ -77,7 +77,7 @@ public class Asteroid
         RotateAsteroid();
 
         if (_shape is not null)
-            _shape.UpdateShape((Vector2)_position);
+            _shape.UpdateShape(_position);
     }
 
     public void DrawAsteroid()

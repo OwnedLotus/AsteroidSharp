@@ -1,4 +1,5 @@
 using Raylib_CSharp.Rendering;
+using Raylib_CSharp.Transformations;
 using Raylib_CSharp.Colors;
 using System.Numerics;
 
@@ -11,13 +12,14 @@ class Triangle : IShape
     private Vector2[] globalCoordinates;
 
     private Vector2 _bounds;
+    private Rectangle _rectangle;
 
     public Vector2[] Corners { get => globalCoordinates; private set => globalCoordinates = value; }
 
     public Vector2 Bounds { get => _bounds; private set => _bounds = value; }
     public Color ShapeColor { get => _color; set => _color = value; }
 
-    public Raylib_CSharp.Transformations.Rectangle Rect => throw new NotImplementedException();
+    public Rectangle Rectangle => _rectangle;
 
     public Triangle(Vector2 bounds, Vector2 orientation)
     {

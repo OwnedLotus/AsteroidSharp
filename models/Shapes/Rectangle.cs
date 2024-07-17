@@ -1,25 +1,27 @@
 using Raylib_CSharp.Rendering;
+using Raylib_CSharp.Transformations;
 using Raylib_CSharp.Colors;
 using Raylib_CSharp.Collision;
 using System.Numerics;
 
 namespace AsteroidSharp.Models.Shapes;
 
-class Rectangle : IShape
+class Rect : IShape
 {
     private Vector2[] localCoordinates;
     private Vector2[] globalCoordinates;
 
     private Vector2 _bounds;
     private Color _color;
+    private Raylib_CSharp.Transformations.Rectangle _rectangle;
 
     public Vector2[] Corners { get => globalCoordinates; private set => globalCoordinates = value; }
     public Color ShapeColor { get => _color; private set => _color = value; }
     public RayCollision Collision { get => throw new NotImplementedException(); private set => throw new NotImplementedException(); }
 
-    public Raylib_CSharp.Transformations.Rectangle Rect => throw new NotImplementedException();
+    public Rectangle Rectangle { get => _rectangle; }
 
-    public Rectangle(Vector2 bounds, Color color)
+    public Rect(Vector2 bounds, Color color)
     {
         _bounds = bounds;
         globalCoordinates = new Vector2[4];
