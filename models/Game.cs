@@ -21,13 +21,11 @@ public class Game
     public uint points { get; private set; } = 0;
     public uint numberOfAsteroids { get; private set; }
 
-
     public Game((uint, uint) dimensions)
     {
         windowDimensions = dimensions;
         player = new Player(new Vector2(windowDimensions.Item1 / 2, windowDimensions.Item2 / 2), new Vector2(0, 0), dimensions);
     }
-
 
     #region Private Methods
     #endregion
@@ -40,7 +38,6 @@ public class Game
         state = GameState.Playing;
         asteroids.Add(new Asteroid(windowDimensions));
     }
-
 
     public void RunGame()
     {

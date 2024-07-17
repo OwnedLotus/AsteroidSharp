@@ -15,8 +15,8 @@ class Player
     private float _momentum;
     // private Vector2 _previousPosition;
     private Queue<Bullet> bullets;
-    private Queue<Bullet> activeBullets;
-    private uint numberOfBullets = 5;
+    private List<Bullet> activeBullets;
+    private uint numberOfBullets = 20;
 
     public float RotationAngle { get; private set; }
     public float Speed { get; private set; }
@@ -36,7 +36,7 @@ class Player
         playerShape = new Triangle(new Vector2(10, 5), Vector2.UnitY);
         _momentum = m;
         bullets = new Queue<Bullet>();
-        activeBullets = new Queue<Bullet>();
+        activeBullets = new List<Bullet>();
         _heading = -Vector2.UnitY;
         windowDimensions = dimensions;
 
@@ -44,8 +44,6 @@ class Player
         {
             bullets.Enqueue(new Bullet());
         }
-
-        Shoot();
     }
 
     #region Private Methods
@@ -59,13 +57,14 @@ class Player
         if (success && shotBullet is not null)
         {
             shotBullet.SpawnBullet(_position, _heading, Color.Red, 2, 5);
-            activeBullets.Enqueue(shotBullet);
+            activeBullets.Add(shotBullet);
         }
     }
 
-    private void DespawnBullet()
+    private void DespawnBullet(Bullet bullet)
     {
-        bullets.Enqueue(activeBullets.Dequeue());
+        activeBullets.Remove(bullet);
+        bullets.Enqueue(bullet);
     }
 
     private void TeleportPlayerUp() => _position.Y = 0;
@@ -96,15 +95,20 @@ class Player
         _heading = playerShape.UpdateShape(_position);
         var newPos = _position + _heading * Speed;
 
-        foreach (var bullet in activeBullets)
+        for (int i = 0; i < activeBullets.Count; i++)
         {
-            if (bullet.Position.X < 0 ||
-                    bullet.Position.Y < 0 ||
-                    bullet.Position.X > windowDimensions.Item1 ||
-                    bullet.Position.Y > windowDimensions.Item2)
-                    DespawnBullet();
-
-            bullet.Move(deltaTime);
+            // outside the borders of the game
+            if (activeBullets[i].Position.X < 0 ||
+                    activeBullets[i].Position.Y < 0 ||
+                    activeBullets[i].Position.X > windowDimensions.Item1 ||
+                    activeBullets[i].Position.Y > windowDimensions.Item2)
+            {
+                DespawnBullet(activeBullets[i]);
+            }
+            else
+            {
+                activeBullets[i].Move(deltaTime);
+            }
         }
 
         if (Input.IsKeyDown(KeyboardKey.W))
