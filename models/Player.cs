@@ -15,7 +15,6 @@ class Player
     private float _momentum;
     // private Vector2 _previousPosition;
     private Queue<Bullet> bullets;
-    private List<Bullet> activeBullets;
     private uint numberOfBullets = 30;
 
     public float RotationAngle { get; private set; }
@@ -36,7 +35,6 @@ class Player
         playerShape = new Triangle(new Vector2(10, 5), Vector2.UnitY);
         _momentum = m;
         bullets = new Queue<Bullet>();
-        activeBullets = new List<Bullet>();
         _heading = -Vector2.UnitY;
         windowDimensions = dimensions;
 
@@ -48,23 +46,22 @@ class Player
 
     #region Private Methods
 
-    private void Shoot()
+
+
+    public Bullet? Shoot()
     {
-        Bullet shotBullet;
+        var success = bullets.TryDequeue(out Bullet? bullet);
 
-        var success = bullets.TryDequeue(out shotBullet!);
+        if (success)
+            bullet?.SpawnBullet(_position, _heading, Color.Red, 10, 5);
 
-        if (success && shotBullet is not null)
-        {
-            shotBullet.SpawnBullet(_position, _heading, Color.Red, 10, 5);
-            activeBullets.Add(shotBullet);
-        }
+        return bullet;
     }
 
-    private void DespawnBullet(Bullet bullet)
+    public void DespawnBullet(Bullet bullet)
     {
-        activeBullets.Remove(bullet);
         bullets.Enqueue(bullet);
+        bullet.IsActive = false;
     }
 
     private void TeleportPlayerUp() => _position.Y = 0;
@@ -83,10 +80,20 @@ class Player
     public void DrawPlayer()
     {
         playerShape.DrawShape();
+    }
 
-        foreach (var bullet in activeBullets)
+    public void CheckBullet(ref List<Bullet> bullets, float deltaTime)
+    {
+        for (int i = 0; i < bullets.Count; i++)
         {
-            bullet.DrawBullet();
+            // outside the borders of the game
+            if (bullets[i].Position.X < 0 ||
+                    bullets[i].Position.Y < 0 ||
+                    bullets[i].Position.X > windowDimensions.Item1 ||
+                    bullets[i].Position.Y > windowDimensions.Item2)
+                DespawnBullet(bullets[i]);
+            else
+                bullets[i].Move(deltaTime);
         }
     }
 
@@ -94,19 +101,7 @@ class Player
     {
         _heading = playerShape.UpdateShape(_position);
         var newPos = _position + _heading * Speed;
-
-        for (int i = 0; i < activeBullets.Count; i++)
-        {
-            // outside the borders of the game
-            if (activeBullets[i].Position.X < 0 ||
-                    activeBullets[i].Position.Y < 0 ||
-                    activeBullets[i].Position.X > windowDimensions.Item1 ||
-                    activeBullets[i].Position.Y > windowDimensions.Item2)
-                DespawnBullet(activeBullets[i]);
-            else
-                activeBullets[i].Move(deltaTime);
-        }
-
+        
         if (Input.IsKeyDown(KeyboardKey.W))
         {
             _position = newPos;
@@ -116,8 +111,6 @@ class Player
         // rotation
         if (Input.IsKeyDown(KeyboardKey.A)) playerShape.RotateShape(_position, -RotationAngle);
         if (Input.IsKeyDown(KeyboardKey.D)) playerShape.RotateShape(_position, RotationAngle);
-
-        if (Input.IsKeyDown(KeyboardKey.Space)) Shoot();
 
 
         if (_position.Y < 0) TeleportPlayerDown();

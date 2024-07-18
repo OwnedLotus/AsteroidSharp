@@ -20,7 +20,7 @@ while (!Window.ShouldClose())
             break;
 
         case GameState.Playing:
-            game.RunGame();
+            game.UpdateGame();
             break;
 
         case GameState.GameOver:

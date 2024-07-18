@@ -15,6 +15,8 @@ public class Game
 {
     private Player? player;
     private List<Asteroid>? asteroids;
+    private List<Bullet> activeBullets;
+
     public GameState state = GameState.Startup;
     private (uint, uint) windowDimensions;
 
@@ -25,6 +27,7 @@ public class Game
     {
         windowDimensions = dimensions;
         player = new Player(new Vector2(windowDimensions.Item1 / 2, windowDimensions.Item2 / 2), new Vector2(0, 0), dimensions);
+        activeBullets = new List<Bullet>();
     }
 
     #region Private Methods
@@ -39,7 +42,7 @@ public class Game
         asteroids.Add(new Asteroid(windowDimensions));
     }
 
-    public void RunGame()
+    public void UpdateGame()
     {
         float deltaTime = Time.GetFrameTime();
 
@@ -55,9 +58,19 @@ public class Game
             }
         }
 
+        foreach (var bullet in activeBullets)
+        {
+            
+        }
+
+        if (activeBullets.Count != 0) {
+            player?.CheckBullet(ref activeBullets, deltaTime);
+            activeBullets.RemoveAll(bullet => bullet.IsActive == false);
+        } 
+
         if (Input.IsKeyDown(KeyboardKey.Enter) && state != GameState.Paused) state = GameState.Paused;
         if (Input.IsKeyDown(KeyboardKey.Enter) && state == GameState.Paused) state = GameState.Playing;
-
+        if (Input.IsKeyDown(KeyboardKey.Space)) activeBullets.Add(player?.Shoot()!);
     }
 
     public void SpawnAnotherAsteroid()
