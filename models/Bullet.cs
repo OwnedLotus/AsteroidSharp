@@ -12,7 +12,6 @@ class Bullet
     private Color _color;
     private float _bulletspeed;
     public Vector2 Position { get => _position; set => _position = value; }
-    public bool IsActive = false;
 
     public void SpawnBullet(Vector2 pos, Vector2 heading, Color color, float speed, ushort length)
     {

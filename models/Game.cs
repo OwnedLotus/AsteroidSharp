@@ -58,19 +58,9 @@ public class Game
             }
         }
 
-        foreach (var bullet in activeBullets)
-        {
-            
-        }
-
-        if (activeBullets.Count != 0) {
-            player?.CheckBullet(ref activeBullets, deltaTime);
-            activeBullets.RemoveAll(bullet => bullet.IsActive == false);
-        } 
 
         if (Input.IsKeyDown(KeyboardKey.Enter) && state != GameState.Paused) state = GameState.Paused;
         if (Input.IsKeyDown(KeyboardKey.Enter) && state == GameState.Paused) state = GameState.Playing;
-        if (Input.IsKeyDown(KeyboardKey.Space)) activeBullets.Add(player?.Shoot()!);
     }
 
     public void SpawnAnotherAsteroid()
