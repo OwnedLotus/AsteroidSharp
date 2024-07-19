@@ -50,6 +50,8 @@ class BulletShape : IShape
         return Vector2.Normalize(localCoordinates[0]);
     }
 
+
+    // Good point to introduce unit testing
     public Vector2 UpdateShape(Vector2 pos)
     {
         for (int i = 5; i > 0; i--)
@@ -61,9 +63,47 @@ class BulletShape : IShape
         return globalCoordinates[0] = pos;
     }
 
-    public bool Collision(IEnumerable<Vector2> boundries)
+    public bool Collision(IEnumerable<Vector2> points)
     {
-        throw new NotImplementedException();
+        bool collided = false;
+
+        for (int i = 0; i < points.Count() - 1; i++)
+        {
+            Vector2 point1 = points.ElementAt(i);
+            Vector2 point2 = points.ElementAt(i + 1);
+
+            Vector2 front = globalCoordinates[0];
+
+            Vector2 segment = point2 - point1;
+            Vector2 currToStart = front - point1;
+
+            float cross = Vector3.Cross(new Vector3(segment.X, segment.Y, 0), new Vector3(currToStart.X, currToStart.Y, 0)).Z;
+
+        }
+
+        // if (Math.Abs(cross) < 1e-9)
+        //     {
+        //         // Check if point lies between original points
+        //         if (Math.Abs(segment.X) >= Math.Abs(segment.Y))
+        //         {
+        //             if (segment.X > 0)
+        //                 return point1.X <= currPoint.X && currPoint.X <= point2.X;
+        //             else
+        //                 return point2.X <= currPoint.X && currPoint.X <= point1.X;
+        //         }
+        //         else
+        //         {
+        //             if (segment.Y > 0)
+        //                 return point1.Y <= currPoint.Y && currPoint.Y <= point2.Y;
+        //             else
+        //                 return point2.Y <= currPoint.Y && currPoint.Y <= point1.Y;
+        //         }
+        //     }
+
+
+
+        return collided;
     }
+
 
 }

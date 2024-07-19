@@ -58,7 +58,7 @@ class Player
 
         if (success && bullet is not null)
         {
-            bullet.SpawnBullet(_position, _heading, Color.Red, 10, 5);
+            bullet.SpawnBullet(_position, _heading, Color.Red, 10, 5, true);
             activeBullets.Add(bullet!);
         }
     }
@@ -92,10 +92,6 @@ class Player
         }
     }
 
-    public void CheckBullet(ref List<Bullet> bullets, float deltaTime)
-    {
-    }
-
     public void UpdatePlayer(float deltaTime)
     {
         _heading = playerShape.UpdateShape(_position);
@@ -114,9 +110,7 @@ class Player
                     activeBullets[i].Position.Y < 0 ||
                     activeBullets[i].Position.X > windowDimensions.Item1 ||
                     activeBullets[i].Position.Y > windowDimensions.Item2)
-            {
                 DespawnBullet(activeBullets[i]);
-            }
             else
                 activeBullets[i].Move(deltaTime);
         }
@@ -125,7 +119,6 @@ class Player
         if (Input.IsKeyDown(KeyboardKey.A)) playerShape.RotateShape(_position, -RotationAngle);
         if (Input.IsKeyDown(KeyboardKey.D)) playerShape.RotateShape(_position, RotationAngle);
         if (Input.IsKeyDown(KeyboardKey.Space)) Shoot();
-
 
         if (_position.Y < 0) TeleportPlayerDown();
         if (_position.Y > windowDimensions.Item2) TeleportPlayerUp();

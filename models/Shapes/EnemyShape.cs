@@ -37,7 +37,7 @@ class EnemyShape : IShape
         throw new NotImplementedException();
     }
 
-    public bool Collision(IEnumerable<Vector2> boundries)
+    public bool Collision(IEnumerable<Vector2> boundaries)
     {
         throw new NotImplementedException();
     }

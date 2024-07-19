@@ -69,7 +69,7 @@ class Triangle : IShape
         return Vector2.Normalize(localCoordinates[0]);
     }
 
-    public bool Collision(IEnumerable<Vector2> boundries)
+    public bool Collision(IEnumerable<Vector2> boundaries)
     {
         throw new NotImplementedException();
     }
