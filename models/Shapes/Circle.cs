@@ -1,5 +1,4 @@
 using Raylib_CSharp.Rendering;
-using Raylib_CSharp.Transformations;
 using Raylib_CSharp.Colors;
 using System.Numerics;
 
@@ -11,12 +10,9 @@ class Circle : IShape
     private Color _color;
 
     private int _bound;
-    private Rectangle _rectangle;
 
     public Color ShapeColor { get => _color; set => _color = value; }
     public Vector2[] Corners { get => throw new NotImplementedException(); private set => throw new NotImplementedException(); }
-
-    public Rectangle Rectangle { get => _rectangle; }
 
     public Circle(int bound)
     {
@@ -39,4 +35,10 @@ class Circle : IShape
     {
         Graphics.DrawCircleLinesV(_position, _bound, _color);
     }
+
+    public bool Collision(IEnumerable<Vector2> boundries)
+    {
+        throw new NotImplementedException();
+    }
+
 }

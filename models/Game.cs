@@ -13,7 +13,7 @@ public enum GameState
 
 public class Game
 {
-    private Player? player;
+    private Player player;
     private List<Asteroid>? asteroids;
     private List<Bullet> activeBullets;
 
@@ -27,10 +27,30 @@ public class Game
     {
         windowDimensions = dimensions;
         player = new Player(new Vector2(windowDimensions.Item1 / 2, windowDimensions.Item2 / 2), new Vector2(0, 0), dimensions);
-        activeBullets = new List<Bullet>();
+        activeBullets = new();
     }
 
     #region Private Methods
+
+    private void CheckCollisions()
+    {
+        // types of collisions
+        // 1. bullet <-> asteroid
+        // 2. asteroid <-> player
+        // 3. bullet <-> player <-- may have issue with init laser spawn
+
+
+        // 4. enemy <-> bullet
+        // 5. enemy <-> asteroid
+        // 6. enemy <-> player
+
+
+
+
+
+
+    }
+
     #endregion
 
     #region Public Methods
@@ -47,7 +67,7 @@ public class Game
         float deltaTime = Time.GetFrameTime();
 
         // move Player
-        player?.UpdatePlayer(deltaTime);
+        player.UpdatePlayer(deltaTime);
 
         // move all Asteroids
         if (asteroids is not null)
@@ -70,7 +90,7 @@ public class Game
 
     public void DrawGame()
     {
-        player?.DrawPlayer();
+        player.DrawPlayer();
 
         if (asteroids is not null)
         {

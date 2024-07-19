@@ -1,7 +1,6 @@
 using System.Numerics;
 using Raylib_CSharp.Rendering;
 using Raylib_CSharp.Colors;
-using Raylib_CSharp.Transformations;
 
 namespace AsteroidSharp.Models.Shapes;
 
@@ -10,13 +9,9 @@ class BulletShape : IShape
     private Vector2[] localCoordinates;
     private Vector2[] globalCoordinates;
     private Vector2 _direction;
-    private Rectangle _rectangle;
-
 
     public Vector2[] Corners { get => globalCoordinates; private set => globalCoordinates = value; }
     public Color ShapeColor { get; set; }
-
-    public Rectangle Rectangle { get => _rectangle; }
 
     public BulletShape(Vector2 pos, Vector2 direction, Color color)
     {
@@ -65,4 +60,10 @@ class BulletShape : IShape
 
         return globalCoordinates[0] = pos;
     }
+
+    public bool Collision(IEnumerable<Vector2> boundries)
+    {
+        throw new NotImplementedException();
+    }
+
 }

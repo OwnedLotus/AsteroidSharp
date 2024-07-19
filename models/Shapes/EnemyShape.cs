@@ -1,5 +1,4 @@
 using System.Numerics;
-using Raylib_CSharp.Rendering;
 using Raylib_CSharp.Colors;
 
 namespace AsteroidSharp.Models.Shapes;
@@ -34,6 +33,11 @@ class EnemyShape : IShape
     }
 
     public Vector2 RotateShape(Vector2 position, float rotation)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool Collision(IEnumerable<Vector2> boundries)
     {
         throw new NotImplementedException();
     }
