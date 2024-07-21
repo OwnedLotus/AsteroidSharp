@@ -18,7 +18,7 @@ class Player
     // private Vector2 _previousPosition;
     private Queue<Bullet> bullets;
     private uint numberOfBullets = 100;
-    private Triangle playerShape;
+    private Triangle _shape;
     private (uint, uint) windowDimensions;
     private float coefficientOfFriction;
 
@@ -37,7 +37,7 @@ class Player
         RotationAngle = r;
         Speed = s;
         coefficientOfFriction = cof;
-        playerShape = new Triangle(new Vector2(10, 5), Vector2.UnitY);
+        _shape = new Triangle(new Vector2(10, 5), Vector2.UnitY);
         _momentum = m;
         bullets = new();
         activeBullets = new();
@@ -84,7 +84,7 @@ class Player
     #region Public Methods
     public void DrawPlayer()
     {
-        playerShape.DrawShape();
+        _shape.DrawShape();
 
         foreach (var bullet in activeBullets)
         {
@@ -94,7 +94,7 @@ class Player
 
     public void UpdatePlayer(float deltaTime)
     {
-        _heading = playerShape.UpdateShape(_position);
+        _heading = _shape.UpdateShape(_position);
         var newPos = _position + _heading * Speed;
 
         if (Input.IsKeyDown(KeyboardKey.W))
@@ -116,8 +116,8 @@ class Player
         }
 
         // rotation
-        if (Input.IsKeyDown(KeyboardKey.A)) playerShape.RotateShape(_position, -RotationAngle);
-        if (Input.IsKeyDown(KeyboardKey.D)) playerShape.RotateShape(_position, RotationAngle);
+        if (Input.IsKeyDown(KeyboardKey.A)) _shape.RotateShape(_position, -RotationAngle);
+        if (Input.IsKeyDown(KeyboardKey.D)) _shape.RotateShape(_position, RotationAngle);
         if (Input.IsKeyDown(KeyboardKey.Space)) Shoot();
 
         if (_position.Y < 0) TeleportPlayerDown();
@@ -128,8 +128,8 @@ class Player
 
     public bool CheckCollisions(IEnumerable<Vector2> boundries)
     {
-        if (playerShape is not null)
-            return playerShape.Collision(boundries);
+        if (_shape is not null)
+            return _shape.Collision(boundries);
         return false;
     }
 
