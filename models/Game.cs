@@ -39,6 +39,10 @@ public class Game
         // 2. asteroid <-> player
         // 3. bullet <-> player <-- may have issue with init laser spawn
 
+        foreach (var bullet in activeBullets)
+        {
+        }
+
 
         // 4. enemy <-> bullet
         // 5. enemy <-> asteroid

@@ -1,6 +1,5 @@
 using System.Numerics;
 using AsteroidSharp.Models.Shapes;
-using Raylib_CSharp.Colors;
 
 
 namespace AsteroidSharp.Models;
@@ -25,5 +24,11 @@ class Enemy(Vector2 StartingPosition, Vector2 localDirection, float s)
     public void EnemyShoot()
     {
         _bullets.Enqueue(new Bullet());
+    }
+    public bool CheckCollision(IEnumerable<Vector2> boundries)
+    {
+        if (_shape is not null)
+            return _shape.Collision(boundries);
+        return false;
     }
 }

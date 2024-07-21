@@ -126,5 +126,12 @@ class Player
         if (_position.X > windowDimensions.Item1) TeleportPlayerLeft();
     }
 
+    public bool CheckCollisions(IEnumerable<Vector2> boundries)
+    {
+        if (playerShape is not null)
+            return playerShape.Collision(boundries);
+        return false;
+    }
+
     #endregion
 }

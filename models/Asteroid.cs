@@ -85,6 +85,16 @@ public class Asteroid
         _shape?.DrawShape();
     }
 
+    public bool CheckCollisions(IEnumerable<Vector2> boundries)
+    {
+
+        if (_shape is not null)
+            return _shape.Collision(boundries);
+
+        return false;
+
+    }
+
     #endregion
 
 }

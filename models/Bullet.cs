@@ -38,4 +38,12 @@ class Bullet
             _shape.UpdateShape(_position);
         }
     }
+
+    public bool CallCollisionCheck(IEnumerable<Vector2> boundries)
+    {
+        if (_shape is not null)
+            return _shape.Collision(boundries);
+
+        return false;
+    }
 }
