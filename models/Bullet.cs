@@ -39,7 +39,7 @@ class Bullet
         }
     }
 
-    public bool CallCollisionCheck(IEnumerable<Vector2> boundries)
+    public bool CollisionCheck(IEnumerable<Vector2> boundries)
     {
         if (_shape is not null)
             return _shape.Collision(boundries);
