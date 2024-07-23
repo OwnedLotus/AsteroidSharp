@@ -9,13 +9,14 @@ class BulletShape : IShape
     private Vector2[] localCoordinates;
     private Vector2[] globalCoordinates;
     private Vector2 _direction;
+    const ushort bulletSize = 5;
 
     public Vector2[] Corners { get => globalCoordinates; private set => globalCoordinates = value; }
     public Color ShapeColor { get; set; }
 
     public BulletShape(Vector2 pos, Vector2 direction, Color color)
     {
-        globalCoordinates = new Vector2[5]
+        globalCoordinates = new Vector2[bulletSize]
         {
             pos, pos, pos, pos, pos
         };
@@ -54,7 +55,7 @@ class BulletShape : IShape
     // Good point to introduce unit testing
     public Vector2 UpdateShape(Vector2 pos)
     {
-        for (int i = 5; i > 0; i--)
+        for (int i = bulletSize; i > 0; i--)
         {
             globalCoordinates[1] = globalCoordinates[i - 1];
         }
