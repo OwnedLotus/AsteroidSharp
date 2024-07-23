@@ -55,9 +55,9 @@ class BulletShape : IShape
     // Good point to introduce unit testing
     public Vector2 UpdateShape(Vector2 pos)
     {
-        for (int i = bulletSize; i > 0; i--)
+        for (int i = bulletSize - 1; i >= 1; i--)
         {
-            globalCoordinates[1] = globalCoordinates[i - 1];
+            globalCoordinates[i] = globalCoordinates[i - 1];
         }
 
 
