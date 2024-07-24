@@ -5,11 +5,11 @@ using Raylib_CSharp;
 
 Time.SetTargetFPS(60);
 
-(uint, uint) window = (800, 480);
+(uint, uint) windowDimensions = (800, 480);
 
-Window.Init((int)window.Item1, (int)window.Item2, "AsteroidSharp");
+Window.Init((int)windowDimensions.Item1, (int)windowDimensions.Item2, "AsteroidSharp");
 
-var game = new Game(window);
+var game = new Game(windowDimensions);
 
 while (!Window.ShouldClose())
 {
@@ -34,7 +34,10 @@ while (!Window.ShouldClose())
     Graphics.ClearBackground(Color.Black);
 
     game.DrawGame();
+
+#if DEBUG
     Graphics.DrawFPS(10, 10);
+#endif
 
     Graphics.EndDrawing();
 }
