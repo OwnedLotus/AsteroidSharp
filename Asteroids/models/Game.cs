@@ -15,7 +15,6 @@ public class Game
 {
     private Player player;
     private List<Asteroid>? asteroids;
-    private List<Bullet> activeBullets;
 
     public GameState state = GameState.Startup;
     private (uint, uint) windowDimensions;
@@ -27,17 +26,30 @@ public class Game
     {
         windowDimensions = dimensions;
         player = new Player(new Vector2(windowDimensions.Item1 / 2, windowDimensions.Item2 / 2), new Vector2(0, 0), dimensions);
-        activeBullets = new();
     }
 
     #region Private Methods
 
     private void CheckCollisions()
     {
+        bool playerCollision = false;
+
         // types of collisions
         // 1. bullet <-> asteroid
         // 2. asteroid <-> player
         // 3. bullet <-> player <-- may have issue with init laser spawn
+        // foreach (var bullet in player.activeBullets)
+        // {
+        //     bullet.CollisionCheck(player.Corners);
+        // }
+        if (asteroids is not null)
+        {
+            foreach (var asteroid in asteroids)
+            {
+                asteroid.CheckCollisions(player.Corners);
+            }
+        }
+
 
 
         // 4. enemy <-> bullet

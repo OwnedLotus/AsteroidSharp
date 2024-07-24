@@ -22,7 +22,7 @@ class Player
     private (uint, uint) windowDimensions;
     private float coefficientOfFriction;
 
-
+    public Vector2[] Corners { get => _shape.Corners; }
     public float RotationAngle { get; private set; }
     public float Speed { get; private set; }
 

@@ -1,6 +1,7 @@
 using System.Numerics;
 using Raylib_CSharp.Rendering;
 using Raylib_CSharp.Colors;
+using System.Data.SqlTypes;
 
 namespace AsteroidSharp.Models.Shapes;
 
@@ -66,44 +67,7 @@ class BulletShape : IShape
 
     public bool Collision(IEnumerable<Vector2> points)
     {
-        bool collided = false;
-
-        for (int i = 0; i < points.Count() - 1; i++)
-        {
-            Vector2 point1 = points.ElementAt(i);
-            Vector2 point2 = points.ElementAt(i + 1);
-
-            Vector2 front = globalCoordinates[0];
-
-            Vector2 segment = point2 - point1;
-            Vector2 currToStart = front - point1;
-
-            float cross = Vector3.Cross(new Vector3(segment.X, segment.Y, 0), new Vector3(currToStart.X, currToStart.Y, 0)).Z;
-
-        }
-
-        // if (Math.Abs(cross) < 1e-9)
-        //     {
-        //         // Check if point lies between original points
-        //         if (Math.Abs(segment.X) >= Math.Abs(segment.Y))
-        //         {
-        //             if (segment.X > 0)
-        //                 return point1.X <= currPoint.X && currPoint.X <= point2.X;
-        //             else
-        //                 return point2.X <= currPoint.X && currPoint.X <= point1.X;
-        //         }
-        //         else
-        //         {
-        //             if (segment.Y > 0)
-        //                 return point1.Y <= currPoint.Y && currPoint.Y <= point2.Y;
-        //             else
-        //                 return point2.Y <= currPoint.Y && currPoint.Y <= point1.Y;
-        //         }
-        //     }
-
-
-
-        return collided;
+        throw new NotImplementedException();
     }
 
 
