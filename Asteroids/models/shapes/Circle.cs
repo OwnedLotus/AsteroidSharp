@@ -38,7 +38,12 @@ class Circle : IShape
 
     public bool Collision(IEnumerable<Vector2> boundaries)
     {
-        throw new NotImplementedException();
+        // if the point is within a radii of the center, then it has collided with the shape
+        foreach (var point in boundaries)
+        {
+            Vector2 distVector = _position - point;
+            
+        }
     }
 
 }
