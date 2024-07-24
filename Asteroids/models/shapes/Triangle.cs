@@ -86,7 +86,7 @@ class Triangle : IShape
             double b_c_theta = Math.Acos(Vector2.Dot(b_to_point,c_to_point) / (b_to_point.Length() * c_to_point.Length()));
             double a_c_theta = Math.Acos(Vector2.Dot(a_to_point,c_to_point) / (a_to_point.Length() * c_to_point.Length()));
 
-            if (a_b_theta > Math.PI || b_c_theta > Math.PI || a_c_theta > Math.PI)
+            if (a_b_theta <= Math.PI || b_c_theta <= Math.PI || a_c_theta <= Math.PI)
             {
                 return true;
             }
