@@ -1,6 +1,7 @@
 using Raylib_CSharp.Rendering;
 using Raylib_CSharp.Colors;
 using System.Numerics;
+using Raylib_CSharp.Transformations;
 
 namespace AsteroidSharp.Models.Shapes;
 
@@ -18,15 +19,21 @@ class Square : IShape
     public Square(int bound, Color color)
     {
         _bounds = new Vector2(bound, bound);
-        localCoordinates = new Vector2[4];
         globalCoordinates = new Vector2[4];
+        localCoordinates = new Vector2[4]
+        {
+            new Vector2(-_bounds.X / 2, -_bounds.Y / 2),
+            new Vector2(_bounds.X / 2, -_bounds.Y / 2),
+            new Vector2(-_bounds.X / 2, _bounds.Y / 2),
+            new Vector2(_bounds.X / 2, _bounds.Y / 2),
+        };
         ShapeColor = _color;
     }
 
 
     public void DrawShape()
     {
-        Graphics.DrawRectangleV(globalCoordinates[0], _bounds, ShapeColor);
+        Graphics.DrawRectangleLines((int)globalCoordinates[0].X, (int)globalCoordinates[0].Y, (int)_bounds.X, (int)_bounds.Y, _color);
     }
 
     public Vector2 RotateShape(Vector2 pos, float rotateSpeed)
@@ -79,9 +86,7 @@ class Square : IShape
             double c_d_theta = Math.Acos(Vector2.Dot(c_to_point, d_to_point) / (c_to_point.Length() * d_to_point.Length()));
 
             if (a_b_theta <= Math.PI || b_d_theta <= Math.PI || a_c_theta <= Math.PI || c_d_theta <= Math.PI)
-            {
                 return true;
-            }
         }
         return false;
     }
