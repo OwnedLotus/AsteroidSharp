@@ -14,9 +14,10 @@ class Circle : IShape
     public Color ShapeColor { get => _color; set => _color = value; }
     public Vector2[] Corners { get => throw new NotImplementedException(); private set => throw new NotImplementedException(); }
 
-    public Circle(int bound)
+    public Circle(int bound, Color color)
     {
         _bound = bound;
+        _color = color;
     }
 
     public Vector2 RotateShape(Vector2 pos, float rotateSpeed)
