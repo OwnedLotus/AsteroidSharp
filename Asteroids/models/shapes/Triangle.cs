@@ -6,7 +6,7 @@ namespace AsteroidSharp.Models.Shapes;
 
 class Triangle : IShape
 {
-    private Color _color = Color.White;
+    private Color _color;
     private Vector2[] localCoordinates;
     private Vector2[] globalCoordinates;
 
@@ -17,7 +17,7 @@ class Triangle : IShape
     public Vector2 Bounds { get => _bounds; private set => _bounds = value; }
     public Color ShapeColor { get => _color; set => _color = value; }
 
-    public Triangle(Vector2 bounds, Vector2 orientation)
+    public Triangle(Vector2 bounds, Vector2 orientation, Color color)
     {
         Bounds = bounds;
 
@@ -29,6 +29,7 @@ class Triangle : IShape
             new Vector2(_bounds.Y, bounds.X / 2)
         };
 
+        _color = color;
         globalCoordinates = new Vector2[3];
     }
 

@@ -1,6 +1,7 @@
 using System.Numerics;
 using AsteroidSharp.Models;
 using Raylib_CSharp.Interact;
+using Raylib_CSharp.Colors;
 using Raylib_CSharp;
 
 public enum GameState
@@ -25,7 +26,7 @@ public class Game
     public Game((uint, uint) dimensions)
     {
         windowDimensions = dimensions;
-        player = new Player(new Vector2(windowDimensions.Item1 / 2, windowDimensions.Item2 / 2), new Vector2(0, 0), dimensions);
+        player = new Player(new Vector2(windowDimensions.Item1 / 2, windowDimensions.Item2 / 2), new Vector2(0, 0), dimensions, Color.White);
     }
 
     #region Private Methods

@@ -12,6 +12,7 @@ namespace AsteroidSharp.Models;
 class Player
 {
     // oriented up
+    private Color _color;
     private Vector2 _heading;
     private Vector2 _position;
     private float _momentum;
@@ -31,13 +32,13 @@ class Player
     public Vector2 Position { get => _position; }
     public Vector2 Heading { get => _heading; private set => _heading = Vector2.Normalize(value); }
 
-    public Player(Vector2 pos, Vector2 vel, (uint, uint) dimensions, float cof = 1, float s = 2, float r = 5, float m = 1)
+    public Player(Vector2 pos, Vector2 vel, (uint, uint) dimensions, Color color, float cof = 1, float s = 2, float r = 5, float m = 1)
     {
         _position = pos;
         RotationAngle = r;
         Speed = s;
         coefficientOfFriction = cof;
-        _shape = new Triangle(new Vector2(10, 5), Vector2.UnitY);
+        _shape = new Triangle(new Vector2(10, 5), Vector2.UnitY, _color);
         _momentum = m;
         bullets = new();
         activeBullets = new();

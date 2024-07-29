@@ -12,6 +12,7 @@ public class Asteroid
     private IShape? _shape;
     private Vector2 _position;
     private Vector2 _heading;
+    private Color _color = Color.Brown;
 
     public Vector2 position { get => _position; private set => _position = value; }
     public Vector2 Heading { get => _heading; private set => _heading = value; }
@@ -35,16 +36,16 @@ public class Asteroid
         switch (shapeRng)
         {
             case 0:
-                _shape = new Shapes.Circle(5);
+                _shape = new Shapes.Circle(5, _color);
                 break;
             case 1:
-                _shape = new Shapes.Square(5, Color.Brown);
+                _shape = new Shapes.Square(5, _color);
                 break;
             case 2:
-                _shape = new Shapes.Triangle(new Vector2(10, 5), Vector2.UnitY);
+                _shape = new Shapes.Triangle(new Vector2(10, 5), Vector2.UnitY, _color);
                 break;
             case 3:
-                _shape = new Shapes.Rect(new Vector2(10, 5), Color.Brown);
+                _shape = new Shapes.Rect(new Vector2(10, 5), _color);
                 break;
         }
 
