@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Raylib_CSharp.Colors;
 using System.Numerics;
+using AsteroidSharp.Models.Shapes;
 
 namespace AsteroidSharp.Models;
 
@@ -16,6 +17,11 @@ public class Asteroid
 
     public Vector2 position { get => _position; private set => _position = value; }
     public Vector2 Heading { get => _heading; private set => _heading = value; }
+
+    public Asteroid()
+    {
+
+    }
 
     public Asteroid((uint, uint) dimensions, float rotate = 10f, float s = 2)
     {
@@ -92,6 +98,36 @@ public class Asteroid
             return _shape.Collision(boundaries);
 
         return false;
+    }
+
+    public static List<Asteroid> DebugAsteroidSpawner()
+    {
+        List<Asteroid> asteroids = new();
+        
+        var circleAsteroid = new Asteroid() {
+            _position = Vector2.Zero,
+            _shape = new Circle(5, Color.Brown)
+        };
+
+var squareAsteroid = new Asteroid() {
+            _position = Vector2.Zero,
+            _shape = new Square(5, Color.Brown)
+        };
+        var rectangleAsteroid = new Asteroid() {
+            _position = Vector2.Zero,
+            _shape = new Circle(5, Color.Brown)
+        };
+        var triangleAsteroid = new Asteroid() {
+            _position = Vector2.Zero,
+            _shape = new Circle(5, Color.Brown)
+        };
+        asteroids.Add(circleAsteroid);
+        asteroids.Add(squareAsteroid);
+        asteroids.Add(rectangleAsteroid);
+        asteroids.Add(triangleAsteroid);
+
+        return asteroids;
+
     }
 
     #endregion
