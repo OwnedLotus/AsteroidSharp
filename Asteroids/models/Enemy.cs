@@ -1,14 +1,15 @@
 using System.Numerics;
 using AsteroidSharp.Models.Shapes;
+using Raylib_CSharp.Colors;
 
 
 namespace AsteroidSharp.Models;
 
-class Enemy(Vector2 StartingPosition, Vector2 localDirection, float s)
+class Enemy(Vector2 StartingPosition, Vector2 localDirection, float s, Color color)
 {
     private Vector2 _pos = StartingPosition;
     private Vector2 _heading = localDirection;
-    private IShape _shape = new EnemyShape();
+    private IShape _shape = new EnemyShape(new Vector2(10, 5), color, StartingPosition);
     private float _speed = s;
     private Queue<Bullet> _bullets = new Queue<Bullet>();
 
