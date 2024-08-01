@@ -42,7 +42,7 @@ class Circle : IShape
         foreach (var point in boundaries)
         {
             Vector2 distVector = _position - point;
-            if (distVector.Length() < _bound)
+            if (distVector.LengthSquared() < _bound*_bound)
                 return true;
         }
         return false;
