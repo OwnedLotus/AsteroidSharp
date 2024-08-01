@@ -8,7 +8,6 @@ class Circle : IShape
 {
     private Vector2 _position;
     private Color _color;
-
     private int _bound;
 
     public Color ShapeColor { get => _color; set => _color = value; }
@@ -48,5 +47,4 @@ class Circle : IShape
         }
         return false;
     }
-
 }
