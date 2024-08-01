@@ -100,34 +100,45 @@ public class Asteroid
         return false;
     }
 
-    public static List<Asteroid> DebugAsteroidSpawner()
+    public static Asteroid DebugCircleAsteroidSpawner()
     {
-        List<Asteroid> asteroids = new();
-        
         var circleAsteroid = new Asteroid() {
             _position = Vector2.Zero,
             _shape = new Circle(5, Color.Brown)
         };
 
-var squareAsteroid = new Asteroid() {
+        return circleAsteroid;
+    }
+
+    public static Asteroid DebugSquareAsteroidSpawner()
+    {
+        var squareAsteroid = new Asteroid() {
             _position = Vector2.Zero,
             _shape = new Square(5, Color.Brown)
         };
+        
+        return squareAsteroid;
+    }
+
+    public static Asteroid DebugRectangleAsteroidSpawner()
+    {
         var rectangleAsteroid = new Asteroid() {
             _position = Vector2.Zero,
             _shape = new Circle(5, Color.Brown)
         };
+
+        return rectangleAsteroid;
+    }
+
+    public static Asteroid DebugTriangleAsteroidSpawner()
+    {
+    
         var triangleAsteroid = new Asteroid() {
             _position = Vector2.Zero,
             _shape = new Circle(5, Color.Brown)
         };
-        asteroids.Add(circleAsteroid);
-        asteroids.Add(squareAsteroid);
-        asteroids.Add(rectangleAsteroid);
-        asteroids.Add(triangleAsteroid);
 
-        return asteroids;
-
+        return triangleAsteroid;
     }
 
     #endregion

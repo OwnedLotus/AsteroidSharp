@@ -86,7 +86,9 @@ class Square : IShape
             double c_d_theta = Math.Acos(Vector2.Dot(c_to_point, d_to_point) / (c_to_point.Length() * d_to_point.Length()));
 
             if (a_b_theta <= Math.PI || b_d_theta <= Math.PI || a_c_theta <= Math.PI || c_d_theta <= Math.PI)
+            {
                 return true;
+            }
         }
         return false;
     }
