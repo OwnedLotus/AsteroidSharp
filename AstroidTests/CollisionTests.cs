@@ -6,17 +6,11 @@ namespace AstroidTests;
 public class CollisionTests
 {
     [Fact]
-    public void Test1()
-    {
-        Assert.True(1 == 1, "Sanity check" );
-    }
-
-    [Fact]
     public void Test_ShouldCircleCollisionsHit()
     {
         Asteroid asteroid =  Asteroid.DebugCircleAsteroidSpawner();
 
-        List<Vector2> vectors = new List<Vector2>{ Vector2.Zero};
+        List<Vector2> vectors = new List<Vector2> { Vector2.Zero };
 
         Assert.True(asteroid.CheckCollisions(vectors), "Circle Collision");
     }
@@ -28,7 +22,7 @@ public class CollisionTests
         Asteroid asteroid = Asteroid.DebugSquareAsteroidSpawner();
     
         // When
-        List<Vector2> vectors = new List<Vector2>{ Vector2.Zero };
+        List<Vector2> vectors = new List<Vector2> { Vector2.Zero };
     
         // Then
         Assert.True(asteroid.CheckCollisions(vectors), "Square Collision");
