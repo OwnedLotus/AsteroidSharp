@@ -8,8 +8,7 @@
             "name": "C#: AsteroidSharp Debug",
             "type": "dotnet",
             "request": "launch",
-            "projectPath": "${workspaceFolder}/AsteroidSharp.csproj"
+            "projectPath": "${workspaceFolder}/Asteroids/Asteroids.csproj"
         }
-
     ]
 }
