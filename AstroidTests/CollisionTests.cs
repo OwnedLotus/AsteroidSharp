@@ -13,7 +13,7 @@ public class CollisionTests
         List<Vector2> vectors = new List<Vector2> { Vector2.Zero };
         asteroid.Move(1f);
 
-        Assert.True(asteroid.CheckCollisions(vectors), "Circle Collision");
+        Assert.True(asteroid.CheckCollisions(vectors), "Circle Collision failed");
     }
 
     [Fact]
@@ -27,7 +27,7 @@ public class CollisionTests
         asteroid.Move(1f);
     
         // Then
-        Assert.True(asteroid.CheckCollisions(vectors), "Square Collision");
+        Assert.True(asteroid.CheckCollisions(vectors), "SSquare Collision Failed");
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public class CollisionTests
         asteroid.Move(1f);
     
         // Then
-        Assert.True(asteroid.CheckCollisions(vectors), "Rectangle Collision");
+        Assert.True(asteroid.CheckCollisions(vectors), "Rectangle Collision Failed");
     }
 
     [Fact]
@@ -55,6 +55,6 @@ public class CollisionTests
         asteroid.Move(1f);
     
         // Then
-        Assert.True(asteroid.CheckCollisions(vectors), "Triangle Collisions");
+        Assert.True(asteroid.CheckCollisions(vectors), "Triangle Collision Failed");
     }
 }
