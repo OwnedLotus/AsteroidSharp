@@ -31,21 +31,21 @@ public class Asteroid
         var xScaler = rng.NextSingle();
         var yScaler = rng.NextSingle();
 
-        _position = new Vector2(xScaler, yScaler);
-        _heading = Vector2.UnitY;
+        _position = new Vector2(dimensions.Item1 / 2, dimensions.Item2 / 2);
+        _heading = Vector2.Zero;
 
         _speed = rng.Next(0, 10);
         int shapeRng = rng.Next(0, 4);
-        // TODO! remove after debug movement
-        shapeRng = 3;
+
+        shapeRng = 1;
 
         switch (shapeRng)
         {
             case 0:
-                _shape = new Shapes.Circle(5, _color);
+                _shape = new Shapes.Circle(10, _color);
                 break;
             case 1:
-                _shape = new Shapes.Square(5, _color);
+                _shape = new Shapes.Square(10, _color);
                 break;
             case 2:
                 _shape = new Shapes.Triangle(new Vector2(10, 5), Vector2.UnitY, _color);

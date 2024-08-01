@@ -27,20 +27,23 @@ class Square : IShape
             new Vector2(-_bounds.X / 2, _bounds.Y / 2),
             new Vector2(_bounds.X / 2, _bounds.Y / 2),
         };
-        ShapeColor = _color;
+        _color = color;
     }
 
 
     public void DrawShape()
     {
-        Graphics.DrawRectangleLines((int)globalCoordinates[0].X, (int)globalCoordinates[0].Y, (int)_bounds.X, (int)_bounds.Y, _color);
+        Graphics.DrawLine((int)globalCoordinates[0].X, (int)globalCoordinates[0].Y, (int)globalCoordinates[1].X, (int)globalCoordinates[1].Y, _color);
+        Graphics.DrawLine((int)globalCoordinates[0].X, (int)globalCoordinates[0].Y, (int)globalCoordinates[2].X, (int)globalCoordinates[2].Y, _color);
+        Graphics.DrawLine((int)globalCoordinates[1].X, (int)globalCoordinates[1].Y, (int)globalCoordinates[3].X, (int)globalCoordinates[3].Y, _color);
+        Graphics.DrawLine((int)globalCoordinates[2].X, (int)globalCoordinates[2].Y, (int)globalCoordinates[3].X, (int)globalCoordinates[3].Y, _color);
     }
 
     public Vector2 RotateShape(Vector2 pos, float rotateSpeed)
     {
         float thetaRadians = MathF.PI * rotateSpeed / 180;
 
-        var newCoords = new Vector2[3];
+        var newCoords = new Vector2[4];
 
         // runs the formula of rotation for every coordinate in the shape
         for (int i = 0; i < localCoordinates.Length; i++)

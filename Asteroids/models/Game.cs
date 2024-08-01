@@ -26,7 +26,7 @@ public class Game
     public Game((uint, uint) dimensions)
     {
         windowDimensions = dimensions;
-        player = new Player(new Vector2(windowDimensions.Item1 / 2, windowDimensions.Item2 / 2), new Vector2(0, 0), dimensions, Color.White);
+        player = new Player(new Vector2(windowDimensions.Item1 / 2, windowDimensions.Item2 / 2), new Vector2(0, 0), dimensions);
     }
 
     #region Private Methods
