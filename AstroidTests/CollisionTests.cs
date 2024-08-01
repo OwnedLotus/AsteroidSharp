@@ -11,6 +11,7 @@ public class CollisionTests
         Asteroid asteroid =  Asteroid.DebugCircleAsteroidSpawner();
 
         List<Vector2> vectors = new List<Vector2> { Vector2.Zero };
+        asteroid.Move(1f);
 
         Assert.True(asteroid.CheckCollisions(vectors), "Circle Collision");
     }
@@ -23,6 +24,7 @@ public class CollisionTests
     
         // When
         List<Vector2> vectors = new List<Vector2> { Vector2.Zero };
+        asteroid.Move(1f);
     
         // Then
         Assert.True(asteroid.CheckCollisions(vectors), "Square Collision");
@@ -36,6 +38,7 @@ public class CollisionTests
     
         // When
         List<Vector2> vectors = new List<Vector2> { Vector2.Zero };
+        asteroid.Move(1f);
     
         // Then
         Assert.True(asteroid.CheckCollisions(vectors), "Rectangle Collision");
@@ -49,6 +52,7 @@ public class CollisionTests
     
         // When
         List<Vector2> vectors = new List<Vector2> { Vector2.Zero };
+        asteroid.Move(1f);
     
         // Then
         Assert.True(asteroid.CheckCollisions(vectors), "Triangle Collisions");
