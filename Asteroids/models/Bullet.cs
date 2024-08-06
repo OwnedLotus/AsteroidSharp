@@ -13,6 +13,7 @@ class Bullet
     private float _bulletspeed;
     public Vector2 Position { get => _position; set => _position = value; }
     public bool FromPlayer;
+    public Vector2[]? Corners { get => _shape?.Corners; }
 
     public void SpawnBullet(Vector2 pos, Vector2 heading, Color color, float speed, ushort length, bool fromPlayer)
     {

@@ -18,7 +18,7 @@ class Player
     private float _momentum;
     // private Vector2 _previousPosition;
     private Queue<Bullet> bullets;
-    private uint numberOfBullets = 100;
+    private uint numberOfBullets = 20;
     private Triangle _shape;
     private (uint, uint) windowDimensions;
     private float coefficientOfFriction;

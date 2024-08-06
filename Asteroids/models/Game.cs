@@ -33,8 +33,6 @@ public class Game
 
     private void CheckCollisions()
     {
-        bool playerCollision = false;
-
         // types of collisions
         // 1. bullet <-> asteroid
         // 2. asteroid <-> player
@@ -49,6 +47,7 @@ public class Game
             {
                 asteroid.CheckCollisions(player.Corners);
             }
+
         }
 
 
