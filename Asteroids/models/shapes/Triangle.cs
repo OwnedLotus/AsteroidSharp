@@ -69,33 +69,4 @@ class Triangle : IShape
 
         return Vector2.Normalize(localCoordinates[0]);
     }
-
-    // Great candidate for unit testing !!!
-    //TODO!
-    public bool Collision(IEnumerable<Vector2>? boundaries)
-    {
-        if (boundaries is not null)
-        {
-            foreach (var point in boundaries)
-            {
-                //  a
-                // b c
-                // if one angle between points is larger than 180 degrees then it is not in the triangle
-                Vector2 a_to_point = globalCoordinates[0] - point;
-                Vector2 b_to_point = globalCoordinates[1] - point;
-                Vector2 c_to_point = globalCoordinates[2] - point;
-
-                double a_b_theta = Math.Acos(Vector2.Dot(a_to_point, b_to_point) / (a_to_point.Length() * b_to_point.Length()));
-                double b_c_theta = Math.Acos(Vector2.Dot(b_to_point, c_to_point) / (b_to_point.Length() * c_to_point.Length()));
-                double a_c_theta = Math.Acos(Vector2.Dot(a_to_point, c_to_point) / (a_to_point.Length() * c_to_point.Length()));
-
-                if (a_b_theta <= Math.PI || b_c_theta <= Math.PI || a_c_theta <= Math.PI)
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
 }

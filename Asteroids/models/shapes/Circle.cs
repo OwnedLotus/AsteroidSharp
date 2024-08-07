@@ -35,17 +35,4 @@ class Circle : IShape
     {
         Graphics.DrawCircleLinesV(_position, _bound, _color);
     }
-
-    public bool Collision(IEnumerable<Vector2>? boundaries)
-    {
-        if (boundaries is not null)
-            // if the point is within a radii of the center, then it has collided with the shape
-            foreach (var point in boundaries)
-            {
-                Vector2 distVector = _position - point;
-                if (distVector.LengthSquared() < _bound * _bound)
-                    return true;
-            }
-        return false;
-    }
 }

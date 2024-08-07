@@ -41,14 +41,7 @@ public class Game
         // {
         //     bullet.CollisionCheck(player.Corners);
         // }
-        if (asteroids is not null)
-        {
-            foreach (var asteroid in asteroids)
-            {
-                asteroid.CheckCollisions(player.Corners);
-            }
-
-        }
+        
 
 
 
