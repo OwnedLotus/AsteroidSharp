@@ -17,6 +17,7 @@ public class Asteroid
 
     public Vector2 position { get => _position; private set => _position = value; }
     public Vector2 Heading { get => _heading; private set => _heading = value; }
+    public IShape? Shape { get => _shape; }
 
     public Asteroid()
     {

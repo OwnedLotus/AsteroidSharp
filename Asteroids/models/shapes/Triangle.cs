@@ -6,6 +6,8 @@ namespace AsteroidSharp.Models.Shapes;
 
 class Triangle : IShape
 {
+    private const ushort numCorners = 3;
+
     private Color _color;
     private Vector2[] localCoordinates;
     private Vector2[] globalCoordinates;
@@ -22,7 +24,7 @@ class Triangle : IShape
         Bounds = bounds;
 
         // this is the local offset of the three corners of the triangles
-        localCoordinates = new Vector2[3]
+        localCoordinates = new Vector2[numCorners]
         {
             orientation * -_bounds.X,
             new Vector2(-_bounds.Y, bounds.X / 2),
@@ -30,7 +32,7 @@ class Triangle : IShape
         };
 
         _color = color;
-        globalCoordinates = new Vector2[3];
+        globalCoordinates = new Vector2[numCorners];
     }
 
     public void DrawShape()
@@ -68,5 +70,28 @@ class Triangle : IShape
         }
 
         return Vector2.Normalize(localCoordinates[0]);
+    }
+
+    public bool Collision(IEnumerable<Vector2> points)
+    {
+        foreach (var point in points)
+        {
+            float sumAngle = 0;
+
+            var diffToA = point - Corners[0];
+            var diffToB = point - Corners[1];
+            var diffToC = point - Corners[2];
+
+            var thetaAB = MathF.Acos(Vector2.Dot(diffToA, diffToB) / (diffToA.Length() * diffToB.Length()));
+            var thetaBC = MathF.Acos(Vector2.Dot(diffToB, diffToC) / (diffToB.Length() * diffToC.Length()));
+            var thetaAC = MathF.Acos(Vector2.Dot(diffToA, diffToC) / (diffToA.Length() * diffToC.Length()));
+
+            sumAngle = thetaAB + thetaAC + thetaBC;
+
+            if (MathF.Abs(sumAngle - 2 * MathF.PI) < 1e-5)
+                return true;
+
+        }
+        return false;
     }
 }

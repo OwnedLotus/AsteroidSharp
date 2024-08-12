@@ -35,4 +35,9 @@ class Circle : IShape
     {
         Graphics.DrawCircleLinesV(_position, _bound, _color);
     }
+
+    public bool Collision(IEnumerable<Vector2> points)
+    {
+        throw new NotImplementedException();
+    }
 }

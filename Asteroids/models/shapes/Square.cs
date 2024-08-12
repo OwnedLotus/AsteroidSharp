@@ -69,4 +69,9 @@ class Square : IShape
 
         return Vector2.Normalize(localCoordinates[0]);
     }
+
+    public bool Collision(IEnumerable<Vector2> points)
+    {
+        throw new NotImplementedException();
+    }
 }

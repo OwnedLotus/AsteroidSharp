@@ -37,11 +37,6 @@ public class Game
         // 1. bullet <-> asteroid
         // 2. asteroid <-> player
         // 3. bullet <-> player <-- may have issue with init laser spawn
-        // foreach (var bullet in player.activeBullets)
-        // {
-        //     bullet.CollisionCheck(player.Corners);
-        // }
-        
 
 
 
@@ -75,6 +70,11 @@ public class Game
             foreach (var asteroid in asteroids)
             {
                 asteroid.Move(deltaTime);
+                foreach (var bullet in player.activeBullets)
+                {
+                    
+                }
+
             }
         }
 
