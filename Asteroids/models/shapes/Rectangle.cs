@@ -32,9 +32,16 @@ class Rect : IShape
 
     public void DrawShape()
     {
+        // ab
+        // cd
+
+        // ab
         Graphics.DrawLine((int)globalCoordinates[0].X, (int)globalCoordinates[0].Y, (int)globalCoordinates[1].X, (int)globalCoordinates[1].Y, _color);
+        // ac
         Graphics.DrawLine((int)globalCoordinates[0].X, (int)globalCoordinates[0].Y, (int)globalCoordinates[2].X, (int)globalCoordinates[2].Y, _color);
+        // bd
         Graphics.DrawLine((int)globalCoordinates[1].X, (int)globalCoordinates[1].Y, (int)globalCoordinates[3].X, (int)globalCoordinates[3].Y, _color);
+        // cd
         Graphics.DrawLine((int)globalCoordinates[2].X, (int)globalCoordinates[2].Y, (int)globalCoordinates[3].X, (int)globalCoordinates[3].Y, _color);
     }
 
@@ -72,6 +79,26 @@ class Rect : IShape
 
     public bool Collision(IEnumerable<Vector2> points)
     {
-        throw new NotImplementedException();
+        foreach (var point in points)
+        {
+            float sumAngle = 0;
+
+            var diffToA = point - Corners[0];
+            var diffToB = point - Corners[1];
+            var diffToC = point - Corners[2];
+            var diffToD = point - Corners[3];
+
+            var thetaAB = MathF.Acos(Vector2.Dot(diffToA, diffToB) / (diffToA.Length() * diffToB.Length()));
+            var thetaBD = MathF.Acos(Vector2.Dot(diffToB, diffToD) / (diffToB.Length() * diffToD.Length()));
+            var thetaAC = MathF.Acos(Vector2.Dot(diffToA, diffToC) / (diffToA.Length() * diffToC.Length()));
+            var thetaCD = MathF.Acos(Vector2.Dot(diffToC, diffToD) / (diffToC.Length() * diffToD.Length()));
+
+            sumAngle = thetaAB + thetaBD + thetaAC + thetaCD;
+
+            if (MathF.Abs(sumAngle - 2 * MathF.PI) < 1e-5)
+                return true;
+        }
+
+        return false;
     }
 }
