@@ -38,6 +38,11 @@ class Circle : IShape
 
     public bool Collision(IEnumerable<Vector2> points)
     {
-        throw new NotImplementedException();
+        foreach (var point in points)
+        {
+            if (Vector2.DistanceSquared(_position, point) <= _bound * _bound)
+                return true;
+        }
+        return false;
     }
 }
