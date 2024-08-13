@@ -125,7 +125,7 @@ public class Asteroid
     {
         var rectangleAsteroid = new Asteroid() {
             _position = Vector2.Zero,
-            _shape = new Circle(5, Color.Brown)
+            _shape = new Rect(new Vector2(5f,5f), Color.Brown)
         };
 
         return rectangleAsteroid;
