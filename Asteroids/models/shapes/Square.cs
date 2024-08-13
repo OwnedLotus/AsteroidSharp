@@ -72,6 +72,66 @@ class Square : IShape
 
     public bool Collision(IEnumerable<Vector2> points)
     {
+        bool collisionDetected = false;
+
+        Parallel.ForEach(points, (point, state) => 
+        {
+            float sumAngle = 0;
+
+            var diffToA = point - Corners[0];
+            var diffToB = point - Corners[1];
+            var diffToC = point - Corners[2];
+            var diffToD = point - Corners[3];
+
+            var thetaAB = MathF.Acos(Vector2.Dot(diffToA, diffToB) / (diffToA.Length() * diffToB.Length()));
+            var thetaBD = MathF.Acos(Vector2.Dot(diffToB, diffToD) / (diffToB.Length() * diffToD.Length()));
+            var thetaAC = MathF.Acos(Vector2.Dot(diffToA, diffToC) / (diffToA.Length() * diffToC.Length()));
+            var thetaCD = MathF.Acos(Vector2.Dot(diffToC, diffToD) / (diffToC.Length() * diffToD.Length()));
+
+            sumAngle = thetaAB + thetaBD + thetaAC + thetaCD;
+
+            if (MathF.Abs(sumAngle - 2 * MathF.PI) < 1e-5)
+            {
+                collisionDetected = true;
+                state.Break();   
+            }
+        });
+
+        return collisionDetected;
+
+//         public bool Collision(IEnumerable<Vector2> points)
+// {
+//     int collisionDetected = 0; // Use an integer for atomic operations
+
+//     Parallel.ForEach(points, (point, state) =>
+//     {
+//         float sumAngle = 0;
+
+//         Vector2 diffToA = point - Corners[0];
+//         Vector2 diffToB = point - Corners[1];
+//         Vector2 diffToC = point - Corners[2];
+//         Vector2 diffToD = point - Corners[3];
+
+//         float thetaAB = MathF.Acos(Vector2.Dot(diffToA, diffToB) / (diffToA.Length() * diffToB.Length()));
+//         float thetaBD = MathF.Acos(Vector2.Dot(diffToB, diffToD) / (diffToB.Length() * diffToD.Length()));
+//         float thetaAC = MathF.Acos(Vector2.Dot(diffToA, diffToC) / (diffToA.Length() * diffToC.Length()));
+//         float thetaCD = MathF.Acos(Vector2.Dot(diffToC, diffToD) / (diffToC.Length() * diffToD.Length()));
+
+//         sumAngle = thetaAB + thetaBD + thetaAC + thetaCD;
+
+//         if (MathF.Abs(sumAngle - 2 * MathF.PI) < 1e-5)
+//         {
+//             Interlocked.Exchange(ref collisionDetected, 1); // Atomically set collisionDetected to 1
+//             state.Break(); // Exit the loop early if a collision is detected
+//         }
+//     });
+
+//     return collisionDetected == 1;
+// }
+
+
+
+
         foreach (var point in points)
         {
             float sumAngle = 0;
