@@ -129,9 +129,6 @@ class Square : IShape
 //     return collisionDetected == 1;
 // }
 
-
-
-
         foreach (var point in points)
         {
             float sumAngle = 0;
