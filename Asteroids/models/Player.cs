@@ -61,15 +61,12 @@ class Player
 
         if (success && bullet is not null)
         {
+            bullet.SpawnLocation(_position, _heading);
             activeBullets.Add(bullet);
         }
     }
 
-    private void DespawnBullet(Bullet bullet)
-    {
-        bullets.Enqueue(bullet);
-        activeBullets.Remove(bullet);
-    }
+
 
     private void TeleportPlayerUp() => _position.Y = 0;
     private void TeleportPlayerLeft() => _position.X = 0;
@@ -105,16 +102,10 @@ class Player
             _momentum = Speed;
         }
 
-        for (int i = 0; i < activeBullets.Count; i++)
+        
         {
             // outside the borders of the game
-            if (activeBullets[i].Position.X < 0 ||
-                    activeBullets[i].Position.Y < 0 ||
-                    activeBullets[i].Position.X > windowDimensions.Item1 ||
-                    activeBullets[i].Position.Y > windowDimensions.Item2)
-                DespawnBullet(activeBullets[i]);
-            else
-                activeBullets[i].Move(deltaTime);
+            
         }
 
         // rotation
@@ -128,12 +119,21 @@ class Player
         if (_position.X > windowDimensions.Item1) TeleportPlayerLeft();
     }
 
-    public void CheckCollisions(IEnumerable<Vector2> boundries)
+    public void DespawnBullet(Bullet bullet)
     {
-        if (_shape.Collision(boundries))
+        bullets.Enqueue(bullet);
+        activeBullets.Remove(bullet);
+    }
+
+    public bool CheckCollisions(IEnumerable<Vector2> boundaries)
+    {
+        if (_shape.Collision(boundaries))
         {
             _shape.State = ActorState.Destroyed;
+            return true;
         }
+
+        return false;
     }
 
     #endregion

@@ -98,7 +98,13 @@ public class Asteroid
 
     public bool CheckCollisions(IEnumerable<Vector2> boundaries)
     {
-        return _shape.Collision(boundaries);
+        if (_shape.Collision(boundaries))
+        {
+            _shape.State = ActorState.Destroyed;
+            return true;
+        }
+
+        return false;
     }
 
     public static Asteroid DebugCircleAsteroidSpawner()

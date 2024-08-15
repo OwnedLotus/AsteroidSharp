@@ -54,7 +54,7 @@ class BulletShape : IShape
 
 
     // Good point to introduce unit testing
-    public Vector2 UpdateShape(Vector2 pos)
+    public Vector2 UpdateShape(Vector2 pos) 
     {
         for (int i = bulletSize - 1; i >= 1; i--)
         {

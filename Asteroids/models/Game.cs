@@ -59,6 +59,7 @@ public class Game
     public void UpdateGame()
     {
         float deltaTime = Time.GetFrameTime();
+        List<Asteroid> destroyedAsteroids = new();
 
         // move Player
         player.UpdatePlayer(deltaTime);
@@ -67,9 +68,22 @@ public class Game
         foreach (var asteroid in asteroids)
         {
             asteroid.Move(deltaTime);
-            foreach (var bullet in player.activeBullets)
+            for (int i = 0; i < player.activeBullets.Count; i++)
             {
-                
+                if (player.activeBullets[i].Position.X < 0 ||
+                    player.activeBullets[i].Position.Y < 0 ||
+                    player.activeBullets[i].Position.X > windowDimensions.Item1 ||
+                    player.activeBullets[i].Position.Y > windowDimensions.Item2)
+                    player.DespawnBullet(player.activeBullets[i]);
+                else
+                    player.activeBullets[i].Move(deltaTime);
+
+
+
+                if (asteroid.CheckCollisions(player.activeBullets[i].Shape.Corners))
+                {
+                    destroyedAsteroids.Add(asteroid);
+                }
             }
 
         }

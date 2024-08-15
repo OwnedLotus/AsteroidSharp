@@ -7,7 +7,7 @@ namespace AsteroidSharp.Models;
 class Bullet(Vector2 pos, Vector2 heading, Color color, float speed, bool fromPlayer)
 {
     private BulletShape _shape = new BulletShape(pos, heading, color);
-    private Vector2 _position = pos;
+    private Vector2 _position;
     private Vector2 _heading = heading;
     private Color _color = color;
     private float _bulletspeed = speed;
@@ -25,6 +25,12 @@ class Bullet(Vector2 pos, Vector2 heading, Color color, float speed, bool fromPl
     {
         _position += _heading * _bulletspeed;
         _shape.UpdateShape(_position);
+    }
+    
+    public void SpawnLocation(Vector2 pos, Vector2 heading)
+    {
+        _position = pos;
+        _heading = heading;
     }
 
     public bool CollisionCheck(IEnumerable<Vector2> boundaries)
