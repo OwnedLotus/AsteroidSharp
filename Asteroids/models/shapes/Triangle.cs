@@ -18,6 +18,7 @@ class Triangle : IShape
 
     public Vector2 Bounds { get => _bounds; private set => _bounds = value; }
     public Color ShapeColor { get => _color; set => _color = value; }
+    public ActorState State { get; set; }
 
     public Triangle(Vector2 bounds, Vector2 orientation, Color color)
     {

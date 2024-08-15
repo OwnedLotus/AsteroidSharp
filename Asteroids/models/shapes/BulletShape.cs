@@ -1,7 +1,6 @@
 using System.Numerics;
 using Raylib_CSharp.Rendering;
 using Raylib_CSharp.Colors;
-using System.Data.SqlTypes;
 
 namespace AsteroidSharp.Models.Shapes;
 
@@ -14,6 +13,7 @@ class BulletShape : IShape
 
     public Vector2[] Corners { get => globalCoordinates; private set => globalCoordinates = value; }
     public Color ShapeColor { get; set; }
+    public ActorState State { get; set; }
 
     public BulletShape(Vector2 pos, Vector2 direction, Color color)
     {

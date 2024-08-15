@@ -14,6 +14,7 @@ class Rect : IShape
 
     public Vector2[] Corners { get => globalCoordinates; private set => globalCoordinates = value; }
     public Color ShapeColor { get => _color; private set => _color = value; }
+    public ActorState State { get; set; }
 
     public Rect(Vector2 bounds, Color color)
     {

@@ -12,6 +12,7 @@ class Square : IShape
 
     public Color ShapeColor { get => _color; private set => _color = value; }
     public Vector2[] Corners { get => globalCoordinates; private set => globalCoordinates = value; }
+    public ActorState State { get; set; }
 
     private Vector2 _bounds;
 

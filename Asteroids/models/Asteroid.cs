@@ -10,18 +10,19 @@ public class Asteroid
 {
     private float _speed;
     private float _rotationAngle;
-    private IShape? _shape;
+    private IShape _shape;
     private Vector2 _position;
     private Vector2 _heading;
     private Color _color = Color.Brown;
 
     public Vector2 position { get => _position; private set => _position = value; }
     public Vector2 Heading { get => _heading; private set => _heading = value; }
-    public IShape? Shape { get => _shape; }
+    public IShape Shape { get => _shape; }
+    public ActorState State { get => _shape!.State; }
 
     public Asteroid()
     {
-
+        _shape = new Shapes.Circle(0,Color.Black);
     }
 
     public Asteroid((uint, uint) dimensions, float rotate = 10f, float s = 2)
@@ -58,6 +59,8 @@ public class Asteroid
 
         if (_shape is not null)
             _shape.UpdateShape(_position);
+        else
+            _shape = new Shapes.Circle(0,Color.Black);
 
         _rotationAngle = rotate;
         _speed = s;
@@ -90,15 +93,12 @@ public class Asteroid
 
     public void DrawAsteroid()
     {
-        _shape?.DrawShape();
+        _shape.DrawShape();
     }
 
     public bool CheckCollisions(IEnumerable<Vector2> boundaries)
     {
-        if (_shape is not null)
-            return _shape.Collision(boundaries);
-
-        return false;
+        return _shape.Collision(boundaries);
     }
 
     public static Asteroid DebugCircleAsteroidSpawner()

@@ -14,6 +14,7 @@ class EnemyShape : IShape
 
     public Vector2[] Corners { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public Color ShapeColor { get => _color; set => _color = value; }
+    public ActorState State { get; set; }
 
     public EnemyShape(Vector2 bounds, Color color, Vector2 pos)
     {
@@ -31,8 +32,7 @@ class EnemyShape : IShape
 
     public void DrawShape()
     {
-        // I was thinking to have the enemies as ovals if I am not going to implement
-        // them as actual meshes and render an actual image
+        // Diamond or rhombus would be more inline with the rest of the program
 
         Graphics.DrawEllipseLines((int)_pos.X, (int)_pos.Y, (int)_bounds.X, (int)_bounds.Y, _color);
     }

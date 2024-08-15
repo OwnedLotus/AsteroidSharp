@@ -15,7 +15,7 @@ public enum GameState
 public class Game
 {
     private Player player;
-    private List<Asteroid>? asteroids;
+    private List<Asteroid> asteroids;
 
     public GameState state = GameState.Startup;
     private (uint, uint) windowDimensions;
@@ -27,6 +27,7 @@ public class Game
     {
         windowDimensions = dimensions;
         player = new Player(new Vector2(windowDimensions.Item1 / 2, windowDimensions.Item2 / 2), new Vector2(0, 0), dimensions);
+        asteroids = new();
     }
 
     #region Private Methods
@@ -52,7 +53,6 @@ public class Game
 
     public void LaunchGame()
     {
-        asteroids = new List<Asteroid>();
         state = GameState.Playing;
         asteroids.Add(new Asteroid(windowDimensions));
     }
@@ -65,17 +65,14 @@ public class Game
         player.UpdatePlayer(deltaTime);
 
         // move all Asteroids
-        if (asteroids is not null)
+        foreach (var asteroid in asteroids)
         {
-            foreach (var asteroid in asteroids)
+            asteroid.Move(deltaTime);
+            foreach (var bullet in player.activeBullets)
             {
-                asteroid.Move(deltaTime);
-                foreach (var bullet in player.activeBullets)
-                {
-                    
-                }
-
+                
             }
+
         }
 
         if (Input.IsKeyDown(KeyboardKey.Enter) && state != GameState.Paused) state = GameState.Paused;
@@ -84,19 +81,16 @@ public class Game
 
     public void SpawnAnotherAsteroid()
     {
-        asteroids?.Add(new Asteroid(windowDimensions));
+        asteroids.Add(new Asteroid(windowDimensions));
     }
 
     public void DrawGame()
     {
         player.DrawPlayer();
-
-        if (asteroids is not null)
+        
+        foreach (var asteroid in asteroids)
         {
-            foreach (var asteroid in asteroids)
-            {
-                asteroid.DrawAsteroid();
-            }
+            asteroid.DrawAsteroid();
         }
     }
 

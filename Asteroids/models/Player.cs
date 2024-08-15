@@ -31,6 +31,7 @@ class Player
 
     public Vector2 Position { get => _position; }
     public Vector2 Heading { get => _heading; private set => _heading = Vector2.Normalize(value); }
+    public ActorState State { get => _shape.State; }
 
     public Player(Vector2 pos, Vector2 vel, (uint, uint) dimensions, float cof = 1, float s = 2, float r = 5, float m = 1)
     {
@@ -44,10 +45,11 @@ class Player
         activeBullets = new();
         _heading = -Vector2.UnitY;
         windowDimensions = dimensions;
+        _shape.State = ActorState.Active;
 
         for (int i = 0; i < numberOfBullets; i++)
         {
-            bullets.Enqueue(new Bullet());
+            bullets.Enqueue(new(_position, _heading, Color.Red, 10, true));
         }
     }
 
@@ -59,8 +61,7 @@ class Player
 
         if (success && bullet is not null)
         {
-            bullet.SpawnBullet(_position, _heading, Color.Red, 10, 5, true);
-            activeBullets.Add(bullet!);
+            activeBullets.Add(bullet);
         }
     }
 
@@ -127,11 +128,12 @@ class Player
         if (_position.X > windowDimensions.Item1) TeleportPlayerLeft();
     }
 
-    public bool CheckCollisions(IEnumerable<Vector2> boundries)
+    public void CheckCollisions(IEnumerable<Vector2> boundries)
     {
-        if (_shape is not null)
-            return _shape.Collision(boundries);
-        return false;
+        if (_shape.Collision(boundries))
+        {
+            _shape.State = ActorState.Destroyed;
+        }
     }
 
     #endregion

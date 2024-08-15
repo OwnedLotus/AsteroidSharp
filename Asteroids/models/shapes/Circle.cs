@@ -11,7 +11,8 @@ class Circle : IShape
     private int _bound;
 
     public Color ShapeColor { get => _color; set => _color = value; }
-    public Vector2[] Corners { get => throw new NotImplementedException(); private set => throw new NotImplementedException(); }
+    public Vector2[] Corners { get => [Vector2.Zero]; }
+    public ActorState State { get; set; }
 
     public Circle(int bound, Color color)
     {
