@@ -1,7 +1,6 @@
 using System.Numerics;
 using AsteroidSharp.Models;
 using Raylib_CSharp.Interact;
-using Raylib_CSharp.Colors;
 using Raylib_CSharp;
 
 public enum GameState
@@ -87,7 +86,7 @@ public class Game
     public void DrawGame()
     {
         player.DrawPlayer();
-        
+
         foreach (var asteroid in asteroids)
         {
             asteroid.DrawAsteroid();
