@@ -22,7 +22,7 @@ class BulletShape : IShape
             pos, pos, pos, pos, pos
         };
         _direction = direction;
-        localCoordinates = new Vector2[0];
+        localCoordinates = Array.Empty<Vector2>();
     }
 
     public void DrawShape()
@@ -63,6 +63,14 @@ class BulletShape : IShape
 
 
         return globalCoordinates[0] = pos;
+    }
+
+    public void ClearPos(Vector2 pos)
+    {
+        for (int i = 0; i < globalCoordinates.Count(); i++)
+        {
+            globalCoordinates[i] = pos;
+        }
     }
 
     public bool Collision(IEnumerable<Vector2> points)

@@ -107,6 +107,11 @@ public class Asteroid
         return false;
     }
 
+    public void DestroyAsteroid()
+    {
+        throw new NotImplementedException();
+    }
+
     public static Asteroid DebugCircleAsteroidSpawner()
     {
         var circleAsteroid = new Asteroid() {

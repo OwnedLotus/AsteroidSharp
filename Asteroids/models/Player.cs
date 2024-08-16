@@ -18,7 +18,7 @@ class Player
     private float _momentum;
     // private Vector2 _previousPosition;
     private Queue<Bullet> bullets;
-    private uint numberOfBullets = 20;
+    private uint numberOfBullets = 5;
     private Triangle _shape;
     private (uint, uint) windowDimensions;
     private float coefficientOfFriction;
@@ -47,26 +47,26 @@ class Player
         windowDimensions = dimensions;
         _shape.State = ActorState.Active;
 
-        for (int i = 0; i < numberOfBullets; i++)
-        {
-            bullets.Enqueue(new(_position, _heading, Color.Red, 10, true));
-        }
     }
 
     #region Private Methods
 
     private void Shoot()
     {
+        if (bullets.Count + activeBullets.Count < numberOfBullets)
+        {
+            bullets.Enqueue(new(_position, _heading, Color.Red, 10, true));
+        }
+
         var success = bullets.TryDequeue(out Bullet? bullet);
 
         if (success && bullet is not null)
         {
+
             bullet.SpawnLocation(_position, _heading);
             activeBullets.Add(bullet);
         }
     }
-
-
 
     private void TeleportPlayerUp() => _position.Y = 0;
     private void TeleportPlayerLeft() => _position.X = 0;

@@ -25,16 +25,29 @@ class Bullet(Vector2 pos, Vector2 heading, Color color, float speed, bool fromPl
     {
         _position += _heading * _bulletspeed;
         _shape.UpdateShape(_position);
+        DebugPrinter();
     }
     
     public void SpawnLocation(Vector2 pos, Vector2 heading)
     {
         _position = pos;
+        _shape.ClearPos(pos);
         _heading = heading;
     }
 
     public bool CollisionCheck(IEnumerable<Vector2> boundaries)
     {
         return _shape.Collision(boundaries);
+    }
+
+    public void DebugPrinter()
+    {
+
+        string output = "Bullet Position List: ";
+        foreach(var coord in this._shape.Corners)
+        {
+            output += coord.ToString() + ", ";
+        }
+        Console.WriteLine(output);
     }
 }
