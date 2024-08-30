@@ -86,11 +86,12 @@ public class Game
                 // throws out of range inconsistent
                 collidedAsteroidStack = new(asteroids.Where(asteroid => asteroid.CheckCollisions(player.activeBullets[i].Corners)));
                 
-                while(collidedAsteroidStack.Count > 0)
+                while (collidedAsteroidStack.Count > 0 )
                 {
-                    System.Console.WriteLine("Asteroid Collided");
-                    player.DespawnBullet(player.activeBullets[i]);
                     var destroyedAsteroid = collidedAsteroidStack.Pop();
+                    Console.WriteLine("Asteroid Collided");
+
+                    player.DespawnBullet(player.activeBullets[i]);
                     destroyedAsteroid.DestroyAsteroid();
                     asteroids.Remove(destroyedAsteroid);
                 }
