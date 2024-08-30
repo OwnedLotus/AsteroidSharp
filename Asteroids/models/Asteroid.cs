@@ -96,7 +96,7 @@ public class Asteroid
         _shape.DrawShape();
     }
 
-    public bool CheckCollisions(IEnumerable<Vector2> boundaries)
+    public bool CheckCollisions(Vector2[] boundaries)
     {
         if (_shape.Collision(boundaries))
         {
@@ -109,7 +109,8 @@ public class Asteroid
 
     public void DestroyAsteroid()
     {
-        throw new NotImplementedException();
+        _shape.State = ActorState.Destroyed;
+        
     }
 
     public static Asteroid DebugCircleAsteroidSpawner()

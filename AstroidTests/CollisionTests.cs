@@ -10,7 +10,7 @@ public class CollisionTests
     {
         Asteroid asteroid =  Asteroid.DebugCircleAsteroidSpawner();
 
-        List<Vector2> vectors = new List<Vector2> { Vector2.Zero };
+        Vector2[] vectors =[ Vector2.Zero ];
         asteroid.Move(1f);
 
         Assert.True(asteroid.CheckCollisions(vectors), "Circle Collision failed");
@@ -21,7 +21,7 @@ public class CollisionTests
     {
         Asteroid asteroid =  Asteroid.DebugCircleAsteroidSpawner();
 
-        List<Vector2> vectors = new List<Vector2> { new Vector2(10f, 10f) };
+        Vector2[] vectors =[ new Vector2(10f, 10f) ];
         asteroid.Move(1f);
 
         Assert.False(asteroid.CheckCollisions(vectors), "Circle Collision did not fail");
@@ -35,7 +35,7 @@ public class CollisionTests
         Asteroid asteroid = Asteroid.DebugSquareAsteroidSpawner();
     
         // When
-        List<Vector2> vectors = new List<Vector2> { Vector2.Zero };
+        Vector2[] vectors =[ Vector2.Zero ];
         asteroid.Move(1f);
     
         // Then
@@ -49,7 +49,7 @@ public class CollisionTests
         Asteroid asteroid = Asteroid.DebugSquareAsteroidSpawner();
     
         // When
-        List<Vector2> vectors = new List<Vector2> { new Vector2(10f, 10f) };
+        Vector2[] vectors =[ new Vector2(10f, 10f) ];
         asteroid.Move(1f);
     
         // Then
@@ -63,7 +63,7 @@ public class CollisionTests
         Asteroid asteroid = Asteroid.DebugRectangleAsteroidSpawner();
     
         // When
-        List<Vector2> vectors = new List<Vector2> { Vector2.Zero };
+        Vector2[] vectors =[ Vector2.Zero ];
         asteroid.Move(1f);
     
         // Then
@@ -77,7 +77,7 @@ public class CollisionTests
         Asteroid asteroid = Asteroid.DebugRectangleAsteroidSpawner();
     
         // When
-        List<Vector2> vectors = new List<Vector2> { new Vector2(10f, 10f) };
+        Vector2[] vectors =[ new Vector2(10f, 10f) ];
         asteroid.Move(1f);
     
         // Then
@@ -91,7 +91,7 @@ public class CollisionTests
         Asteroid asteroid = Asteroid.DebugTriangleAsteroidSpawner();
     
         // When
-        List<Vector2> vectors = new List<Vector2> { Vector2.Zero };
+        Vector2[] vectors =[ Vector2.Zero ];
         asteroid.Move(1f);
     
         // Then
@@ -105,7 +105,7 @@ public class CollisionTests
         Asteroid asteroid = Asteroid.DebugTriangleAsteroidSpawner();
     
         // When
-        List<Vector2> vectors = new List<Vector2> { new Vector2(10f, 10f) };
+        Vector2[] vectors =[ new Vector2(10f, 10f) ];
         asteroid.Move(1f);
     
         // Then

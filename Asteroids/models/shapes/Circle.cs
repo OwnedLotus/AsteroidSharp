@@ -37,7 +37,7 @@ class Circle : IShape
         Graphics.DrawCircleLinesV(_position, _bound, _color);
     }
 
-    public bool Collision(IEnumerable<Vector2> points)
+    public bool Collision(Vector2[] points)
     {
         foreach (var point in points)
         {

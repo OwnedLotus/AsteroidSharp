@@ -18,7 +18,7 @@ class Player
     private float _momentum;
     // private Vector2 _previousPosition;
     private Queue<Bullet> bullets;
-    private uint numberOfBullets = 5;
+    private uint numberOfBullets = 20;
     private Triangle _shape;
     private (uint, uint) windowDimensions;
     private float coefficientOfFriction;
@@ -125,7 +125,7 @@ class Player
         activeBullets.Remove(bullet);
     }
 
-    public bool CheckCollisions(IEnumerable<Vector2> boundaries)
+    public bool CheckCollisions(Vector2[] boundaries)
     {
         if (_shape.Collision(boundaries))
         {

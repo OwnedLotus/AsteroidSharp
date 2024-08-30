@@ -21,11 +21,12 @@ public class Game
 
     public uint points { get; private set; } = 0;
     public uint numberOfAsteroids { get; private set; }
+    private Stack<Asteroid>? collidedAsteroidStack;
 
     public Game((uint, uint) dimensions)
     {
         windowDimensions = dimensions;
-        player = new Player(new Vector2(windowDimensions.Item1 / 2, windowDimensions.Item2 / 2), new Vector2(0, 0), dimensions);
+        player = new Player(new Vector2(windowDimensions.Item1 / 3, windowDimensions.Item2 / 3), new Vector2(0, 0), dimensions);
         asteroids = new();
     }
 
@@ -80,15 +81,21 @@ public class Game
             else
                 player.activeBullets[i].Move(deltaTime);
 
-            var collidedAsteroids = from asteroid in asteroids
-                                                where asteroid.CheckCollisions(player.activeBullets[i].Corners)
-                                                select asteroid;
+            if(player.activeBullets.Count >0)
+            {;
+
+                collidedAsteroidStack = new(asteroids.Where(asteroid => asteroid.CheckCollisions(player.activeBullets[i].Corners)));
                 
-            // foreach (var c in collidedAsteroids)
-            // {
-                // Console.WriteLine("Collided with asteroid");
-                // c.DestroyAsteroid();
-            // }
+                while(collidedAsteroidStack.Count > 0)
+                {
+                    System.Console.WriteLine("Asteroid Collided");
+                    player.DespawnBullet(player.activeBullets[i]);
+                    var destroyedAsteroid = collidedAsteroidStack.Pop();
+                    destroyedAsteroid.DestroyAsteroid();
+                    asteroids.Remove(destroyedAsteroid);
+                }
+            }
+                
         }
 
         if (Input.IsKeyDown(KeyboardKey.Enter) && state != GameState.Paused) state = GameState.Paused;

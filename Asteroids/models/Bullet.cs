@@ -35,7 +35,7 @@ class Bullet(Vector2 pos, Vector2 heading, Color color, float speed, bool fromPl
         _heading = heading;
     }
 
-    public bool CollisionCheck(IEnumerable<Vector2> boundaries)
+    public bool CollisionCheck(Vector2[] boundaries)
     {
         return _shape.Collision(boundaries);
     }
@@ -48,6 +48,6 @@ class Bullet(Vector2 pos, Vector2 heading, Color color, float speed, bool fromPl
         {
             output += coord.ToString() + ", ";
         }
-        Console.WriteLine(output);
+        // Console.WriteLine(output);
     }
 }

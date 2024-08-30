@@ -73,7 +73,7 @@ class BulletShape : IShape
         }
     }
 
-    public bool Collision(IEnumerable<Vector2> points)
+    public bool Collision(Vector2[] points)
     {
         throw new NotImplementedException();
     }

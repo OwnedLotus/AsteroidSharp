@@ -73,7 +73,7 @@ class Triangle : IShape
         return Vector2.Normalize(localCoordinates[0]);
     }
 
-    public bool Collision(IEnumerable<Vector2> points)
+    public bool Collision(Vector2[] points)
     {
         foreach (var point in points)
         {

@@ -26,7 +26,7 @@ class Enemy(Vector2 StartingPosition, Vector2 localDirection, float s, Color col
     {
         _bullets.Enqueue(new(_position, _heading, Color.Red, 10, true));
     }
-    public bool CheckCollision(IEnumerable<Vector2> boundaries)
+    public bool CheckCollision(Vector2[] boundaries)
     {
         if (_shape is not null)
             return _shape.Collision(boundaries);

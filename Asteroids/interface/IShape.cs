@@ -10,7 +10,7 @@ public interface IShape
     public Vector2 UpdateShape(Vector2 pos);
     public void DrawShape();
     public Vector2 RotateShape(Vector2 pos, float rotateSpeed);
-    public bool Collision(IEnumerable<Vector2> points);
+    public bool Collision(Vector2[] points);
 
 }
 
