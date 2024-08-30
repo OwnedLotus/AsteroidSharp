@@ -81,7 +81,7 @@ public class Game
             else
                 player.activeBullets[i].Move(deltaTime);
 
-            if(player.activeBullets.Count >0)
+            if (player.activeBullets.Count > 0)
             {
                 // throws out of range inconsistent
                 collidedAsteroidStack = new(asteroids.Where(asteroid => asteroid.CheckCollisions(player.activeBullets[i].Corners)));
