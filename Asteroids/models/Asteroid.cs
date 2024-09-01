@@ -18,11 +18,11 @@ public class Asteroid
     public Vector2 position { get => _position; private set => _position = value; }
     public Vector2 Heading { get => _heading; private set => _heading = value; }
     public IShape Shape { get => _shape; }
-    public ActorState State { get => _shape!.State; }
+    public ActorState State { get; set; }
 
     public Asteroid()
     {
-        _shape = new Shapes.Circle(0,Color.Black);
+        _shape = new Shapes.Circle(0, Color.Black);
     }
 
     public Asteroid((uint, uint) dimensions, float rotate = 10f, float s = 2)
@@ -60,7 +60,7 @@ public class Asteroid
         if (_shape is not null)
             _shape.UpdateShape(_position);
         else
-            _shape = new Shapes.Circle(0,Color.Black);
+            _shape = new Shapes.Circle(0, Color.Black);
 
         _rotationAngle = rotate;
         _speed = s;
@@ -107,15 +107,10 @@ public class Asteroid
         return false;
     }
 
-    public void DestroyAsteroid()
-    {
-        _shape.State = ActorState.Destroyed;
-        
-    }
-
     public static Asteroid DebugCircleAsteroidSpawner()
     {
-        var circleAsteroid = new Asteroid() {
+        var circleAsteroid = new Asteroid()
+        {
             _position = Vector2.Zero,
             _shape = new Circle(5, Color.Brown)
         };
@@ -125,19 +120,21 @@ public class Asteroid
 
     public static Asteroid DebugSquareAsteroidSpawner()
     {
-        var squareAsteroid = new Asteroid() {
+        var squareAsteroid = new Asteroid()
+        {
             _position = Vector2.Zero,
             _shape = new Square(5, Color.Brown)
         };
-        
+
         return squareAsteroid;
     }
 
     public static Asteroid DebugRectangleAsteroidSpawner()
     {
-        var rectangleAsteroid = new Asteroid() {
+        var rectangleAsteroid = new Asteroid()
+        {
             _position = Vector2.Zero,
-            _shape = new Rect(new Vector2(5f,5f), Color.Brown)
+            _shape = new Rect(new Vector2(5f, 5f), Color.Brown)
         };
 
         return rectangleAsteroid;
@@ -145,8 +142,9 @@ public class Asteroid
 
     public static Asteroid DebugTriangleAsteroidSpawner()
     {
-    
-        var triangleAsteroid = new Asteroid() {
+
+        var triangleAsteroid = new Asteroid()
+        {
             _position = Vector2.Zero,
             _shape = new Circle(5, Color.Brown)
         };

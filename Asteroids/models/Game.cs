@@ -15,6 +15,7 @@ public class Game
 {
     private Player player;
     private List<Asteroid> asteroids;
+    private List<Asteroid> destroyedAsteroids;
 
     public GameState state = GameState.Startup;
     private (uint, uint) windowDimensions;
@@ -28,6 +29,7 @@ public class Game
         windowDimensions = dimensions;
         player = new Player(new Vector2(windowDimensions.Item1 / 3, windowDimensions.Item2 / 3), new Vector2(0, 0), dimensions);
         asteroids = new();
+        destroyedAsteroids = new();
     }
 
     #region Private Methods
@@ -45,6 +47,13 @@ public class Game
         // 5. enemy <-> asteroid
         // 6. enemy <-> player
 
+    }
+
+    private void DestroyAsteroid(Asteroid asteroid)
+    {
+        asteroids.Remove(asteroid);
+        asteroid.State = ActorState.Destroyed;
+        destroyedAsteroids.Add(asteroid);
     }
 
     #endregion
@@ -85,18 +94,17 @@ public class Game
             {
                 // throws out of range inconsistent
                 collidedAsteroidStack = new(asteroids.Where(asteroid => asteroid.CheckCollisions(player.activeBullets[i].Corners)));
-                
-                while (collidedAsteroidStack.Count > 0 )
+
+                while (collidedAsteroidStack.Count > 0)
                 {
                     var destroyedAsteroid = collidedAsteroidStack.Pop();
                     Console.WriteLine("Asteroid Collided");
 
                     player.DespawnBullet(player.activeBullets[i]);
-                    destroyedAsteroid.DestroyAsteroid();
-                    asteroids.Remove(destroyedAsteroid);
+                    DestroyAsteroid(destroyedAsteroid);
                 }
             }
-                
+
         }
 
         if (Input.IsKeyDown(KeyboardKey.Enter) && state != GameState.Paused) state = GameState.Paused;
