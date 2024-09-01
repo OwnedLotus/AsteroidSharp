@@ -14,10 +14,11 @@ class Circle : IShape
     public Vector2[] Corners { get => [Vector2.Zero]; }
     public ActorState State { get; set; }
 
-    public Circle(int bound, Color color)
+    public Circle(int bound, Color color, Vector2 pos)
     {
         _bound = bound;
         _color = color;
+        _position = pos;
     }
 
     public Vector2 RotateShape(Vector2 pos, float rotateSpeed)

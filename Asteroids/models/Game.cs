@@ -34,23 +34,9 @@ public class Game
 
     #region Private Methods
 
-    private void CheckCollisions()
-    {
-        // types of collisions
-        // 1. bullet <-> asteroid
-        // 2. asteroid <-> player
-        // 3. bullet <-> player <-- may have issue with init laser spawn
-
-
-
-        // 4. enemy <-> bullet
-        // 5. enemy <-> asteroid
-        // 6. enemy <-> player
-
-    }
-
     private void DestroyAsteroid(Asteroid asteroid)
     {
+        Console.WriteLine("Destroying the asteroid");
         asteroids.Remove(asteroid);
         asteroid.State = ActorState.Destroyed;
         destroyedAsteroids.Add(asteroid);
@@ -88,23 +74,30 @@ public class Game
                 player.activeBullets[i].Position.Y > windowDimensions.Item2)
                 player.DespawnBullet(player.activeBullets[i]);
             else
+            {
                 player.activeBullets[i].Move(deltaTime);
+            }
 
             if (player.activeBullets.Count > 0)
             {
-                // throws out of range inconsistent
-                collidedAsteroidStack = new(asteroids.Where(asteroid => asteroid.CheckCollisions(player.activeBullets[i].Corners)));
+                // Index out of range
+                var collidedAsteroids = asteroids.Where(asteroid => asteroid.CheckCollisions(player.activeBullets[i].Corners));
 
-                while (collidedAsteroidStack.Count > 0)
+
+                if (collidedAsteroids.Count() > 0)
                 {
-                    var destroyedAsteroid = collidedAsteroidStack.Pop();
-                    Console.WriteLine("Asteroid Collided");
+                    collidedAsteroidStack = new();
+                    while (collidedAsteroidStack.Count > 0)
+                    {
+                        var destroyedAsteroid = collidedAsteroidStack.Pop();
+                        Console.WriteLine("Asteroid Collided");
 
-                    player.DespawnBullet(player.activeBullets[i]);
-                    DestroyAsteroid(destroyedAsteroid);
+                        player.DespawnBullet(player.activeBullets[i]);
+                        DestroyAsteroid(destroyedAsteroid);
+
+                    }
                 }
             }
-
         }
 
         if (Input.IsKeyDown(KeyboardKey.Enter) && state != GameState.Paused) state = GameState.Paused;

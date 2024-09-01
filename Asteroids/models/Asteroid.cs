@@ -10,19 +10,18 @@ public class Asteroid
 {
     private float _speed;
     private float _rotationAngle;
-    private IShape _shape;
+    private IShape? _shape;
     private Vector2 _position;
     private Vector2 _heading;
     private Color _color = Color.Brown;
 
     public Vector2 position { get => _position; private set => _position = value; }
     public Vector2 Heading { get => _heading; private set => _heading = value; }
-    public IShape Shape { get => _shape; }
+    public IShape? Shape { get => _shape; }
     public ActorState State { get; set; }
 
     public Asteroid()
     {
-        _shape = new Shapes.Circle(0, Color.Black);
     }
 
     public Asteroid((uint, uint) dimensions, float rotate = 10f, float s = 2)
@@ -39,28 +38,27 @@ public class Asteroid
         _speed = rng.Next(0, 10);
         int shapeRng = rng.Next(0, 4);
 
-        shapeRng = 1;
-
         switch (shapeRng)
         {
             case 0:
-                _shape = new Shapes.Circle(10, _color);
+                _shape = new Shapes.Circle(10, _color, _position);
+                Console.WriteLine("Circle");
                 break;
             case 1:
                 _shape = new Shapes.Square(10, _color);
+                Console.WriteLine("Square");
                 break;
             case 2:
                 _shape = new Shapes.Triangle(new Vector2(10, 5), Vector2.UnitY, _color);
+                Console.WriteLine("Triangle");
                 break;
             case 3:
-                _shape = new Shapes.Rect(new Vector2(10, 5), _color);
+                _shape = new Shapes.Rect(new Vector2(10, 5), _color, _position);
+                Console.WriteLine("Rectangle");
                 break;
         }
 
-        if (_shape is not null)
-            _shape.UpdateShape(_position);
-        else
-            _shape = new Shapes.Circle(0, Color.Black);
+        _shape!.UpdateShape(_position);
 
         _rotationAngle = rotate;
         _speed = s;
@@ -93,14 +91,15 @@ public class Asteroid
 
     public void DrawAsteroid()
     {
-        _shape.DrawShape();
+        _shape?.DrawShape();
     }
 
     public bool CheckCollisions(Vector2[] boundaries)
     {
-        if (_shape.Collision(boundaries))
+        if (_shape!.Collision(boundaries))
         {
             _shape.State = ActorState.Destroyed;
+            Console.WriteLine("AsteroidCollied");
             return true;
         }
 
@@ -112,7 +111,7 @@ public class Asteroid
         var circleAsteroid = new Asteroid()
         {
             _position = Vector2.Zero,
-            _shape = new Circle(5, Color.Brown)
+            _shape = new Circle(5, Color.Brown, Vector2.Zero)
         };
 
         return circleAsteroid;
@@ -134,7 +133,7 @@ public class Asteroid
         var rectangleAsteroid = new Asteroid()
         {
             _position = Vector2.Zero,
-            _shape = new Rect(new Vector2(5f, 5f), Color.Brown)
+            _shape = new Rect(new Vector2(5f, 5f), Color.Brown, Vector2.Zero)
         };
 
         return rectangleAsteroid;
@@ -146,7 +145,7 @@ public class Asteroid
         var triangleAsteroid = new Asteroid()
         {
             _position = Vector2.Zero,
-            _shape = new Circle(5, Color.Brown)
+            _shape = new Triangle(new Vector2(5f, 5f), Vector2.UnitY, Color.Brown)
         };
 
         return triangleAsteroid;

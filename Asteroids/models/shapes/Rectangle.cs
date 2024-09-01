@@ -8,6 +8,7 @@ class Rect : IShape
 {
     private Vector2[] localCoordinates;
     private Vector2[] globalCoordinates;
+    private Vector2 _center;
 
     private Vector2 _bounds;
     private Color _color;
@@ -16,7 +17,7 @@ class Rect : IShape
     public Color ShapeColor { get => _color; private set => _color = value; }
     public ActorState State { get; set; }
 
-    public Rect(Vector2 bounds, Color color)
+    public Rect(Vector2 bounds, Color color, Vector2 pos)
     {
         _bounds = bounds;
         globalCoordinates = new Vector2[4];
@@ -28,6 +29,7 @@ class Rect : IShape
             new Vector2(_bounds.X / 2, _bounds.Y / 2),
         };
         ShapeColor = color;
+        _center = pos;
     }
 
 
