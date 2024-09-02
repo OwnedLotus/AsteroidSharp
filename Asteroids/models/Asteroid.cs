@@ -20,23 +20,25 @@ public class Asteroid
     public Vector2 Heading { get => _heading; private set => _heading = value; }
     public IShape? Shape { get => _shape; }
     public ActorState State { get; set; }
+    public int Scale { get => _scale; }
+    public float Speed { get => _speed; }
 
-    public Asteroid()
-    {
-    }
+    public Asteroid() { }
 
-    public Asteroid((uint, uint) dimensions, int scale, float rotate = 5f, float s = 1.5f)
+    public Asteroid((uint, uint) dimensions, float rotate = 10f)
     {
         Random rng = new();
 
         // !TODO the idea is to use the 0 -> 1 float to scale how far along the axis the astroid is to spawn
         var xScaler = rng.NextSingle();
         var yScaler = rng.NextSingle();
-        _scale = scale;
+        _scale = rng.Next(10, 100);
 
-        _position = new Vector2(dimensions.Item1 / 2, dimensions.Item2 / 2);
+        _rotationAngle = (rotate / _scale);
 
-        _speed = rng.Next(0, 10);
+        _position = new Vector2(dimensions.Item1 * xScaler, dimensions.Item2 * yScaler);
+
+        _speed = rng.Next(1, 10);
         int shapeRng = rng.Next(0, 4);
 
         switch (shapeRng)
@@ -61,10 +63,7 @@ public class Asteroid
 
         _shape!.UpdateShape(_position);
 
-        _rotationAngle = rotate;
-        _speed = s;
-
-        _heading = new Vector2(rng.NextSingle(), rng.NextSingle());
+        _heading = new Vector2(rng.NextSingle() - rng.NextSingle(), rng.NextSingle() - rng.NextSingle());
     }
 
     #region Private Methods
@@ -86,7 +85,6 @@ public class Asteroid
     public void Move(float deltaTime)
     {
         _position += Heading * _speed;
-        Console.WriteLine("Updated Position: " + _position);
         RotateAsteroid();
 
         _shape?.UpdateShape(_position);

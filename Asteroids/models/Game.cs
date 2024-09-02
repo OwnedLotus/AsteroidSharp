@@ -49,7 +49,6 @@ public class Game
     private Task SpawnAnotherAsteroid()
     {
         asteroids.Add(new Asteroid(windowDimensions, 100));
-        Console.WriteLine("Spawning Another Asteroid");
         return Task.CompletedTask;
     }
 
