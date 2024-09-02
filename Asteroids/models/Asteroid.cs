@@ -5,6 +5,13 @@ using AsteroidSharp.Models.Shapes;
 
 namespace AsteroidSharp.Models;
 
+public enum AsteroidState
+{
+    Large,
+    Small,
+    Destroyed
+}
+
 [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
 public class Asteroid
 {
@@ -15,17 +22,17 @@ public class Asteroid
     private Vector2 _heading = -Vector2.UnitY;
     private Color _color = Color.Brown;
     private int _scale;
+    private AsteroidState _asteroidState = AsteroidState.Large;
 
     public Vector2 Position { get => _position; private set => _position = value; }
     public Vector2 Heading { get => _heading; private set => _heading = value; }
     public IShape? Shape { get => _shape; }
-    public ActorState State { get; set; }
     public int Scale { get => _scale; }
     public float Speed { get => _speed; }
 
     public Asteroid() { }
 
-    public Asteroid((uint, uint) dimensions, float rotate = 10f)
+    public Asteroid((uint, uint) dimensions, AsteroidState state = AsteroidState.Large, float rotate = 10f)
     {
         Random rng = new();
 
@@ -45,19 +52,15 @@ public class Asteroid
         {
             case 0:
                 _shape = new Shapes.Circle(_scale, _color);
-                Console.WriteLine("Circle");
                 break;
             case 1:
                 _shape = new Shapes.Square(_scale, _color);
-                Console.WriteLine("Square");
                 break;
             case 2:
                 _shape = new Shapes.Triangle(new Vector2(_scale, _scale / 2), Vector2.UnitY, _color);
-                Console.WriteLine("Triangle");
                 break;
             case 3:
                 _shape = new Shapes.Rect(new Vector2(_scale, _scale / 2), _color);
-                Console.WriteLine("Rectangle");
                 break;
         }
 
@@ -137,6 +140,11 @@ public class Asteroid
         };
 
         return rectangleAsteroid;
+    }
+
+    public void ExplodeAsteroid()
+    {
+
     }
 
     public static Asteroid DebugTriangleAsteroidSpawner()

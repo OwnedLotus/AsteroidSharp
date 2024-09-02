@@ -2,6 +2,7 @@ using System.Numerics;
 
 using AsteroidSharp.Models;
 using Raylib_CSharp.Interact;
+using Raylib_CSharp.Colors;
 using Raylib_CSharp;
 
 public enum GameState
@@ -23,7 +24,7 @@ public class Game
     public GameState state = GameState.Startup;
     private (uint, uint) windowDimensions;
 
-    public uint points { get; private set; } = 0;
+    public float points { get; private set; } = 0;
     public uint numberOfAsteroids { get; private set; }
 
     public Game((uint, uint) dimensions)
@@ -42,13 +43,12 @@ public class Game
     private void DestroyAsteroid(Asteroid asteroid)
     {
         asteroids.Remove(asteroid);
-        asteroid.State = ActorState.Destroyed;
         destroyedAsteroids.Add(asteroid);
     }
 
     private Task SpawnAnotherAsteroid()
     {
-        asteroids.Add(new Asteroid(windowDimensions, 100));
+        asteroids.Add(new Asteroid(windowDimensions));
         return Task.CompletedTask;
     }
 
@@ -80,6 +80,9 @@ public class Game
                 DestroyAsteroid(currentAsteroid);
             else
                 currentAsteroid.Move(deltaTime);
+
+            if (currentAsteroid.CheckCollisions(player.Corners))
+                RunGameOver();
         }
 
 
@@ -103,6 +106,7 @@ public class Game
                 {
                     player.DespawnBullet(player.activeBullets[i]);
                     DestroyAsteroid(collidedAsteroid);
+                    points += MathF.Round(100 * 10 / collidedAsteroid.Scale);
                 }
             }
         }
@@ -113,6 +117,8 @@ public class Game
 
     public void DrawGame()
     {
+        Raylib_CSharp.Rendering.Graphics.DrawText("Points: " + points, (int)windowDimensions.Item1 / 2, 10, 20, Color.White);
+
         player.DrawPlayer();
 
         foreach (var asteroid in asteroids)
@@ -124,6 +130,8 @@ public class Game
     public void RunGameOver()
     {
         timer.Dispose();
+        state = GameState.GameOver;
+
     }
 
     #endregion
