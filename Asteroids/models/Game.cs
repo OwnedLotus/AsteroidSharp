@@ -1,4 +1,5 @@
 using System.Numerics;
+
 using AsteroidSharp.Models;
 using Raylib_CSharp.Interact;
 using Raylib_CSharp;
@@ -13,6 +14,8 @@ public enum GameState
 
 public class Game
 {
+    private static System.Timers.Timer timer = new(1000);
+
     private Player player;
     private List<Asteroid> asteroids;
     private List<Asteroid> destroyedAsteroids;
@@ -29,16 +32,24 @@ public class Game
         player = new Player(new Vector2(windowDimensions.Item1 / 3, windowDimensions.Item2 / 3), new Vector2(0, 0), dimensions);
         asteroids = new();
         destroyedAsteroids = new();
+        timer.Enabled = true;
+        timer.Elapsed += async (sender, e) => await SpawnAnotherAsteroid();
     }
 
     #region Private Methods
 
     private void DestroyAsteroid(Asteroid asteroid)
     {
-        Console.WriteLine("Destroying the asteroid");
         asteroids.Remove(asteroid);
         asteroid.State = ActorState.Destroyed;
         destroyedAsteroids.Add(asteroid);
+    }
+
+    private Task SpawnAnotherAsteroid()
+    {
+        asteroids.Add(new Asteroid(windowDimensions, 100));
+        Console.WriteLine("Spawning Another Asteroid");
+        return Task.CompletedTask;
     }
 
     #endregion
@@ -48,7 +59,6 @@ public class Game
     public void LaunchGame()
     {
         state = GameState.Playing;
-        asteroids.Add(new Asteroid(windowDimensions));
     }
 
     public void UpdateGame()
@@ -78,11 +88,10 @@ public class Game
                 currentBullet.Move(deltaTime);
 
                 // Index out of range
-                var collidedAsteroid = asteroids.SingleOrDefault(asteroids => asteroids.CheckCollisions(currentBullet.Corners));
+                var collidedAsteroid = asteroids.FirstOrDefault(asteroids => asteroids.CheckCollisions(currentBullet.Corners));
 
                 if (collidedAsteroid is not null)
                 {
-                    Console.WriteLine("Asteroid Collided");
                     player.DespawnBullet(player.activeBullets[i]);
                     DestroyAsteroid(collidedAsteroid);
                 }
@@ -91,11 +100,6 @@ public class Game
 
         if (Input.IsKeyDown(KeyboardKey.Enter) && state != GameState.Paused) state = GameState.Paused;
         if (Input.IsKeyDown(KeyboardKey.Enter) && state != GameState.Playing) state = GameState.Playing;
-    }
-
-    public void SpawnAnotherAsteroid()
-    {
-        asteroids.Add(new Asteroid(windowDimensions));
     }
 
     public void DrawGame()
@@ -110,7 +114,7 @@ public class Game
 
     public void RunGameOver()
     {
-        throw new NotImplementedException();
+        timer.Dispose();
     }
 
     #endregion

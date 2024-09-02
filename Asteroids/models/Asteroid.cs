@@ -14,6 +14,7 @@ public class Asteroid
     private Vector2 _position;
     private Vector2 _heading;
     private Color _color = Color.Brown;
+    private int _scale;
 
     public Vector2 position { get => _position; private set => _position = value; }
     public Vector2 Heading { get => _heading; private set => _heading = value; }
@@ -24,13 +25,14 @@ public class Asteroid
     {
     }
 
-    public Asteroid((uint, uint) dimensions, float rotate = 10f, float s = 2)
+    public Asteroid((uint, uint) dimensions, int scale, float rotate = 10f, float s = 2)
     {
         Random rng = new();
 
         // !TODO the idea is to use the 0 -> 1 float to scale how far along the axis the astroid is to spawn
         var xScaler = rng.NextSingle();
         var yScaler = rng.NextSingle();
+        _scale = scale;
 
         _position = new Vector2(dimensions.Item1 / 2, dimensions.Item2 / 2);
         _heading = Vector2.Zero;
@@ -41,19 +43,19 @@ public class Asteroid
         switch (shapeRng)
         {
             case 0:
-                _shape = new Shapes.Circle(10, _color, _position);
+                _shape = new Shapes.Circle(_scale, _color, _position);
                 Console.WriteLine("Circle");
                 break;
             case 1:
-                _shape = new Shapes.Square(10, _color);
+                _shape = new Shapes.Square(_scale, _color);
                 Console.WriteLine("Square");
                 break;
             case 2:
-                _shape = new Shapes.Triangle(new Vector2(10, 5), Vector2.UnitY, _color);
+                _shape = new Shapes.Triangle(new Vector2(_scale, _scale / 2), Vector2.UnitY, _color);
                 Console.WriteLine("Triangle");
                 break;
             case 3:
-                _shape = new Shapes.Rect(new Vector2(10, 5), _color, _position);
+                _shape = new Shapes.Rect(new Vector2(_scale, _scale / 2), _color, _position);
                 Console.WriteLine("Rectangle");
                 break;
         }
@@ -99,7 +101,6 @@ public class Asteroid
         if (_shape!.Collision(boundaries))
         {
             _shape.State = ActorState.Destroyed;
-            Console.WriteLine("AsteroidCollied");
             return true;
         }
 
