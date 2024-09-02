@@ -31,6 +31,8 @@ public class Game
         windowDimensions = dimensions;
         player = new Player(new Vector2(windowDimensions.Item1 / 3, windowDimensions.Item2 / 3), new Vector2(0, 0), dimensions);
         asteroids = new();
+
+        // handles the spawning of asteroids
         timer.Enabled = true;
         timer.Elapsed += async (sender, e) => await SpawnAnotherAsteroid();
     }
@@ -47,6 +49,8 @@ public class Game
         var attemptedAsteroidSpawn = new Asteroid(windowDimensions);
 
         asteroids.Add(attemptedAsteroidSpawn);
+
+        // check proximity to player as to not spawn on top of the player
         if (Math.Abs(attemptedAsteroidSpawn.Position.X - player.Position.X) < attemptedAsteroidSpawn.Scale ||
                 Math.Abs(attemptedAsteroidSpawn.Position.Y - player.Position.Y) < attemptedAsteroidSpawn.Scale)
             DestroyAsteroid(attemptedAsteroidSpawn);
@@ -84,6 +88,7 @@ public class Game
             else
                 currentAsteroid.Move(deltaTime);
 
+            // check collisions on player and asteroids
             if (currentAsteroid.CheckCollisions(player.Corners))
                 RunGameOver();
         }
@@ -102,7 +107,6 @@ public class Game
             {
                 currentBullet.Move(deltaTime);
 
-                // Index out of range
                 var collidedAsteroid = asteroids.FirstOrDefault(asteroids => asteroids.CheckCollisions(currentBullet.Corners));
 
                 if (collidedAsteroid is not null)
@@ -114,6 +118,7 @@ public class Game
             }
         }
 
+        // first attempt to add pausing to the game
         if (Input.IsKeyDown(KeyboardKey.Enter) && state != GameState.Paused) state = GameState.Paused;
         if (Input.IsKeyDown(KeyboardKey.Enter) && state != GameState.Playing) state = GameState.Playing;
     }
