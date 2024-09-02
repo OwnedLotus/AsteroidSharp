@@ -34,6 +34,7 @@ public class Game
         destroyedAsteroids = new();
         timer.Enabled = true;
         timer.Elapsed += async (sender, e) => await SpawnAnotherAsteroid();
+        //asteroids.Add(new Asteroid(windowDimensions, 100));
     }
 
     #region Private Methods

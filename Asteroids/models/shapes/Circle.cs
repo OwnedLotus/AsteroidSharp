@@ -14,11 +14,10 @@ class Circle : IShape
     public Vector2[] Corners { get => [Vector2.Zero]; }
     public ActorState State { get; set; }
 
-    public Circle(int bound, Color color, Vector2 pos)
+    public Circle(int bound, Color color)
     {
         _bound = bound;
         _color = color;
-        _position = pos;
     }
 
     public Vector2 RotateShape(Vector2 pos, float rotateSpeed)
@@ -29,7 +28,8 @@ class Circle : IShape
 
     public Vector2 UpdateShape(Vector2 pos)
     {
-        _position += pos;
+        _position = pos;
+        //Console.WriteLine($"Circle CurrPos: x {_position.X} y {_position.Y}");
         return Vector2.Normalize(_position);
     }
 

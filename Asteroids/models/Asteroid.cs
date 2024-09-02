@@ -12,7 +12,7 @@ public class Asteroid
     private float _rotationAngle;
     private IShape? _shape;
     private Vector2 _position;
-    private Vector2 _heading;
+    private Vector2 _heading = -Vector2.UnitY;
     private Color _color = Color.Brown;
     private int _scale;
 
@@ -25,7 +25,7 @@ public class Asteroid
     {
     }
 
-    public Asteroid((uint, uint) dimensions, int scale, float rotate = 10f, float s = 2)
+    public Asteroid((uint, uint) dimensions, int scale, float rotate = 5f, float s = 1.5f)
     {
         Random rng = new();
 
@@ -35,7 +35,6 @@ public class Asteroid
         _scale = scale;
 
         _position = new Vector2(dimensions.Item1 / 2, dimensions.Item2 / 2);
-        _heading = Vector2.Zero;
 
         _speed = rng.Next(0, 10);
         int shapeRng = rng.Next(0, 4);
@@ -43,7 +42,7 @@ public class Asteroid
         switch (shapeRng)
         {
             case 0:
-                _shape = new Shapes.Circle(_scale, _color, _position);
+                _shape = new Shapes.Circle(_scale, _color);
                 Console.WriteLine("Circle");
                 break;
             case 1:
@@ -55,7 +54,7 @@ public class Asteroid
                 Console.WriteLine("Triangle");
                 break;
             case 3:
-                _shape = new Shapes.Rect(new Vector2(_scale, _scale / 2), _color, _position);
+                _shape = new Shapes.Rect(new Vector2(_scale, _scale / 2), _color);
                 Console.WriteLine("Rectangle");
                 break;
         }
@@ -64,6 +63,8 @@ public class Asteroid
 
         _rotationAngle = rotate;
         _speed = s;
+
+        _heading = new Vector2(rng.NextSingle(), rng.NextSingle());
     }
 
     #region Private Methods
@@ -84,11 +85,11 @@ public class Asteroid
 
     public void Move(float deltaTime)
     {
-        _position += Heading * _speed * deltaTime;
+        _position += Heading * _speed;
+        Console.WriteLine("Updated Position: " + _position);
         RotateAsteroid();
 
-        if (_shape is not null)
-            _shape.UpdateShape(_position);
+        _shape?.UpdateShape(_position);
     }
 
     public void DrawAsteroid()
@@ -112,7 +113,7 @@ public class Asteroid
         var circleAsteroid = new Asteroid()
         {
             _position = Vector2.Zero,
-            _shape = new Circle(5, Color.Brown, Vector2.Zero)
+            _shape = new Circle(5, Color.Brown)
         };
 
         return circleAsteroid;
@@ -134,7 +135,7 @@ public class Asteroid
         var rectangleAsteroid = new Asteroid()
         {
             _position = Vector2.Zero,
-            _shape = new Rect(new Vector2(5f, 5f), Color.Brown, Vector2.Zero)
+            _shape = new Rect(new Vector2(5f, 5f), Color.Brown)
         };
 
         return rectangleAsteroid;
