@@ -70,10 +70,19 @@ public class Game
         player.UpdatePlayer(deltaTime);
 
         // move all Asteroids
-        foreach (var asteroid in asteroids)
+        for (int i = 0; i < asteroids.Count; i++)
         {
-            asteroid.Move(deltaTime);
+            var currentAsteroid = asteroids[i];
+
+            if (currentAsteroid.Position.X < 0 ||
+                currentAsteroid.Position.Y < 0 ||
+                currentAsteroid.Position.X > windowDimensions.Item1 ||
+                currentAsteroid.Position.Y > windowDimensions.Item2)
+                DestroyAsteroid(currentAsteroid);
+            else
+                currentAsteroid.Move(deltaTime);
         }
+
 
         for (int i = 0; i < player.activeBullets.Count; i++)
         {

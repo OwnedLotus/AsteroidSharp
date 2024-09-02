@@ -16,7 +16,7 @@ public class Asteroid
     private Color _color = Color.Brown;
     private int _scale;
 
-    public Vector2 position { get => _position; private set => _position = value; }
+    public Vector2 Position { get => _position; private set => _position = value; }
     public Vector2 Heading { get => _heading; private set => _heading = value; }
     public IShape? Shape { get => _shape; }
     public ActorState State { get; set; }
