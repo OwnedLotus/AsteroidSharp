@@ -3,6 +3,7 @@ using System.Numerics;
 using AsteroidSharp.Models;
 using Raylib_CSharp.Interact;
 using Raylib_CSharp.Colors;
+using Raylib_CSharp.Rendering;
 using Raylib_CSharp;
 
 public enum GameState
@@ -125,7 +126,7 @@ public class Game
 
     public void DrawGame()
     {
-        Raylib_CSharp.Rendering.Graphics.DrawText("Points: " + points, (int)windowDimensions.Item1 / 2, 10, 20, Color.White);
+        DrawPoints();
 
         player.DrawPlayer();
 
@@ -133,6 +134,11 @@ public class Game
         {
             asteroid.DrawAsteroid();
         }
+    }
+
+    public void DrawPoints()
+    {
+        Graphics.DrawText("Points: " + points, (int)windowDimensions.Item1 / 2, 10, 20, Color.White);
     }
 
     public void RunGameOver()
