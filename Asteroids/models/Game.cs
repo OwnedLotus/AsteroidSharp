@@ -19,7 +19,6 @@ public class Game
 
     private Player player;
     private List<Asteroid> asteroids;
-    private List<Asteroid> destroyedAsteroids;
 
     public GameState state = GameState.Startup;
     private (uint, uint) windowDimensions;
@@ -32,10 +31,8 @@ public class Game
         windowDimensions = dimensions;
         player = new Player(new Vector2(windowDimensions.Item1 / 3, windowDimensions.Item2 / 3), new Vector2(0, 0), dimensions);
         asteroids = new();
-        destroyedAsteroids = new();
         timer.Enabled = true;
         timer.Elapsed += async (sender, e) => await SpawnAnotherAsteroid();
-        //asteroids.Add(new Asteroid(windowDimensions, 100));
     }
 
     #region Private Methods
@@ -43,12 +40,18 @@ public class Game
     private void DestroyAsteroid(Asteroid asteroid)
     {
         asteroids.Remove(asteroid);
-        destroyedAsteroids.Add(asteroid);
     }
 
     private Task SpawnAnotherAsteroid()
     {
-        asteroids.Add(new Asteroid(windowDimensions));
+        var attemptedAsteroidSpawn = new Asteroid(windowDimensions);
+
+        asteroids.Add(attemptedAsteroidSpawn);
+        if (Math.Abs(attemptedAsteroidSpawn.Position.X - player.Position.X) < attemptedAsteroidSpawn.Scale ||
+                Math.Abs(attemptedAsteroidSpawn.Position.Y - player.Position.Y) < attemptedAsteroidSpawn.Scale)
+            DestroyAsteroid(attemptedAsteroidSpawn);
+
+
         return Task.CompletedTask;
     }
 
