@@ -22,7 +22,6 @@ public class Game
 
     public uint points { get; private set; } = 0;
     public uint numberOfAsteroids { get; private set; }
-    private Stack<Asteroid>? collidedAsteroidStack;
 
     public Game((uint, uint) dimensions)
     {
@@ -63,39 +62,29 @@ public class Game
         foreach (var asteroid in asteroids)
         {
             asteroid.Move(deltaTime);
-
         }
 
         for (int i = 0; i < player.activeBullets.Count; i++)
         {
-            if (player.activeBullets[i].Position.X < 0 ||
-                player.activeBullets[i].Position.Y < 0 ||
-                player.activeBullets[i].Position.X > windowDimensions.Item1 ||
-                player.activeBullets[i].Position.Y > windowDimensions.Item2)
+            var currentBullet = player.activeBullets[i];
+
+            if (currentBullet.Position.X < 0 ||
+                currentBullet.Position.Y < 0 ||
+                currentBullet.Position.X > windowDimensions.Item1 ||
+                currentBullet.Position.Y > windowDimensions.Item2)
                 player.DespawnBullet(player.activeBullets[i]);
             else
             {
-                player.activeBullets[i].Move(deltaTime);
-            }
+                currentBullet.Move(deltaTime);
 
-            if (player.activeBullets.Count > 0)
-            {
                 // Index out of range
-                var collidedAsteroids = asteroids.Where(asteroid => asteroid.CheckCollisions(player.activeBullets[i].Corners));
+                var collidedAsteroid = asteroids.SingleOrDefault(asteroids => asteroids.CheckCollisions(currentBullet.Corners));
 
-
-                if (collidedAsteroids.Count() > 0)
+                if (collidedAsteroid is not null)
                 {
-                    collidedAsteroidStack = new();
-                    while (collidedAsteroidStack.Count > 0)
-                    {
-                        var destroyedAsteroid = collidedAsteroidStack.Pop();
-                        Console.WriteLine("Asteroid Collided");
-
-                        player.DespawnBullet(player.activeBullets[i]);
-                        DestroyAsteroid(destroyedAsteroid);
-
-                    }
+                    Console.WriteLine("Asteroid Collided");
+                    player.DespawnBullet(player.activeBullets[i]);
+                    DestroyAsteroid(collidedAsteroid);
                 }
             }
         }
