@@ -21,6 +21,7 @@ class Player
     private Triangle _shape;
     private (uint, uint) windowDimensions;
     private float coefficientOfFriction;
+    private ushort lives = 4;
 
     public Vector2[] Corners { get => _shape.Corners; }
     public float RotationAngle { get; private set; }
@@ -31,8 +32,9 @@ class Player
     public Vector2 Position { get => _position; }
     public Vector2 Heading { get => _heading; private set => _heading = Vector2.Normalize(value); }
     public ActorState State { get => _shape.State; }
+    public ushort Lives { get => lives; set => lives = value; }
 
-    public Player(Vector2 pos, Vector2 vel, (uint, uint) dimensions, float cof = 1, float s = 2, float r = 5, float m = 1)
+    public Player(Vector2 pos, Vector2 vel, (uint, uint) dimensions, float cof = 1f, float s = 250, float r = 5, float m = 10)
     {
         _position = pos;
         RotationAngle = r;
@@ -45,7 +47,6 @@ class Player
         _heading = -Vector2.UnitY;
         windowDimensions = dimensions;
         _shape.State = ActorState.Active;
-
     }
 
     #region Private Methods
@@ -61,7 +62,6 @@ class Player
 
         if (success && bullet is not null)
         {
-
             bullet.SpawnLocation(_position, _heading);
             activeBullets.Add(bullet);
         }
@@ -93,18 +93,20 @@ class Player
     public void UpdatePlayer(float deltaTime)
     {
         _heading = _shape.UpdateShape(_position);
-        var newPos = _position + _heading * Speed;
+        Console.WriteLine("Heading: ", _heading);
 
         if (Input.IsKeyDown(KeyboardKey.W))
         {
-            _position = newPos;
+            _position += _heading * Speed * deltaTime;
             _momentum = Speed;
-        }
-
-        
+            Console.WriteLine($"Moving Forward. Position: {_position}, Momentum {_momentum}");
+        } 
+        else
         {
-            // outside the borders of the game
-            
+            _momentum -= coefficientOfFriction * _momentum * deltaTime;
+            if (_momentum < 0) _momentum = 0;
+            _position += _heading * _momentum * deltaTime;
+            Console.WriteLine($"Applying Friction. Position: {_position}, Momentum: {_momentum}");
         }
 
         // rotation

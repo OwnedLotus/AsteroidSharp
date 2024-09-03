@@ -30,10 +30,13 @@ public class Asteroid
     public IShape? Shape { get => _shape; }
     public int Scale { get => _scale; }
     public float Speed { get => _speed; }
+    public AsteroidState State { get => _asteroidState; }
 
     public Asteroid() { }
 
-    public Asteroid((uint, uint) dimensions, AsteroidState state = AsteroidState.Large, float rotate = 10f)
+    // intended to be called when breaking apart a large asteroid
+
+    public Asteroid((uint, uint) dimensions, Vector2 pos, float rotate = 10f)
     {
         Random rng = new();
 
@@ -42,26 +45,37 @@ public class Asteroid
         var yScaler = rng.NextSingle();
         _scale = rng.Next(10, 100);
 
-        _rotationAngle = (rotate / _scale);
-
-        _position = new Vector2(dimensions.Item1 * xScaler, dimensions.Item2 * yScaler);
-
+        _rotationAngle = rotate / _scale;
         _speed = rng.Next(1, 10);
+
+        if (pos == Vector2.Zero)
+        {
+            _position = new Vector2(dimensions.Item1 * xScaler, dimensions.Item2 * yScaler);
+            _asteroidState = AsteroidState.Large;
+        }
+        else
+        {
+            _position = pos;
+            _asteroidState = AsteroidState.Small;
+            _scale /= 2;
+            _speed *= 2;
+        }
+
         int shapeRng = rng.Next(0, 4);
 
         switch (shapeRng)
         {
             case 0:
-                _shape = new Shapes.Circle(_scale, _color);
+                _shape = new Circle(_scale, _color);
                 break;
             case 1:
-                _shape = new Shapes.Square(_scale, _color);
+                _shape = new Square(_scale, _color);
                 break;
             case 2:
-                _shape = new Shapes.Triangle(new Vector2(_scale, _scale / 2), Vector2.UnitY, _color);
+                _shape = new Triangle(new Vector2(_scale, _scale / 2), Vector2.UnitY, _color);
                 break;
             case 3:
-                _shape = new Shapes.Rect(new Vector2(_scale, _scale / 2), _color);
+                _shape = new Rect(new Vector2(_scale, _scale / 2), _color);
                 break;
         }
 

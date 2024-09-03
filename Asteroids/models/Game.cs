@@ -30,12 +30,12 @@ public class Game
     public Game((uint, uint) dimensions)
     {
         windowDimensions = dimensions;
-        player = new Player(new Vector2(windowDimensions.Item1 / 3, windowDimensions.Item2 / 3), new Vector2(0, 0), dimensions);
-        asteroids = new();
+        player = new Player(new Vector2(windowDimensions.Item1 / 3, windowDimensions.Item2 / 3), Vector2.Zero, dimensions);
+        asteroids = new List<Asteroid>();
 
         // handles the spawning of asteroids
         timer.Enabled = true;
-        timer.Elapsed += async (sender, e) => await SpawnAnotherAsteroid();
+        timer.Elapsed += async (sender, e) => await SpawnAnotherAsteroid(Vector2.Zero);
     }
 
     #region Private Methods
@@ -45,17 +45,15 @@ public class Game
         asteroids.Remove(asteroid);
     }
 
-    private Task SpawnAnotherAsteroid()
+    private Task SpawnAnotherAsteroid(Vector2 position)
     {
-        var attemptedAsteroidSpawn = new Asteroid(windowDimensions);
-
+        var attemptedAsteroidSpawn = new Asteroid(windowDimensions, position);
         asteroids.Add(attemptedAsteroidSpawn);
 
         // check proximity to player as to not spawn on top of the player
         if (Math.Abs(attemptedAsteroidSpawn.Position.X - player.Position.X) < attemptedAsteroidSpawn.Scale ||
                 Math.Abs(attemptedAsteroidSpawn.Position.Y - player.Position.Y) < attemptedAsteroidSpawn.Scale)
             DestroyAsteroid(attemptedAsteroidSpawn);
-
 
         return Task.CompletedTask;
     }
@@ -73,7 +71,6 @@ public class Game
     {
         float deltaTime = Time.GetFrameTime();
 
-        // move Player
         player.UpdatePlayer(deltaTime);
 
         // move all Asteroids
@@ -91,7 +88,16 @@ public class Game
 
             // check collisions on player and asteroids
             if (currentAsteroid.CheckCollisions(player.Corners))
+            {
                 RunGameOver();
+
+                // Runs Game over
+                if (player.Lives == 0)
+                {
+                    timer.Dispose();
+                    state = GameState.GameOver;
+                }
+            }
         }
 
 
@@ -103,18 +109,25 @@ public class Game
                 currentBullet.Position.Y < 0 ||
                 currentBullet.Position.X > windowDimensions.Item1 ||
                 currentBullet.Position.Y > windowDimensions.Item2)
-                player.DespawnBullet(player.activeBullets[i]);
+                player.DespawnBullet(currentBullet);
             else
             {
                 currentBullet.Move(deltaTime);
-
                 var collidedAsteroid = asteroids.FirstOrDefault(asteroids => asteroids.CheckCollisions(currentBullet.Corners));
 
                 if (collidedAsteroid is not null)
                 {
-                    player.DespawnBullet(player.activeBullets[i]);
+                    player.DespawnBullet(currentBullet);
+                    
+                    if (collidedAsteroid.State == AsteroidState.Large)
+                    {
+                        SpawnAnotherAsteroid(collidedAsteroid.Position);
+                        SpawnAnotherAsteroid(collidedAsteroid.Position);
+                    }
+                    
+                    points += MathF.Round(100 * collidedAsteroid.Speed * 10 / collidedAsteroid.Scale);
+
                     DestroyAsteroid(collidedAsteroid);
-                    points += MathF.Round(100 * 10 / collidedAsteroid.Scale);
                 }
             }
         }
@@ -127,6 +140,7 @@ public class Game
     public void DrawGame()
     {
         DrawPoints();
+        DrawLives();
 
         player.DrawPlayer();
 
@@ -136,15 +150,43 @@ public class Game
         }
     }
 
-    public void DrawPoints()
+    private void DrawLives()
     {
-        Graphics.DrawText("Points: " + points, (int)windowDimensions.Item1 / 2, 10, 20, Color.White);
+
+    }
+
+    public void StartMenu()
+    {
+        DrawStartMenu();
+    }
+
+    private void DrawStartMenu()
+    {
+
+    }
+
+    public void PauseMenu()
+    {
+        DrawPauseMenu();
+    }
+
+    private void DrawPauseMenu()
+    {
+
+    }
+
+    private void DrawPoints()
+    {
+        Graphics.DrawText("Points: " + points, 0, 10, 20, Color.White);
     }
 
     public void RunGameOver()
     {
-        timer.Dispose();
-        state = GameState.GameOver;
+        DrawGameOverMenu();
+    }
+
+    private void DrawGameOverMenu()
+    {
 
     }
 
