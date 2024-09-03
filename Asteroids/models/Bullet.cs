@@ -1,5 +1,6 @@
-using AsteroidSharp.Models.Shapes;
 using System.Numerics;
+
+using AsteroidSharp.Models.Shapes;
 using Raylib_CSharp.Colors;
 
 namespace AsteroidSharp.Models;

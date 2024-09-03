@@ -1,4 +1,5 @@
 using System.Numerics;
+
 using AsteroidSharp.Models;
 
 namespace AstroidTests;
@@ -10,7 +11,7 @@ public class CollisionTests
     {
         Asteroid asteroid =  Asteroid.DebugCircleAsteroidSpawner();
 
-        Vector2[] vectors =[ Vector2.Zero ];
+        Vector2[] vectors = [ Vector2.Zero ];
         asteroid.Move(1f);
 
         Assert.True(asteroid.CheckCollisions(vectors), "Circle Collision failed");

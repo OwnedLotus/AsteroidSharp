@@ -1,4 +1,5 @@
 using System.Diagnostics;
+
 using Raylib_CSharp.Colors;
 using System.Numerics;
 using AsteroidSharp.Models.Shapes;

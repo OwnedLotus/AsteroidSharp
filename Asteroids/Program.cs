@@ -7,7 +7,7 @@ Time.SetTargetFPS(60);
 
 (uint, uint) windowDimensions = (800, 480);
 
-Window.Init((int)windowDimensions.Item1, (int)windowDimensions.Item2, "AsteroidSharp");
+Window.Init((int)windowDimensions.Item1, (int)windowDimensions.Item2, "Asteroids");
 
 var game = new Game(windowDimensions);
 
@@ -26,6 +26,7 @@ while (!Window.ShouldClose())
         case GameState.GameOver:
             game.RunGameOver();
             break;
+            
         case GameState.Paused:
             break;
     }
