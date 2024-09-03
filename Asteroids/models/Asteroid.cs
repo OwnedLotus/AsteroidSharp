@@ -36,7 +36,7 @@ public class Asteroid
 
     // intended to be called when breaking apart a large asteroid
 
-    public Asteroid((uint, uint) dimensions, Vector2 pos, float rotate = 10f)
+    public Asteroid((int, int) dimensions, Vector2 pos, float rotate = 10f)
     {
         Random rng = new();
 

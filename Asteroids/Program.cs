@@ -5,9 +5,9 @@ using Raylib_CSharp;
 
 Time.SetTargetFPS(60);
 
-(uint, uint) windowDimensions = (800, 480);
+(int, int) windowDimensions = (800, 480);
 
-Window.Init((int)windowDimensions.Item1, (int)windowDimensions.Item2, "Asteroids");
+Window.Init(windowDimensions.Item1, windowDimensions.Item2, "Asteroids");
 
 var game = new Game(windowDimensions);
 

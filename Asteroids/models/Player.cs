@@ -19,7 +19,7 @@ class Player
     private Queue<Bullet> bullets;
     private uint numberOfBullets = 20;
     private Triangle _shape;
-    private (uint, uint) windowDimensions;
+    private (int, int) windowDimensions;
     private float coefficientOfFriction;
     private ushort lives = 4;
 
@@ -34,7 +34,7 @@ class Player
     public ActorState State { get => _shape.State; }
     public ushort Lives { get => lives; set => lives = value; }
 
-    public Player(Vector2 pos, Vector2 vel, (uint, uint) dimensions, float cof = 1f, float s = 250, float r = 5, float m = 10)
+    public Player(Vector2 pos, Vector2 vel, (int, int) dimensions, float cof = 1f, float s = 250, float r = 5, float m = 10)
     {
         _position = pos;
         RotationAngle = r;

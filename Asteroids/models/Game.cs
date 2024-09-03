@@ -22,12 +22,12 @@ public class Game
     private List<Asteroid> asteroids;
 
     public GameState state = GameState.Startup;
-    private (uint, uint) windowDimensions;
+    private (int, int) windowDimensions;
 
     public float points { get; private set; } = 0;
     public uint numberOfAsteroids { get; private set; }
 
-    public Game((uint, uint) dimensions)
+    public Game((int, int) dimensions)
     {
         windowDimensions = dimensions;
         player = new Player(new Vector2(windowDimensions.Item1 / 3, windowDimensions.Item2 / 3), Vector2.Zero, dimensions);
