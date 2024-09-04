@@ -111,8 +111,19 @@ public class Game
     private void DrawPauseMenu()
     {
         // Still showing the game with no game ticks
-        DrawGamePlaying();
+        DrawGamePlaying(false);
 
+        string info = $"Total Points: {points}";
+        string cont = "Continue? (Press Enter)";
+        string q = "Quit? (Press Q)";
+
+        int x_info_pos = windowDimensions.Item1 / 2 - info.Length * 6;
+        int x_cont_pos = windowDimensions.Item1 / 2 - cont.Length * 6;
+        int x_q_pos = windowDimensions.Item1 / 2 - q.Length * 8;
+
+        Graphics.DrawText(info, x_info_pos, windowDimensions.Item2 / 3, 20, Color.White );
+        Graphics.DrawText(cont, x_cont_pos, windowDimensions.Item2 / 3, 20, Color.White );
+        Graphics.DrawText(q, x_q_pos, windowDimensions.Item2 / 3, 20, Color.White );
     }
     
     private void DrawPoints()
@@ -123,8 +134,15 @@ public class Game
     private void DrawGameOverMenu()
     {
         // Still showing the game with no game ticks
-        DrawGamePlaying();
+        DrawGamePlaying(false);
         
+        string gameOverText = "Game Over!";
+        string playAgainText = "Play Again? (Press Enter)";
+        string quitText = "Quit Game? (Press Q)";
+
+        int x_gameOver_pos = (windowDimensions.Item1 / 2) - gameOverText.Length * 6;
+        int x_playAgain_pos = (windowDimensions.Item1 / 2) - playAgainText.Length * 4;
+        int x_quit_pos = (windowDimensions.Item1 / 2) - quitText.Length * 4;
     }
 
     #endregion
@@ -244,9 +262,10 @@ public class Game
         }
     }
 
-    private void DrawGamePlaying()
+    private void DrawGamePlaying(bool showPoints = true)
     {
-        DrawPoints();
+        if (showPoints)
+            DrawPoints();
         DrawLives();
 
         player.DrawPlayer();
