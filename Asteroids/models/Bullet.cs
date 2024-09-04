@@ -26,9 +26,8 @@ class Bullet(Vector2 pos, Vector2 heading, Color color, float speed, bool fromPl
     {
         _position += _heading * _bulletspeed;
         _shape.UpdateShape(_position);
-        DebugPrinter();
     }
-    
+
     public void SpawnLocation(Vector2 pos, Vector2 heading)
     {
         _position = pos;
@@ -45,7 +44,7 @@ class Bullet(Vector2 pos, Vector2 heading, Color color, float speed, bool fromPl
     {
 
         string output = "Bullet Position List: ";
-        foreach(var coord in this._shape.Corners)
+        foreach (var coord in this._shape.Corners)
         {
             output += coord.ToString() + ", ";
         }
