@@ -8,4 +8,4 @@ The game is nearing completion with the implementation of collision, lives, shoo
 The last changes I need to implement menus to the game.
 
 </br>
-To build the game, clone the project, change directory to the Asteroids folder, build the project from that folder. Download the dotnet cli from microsoft or uilize Visual Studio (Code) to build this project. During development, I have been working on this on both linux and windows.
+To build the game, clone the project, change directory to the Asteroids folder, build the project from that folder. Download the dotnet cli from microsoft or utilize Visual Studio (Code) to build this project. During development, I have been working on this on both linux and windows.
