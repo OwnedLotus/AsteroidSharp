@@ -33,34 +33,16 @@ class BulletShape : IShape
     // bullets are not supposed to rotate in midair
     public Vector2 RotateShape(Vector2 pos, float rotateSpeed)
     {
-        // float thetaRadians = MathF.PI * rotateSpeed / 180;
-
-        // var newCoords = new Vector2[3];
-
-        // // runs the formula of rotation for every coordinate in the shape
-        // for (int i = 0; i < localCoordinates.Length; i++)
-        // {
-        //     newCoords[i] = new Vector2(
-        //         localCoordinates[i].X * MathF.Cos(thetaRadians) - localCoordinates[i].Y * MathF.Sin(thetaRadians),
-        //         localCoordinates[i].X * MathF.Sin(thetaRadians) + localCoordinates[i].Y * MathF.Cos(thetaRadians)
-        //         );
-        // }
-
-        // localCoordinates = newCoords;
-
-        // //updated heading
         return Vector2.Normalize(localCoordinates[0]);
     }
 
-
     // Good point to introduce unit testing
-    public Vector2 UpdateShape(Vector2 pos) 
+    public Vector2 UpdateShape(Vector2 pos)
     {
         for (int i = bulletSize - 1; i >= 1; i--)
         {
             globalCoordinates[i] = globalCoordinates[i - 1];
         }
-
 
         return globalCoordinates[0] = pos;
     }
@@ -77,6 +59,4 @@ class BulletShape : IShape
     {
         throw new NotImplementedException();
     }
-
-
 }
