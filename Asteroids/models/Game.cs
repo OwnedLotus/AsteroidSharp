@@ -6,6 +6,7 @@ using Raylib_CSharp.Interact;
 using Raylib_CSharp.Colors;
 using Raylib_CSharp.Rendering;
 using Raylib_CSharp;
+using System.ComponentModel.Design;
 
 public enum GameState
 {
@@ -19,6 +20,7 @@ public class Game
 {
     private static System.Timers.Timer asteroidSpawnTimer = new(1000);
     private static System.Timers.Timer playerShootLockoutTimer = new(500);
+
     private List<Triangle> lives = new()
     {
         new Triangle(new Vector2(6, 4), Vector2.UnitY, Color.White),
@@ -26,7 +28,6 @@ public class Game
         new Triangle(new Vector2(6, 4), Vector2.UnitY, Color.White),
         new Triangle(new Vector2(6, 4), Vector2.UnitY, Color.White),
     };
-
     private Player player;
     private List<Asteroid> asteroids;
 
@@ -44,15 +45,13 @@ public class Game
 
         for (int i = 0; i < lives.Count(); i++)
         {
-            lives[i].UpdateShape(new Vector2(10 * i + 5, 40));
+            lives[i].UpdateShape(new Vector2(10 * i + 10, 40));
         }
 
         // handles the spawning of asteroids
-        asteroidSpawnTimer.Enabled = true;
         asteroidSpawnTimer.Elapsed += async (sender, e) => await SpawnAnotherAsteroid(Vector2.Zero);
 
         // handles the shooting of the player
-        playerShootLockoutTimer.Enabled = true;
         playerShootLockoutTimer.Elapsed += async (sender, e) => await player.EnableShooting();
     }
 
@@ -75,15 +74,73 @@ public class Game
 
         return Task.CompletedTask;
     }
+    
+    private void LaunchGame()
+    {
+        state = GameState.Playing;
+        asteroidSpawnTimer.Enabled = true;
+        playerShootLockoutTimer.Enabled = true;
+    }
+
+    private void DrawLives()
+    {
+        foreach (var life in lives)
+        {
+            life.DrawShape();
+        }
+    }
+
+    private void DrawStartMenu()
+    {
+        string title = "Asteroids";
+        string startText = "Start Playing? (Press Enter to Begin)";
+        string quitText = "Quit? (Press Q to Quit)";
+
+        int x_title_pos = (windowDimensions.Item1 / 2) - title.Length * 13;
+        // Console.WriteLine(x_title_pos);
+        int x_start_pos =  (windowDimensions.Item1 / 2) - startText.Length * 5;
+        int x_quit_pos = (windowDimensions.Item1 / 2) - quitText.Length * 6;
+
+
+        // Menu showing but no game showing
+        Graphics.DrawText(title, x_title_pos , windowDimensions.Item2 / 3, 40, Color.White );
+        Graphics.DrawText(startText, x_start_pos ,windowDimensions.Item2 /2, 20, Color.White);
+        Graphics.DrawText(quitText, x_quit_pos, windowDimensions.Item2 * 2/3, 20, Color.White);
+    }
+
+    private void DrawPauseMenu()
+    {
+        // Still showing the game with no game ticks
+        DrawGamePlaying();
+
+    }
+    
+    private void DrawPoints()
+    {
+        Graphics.DrawText("Points: " + points, 0, 10, 20, Color.White);
+    }
+
+    private void DrawGameOverMenu()
+    {
+        // Still showing the game with no game ticks
+        DrawGamePlaying();
+        
+    }
 
     #endregion
 
     #region Public Methods
 
-    public void LaunchGame()
+    public void StartGame()
     {
-        state = GameState.Playing;
+        if(Input.IsKeyPressed(KeyboardKey.Enter))
+        {
+            LaunchGame();
+        }
+
+        QueryQuitGame();
     }
+
 
     public void UpdateGame()
     {
@@ -170,6 +227,25 @@ public class Game
 
     public void DrawGame()
     {
+        switch (state)
+        {
+            case GameState.Startup:
+                DrawStartMenu();
+                break;
+            case GameState.Playing:
+                DrawGamePlaying();
+                break;
+            case GameState.Paused:
+                DrawPauseMenu();
+                break;
+            case GameState.GameOver:
+                DrawGameOverMenu();
+                break;
+        }
+    }
+
+    private void DrawGamePlaying()
+    {
         DrawPoints();
         DrawLives();
 
@@ -180,50 +256,27 @@ public class Game
             asteroid.DrawAsteroid();
         }
     }
-
-    private void DrawLives()
-    {
-        foreach (var life in lives)
-        {
-            life.DrawShape();
-        }
-    }
-
-    public void StartMenu()
-    {
-        DrawStartMenu();
-    }
-
-    private void DrawStartMenu()
-    {
-
-    }
-
+    
     public void PauseMenu()
     {
-        DrawPauseMenu();
     }
 
-    private void DrawPauseMenu()
-    {
-
-    }
-
-    private void DrawPoints()
-    {
-        Graphics.DrawText("Points: " + points, 0, 10, 20, Color.White);
-    }
+    
 
     public void RunGameOver()
     {
-        DrawGameOverMenu();
     }
 
-    private void DrawGameOverMenu()
-    {
 
-    }
 
     #endregion
 
+
+    private void QueryQuitGame()
+    {
+        if(Input.IsKeyPressed(KeyboardKey.Q))
+        {
+            Environment.Exit(0);
+        }
+    }
 }

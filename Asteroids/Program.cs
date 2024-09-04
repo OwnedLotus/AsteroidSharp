@@ -16,7 +16,7 @@ while (!Window.ShouldClose())
     switch (game.state)
     {
         case GameState.Startup:
-            game.LaunchGame();
+            game.StartGame();
             break;
 
         case GameState.Playing:
@@ -28,6 +28,7 @@ while (!Window.ShouldClose())
             break;
             
         case GameState.Paused:
+            game.PauseMenu();
             break;
     }
 
