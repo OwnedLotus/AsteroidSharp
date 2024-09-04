@@ -17,7 +17,8 @@ public enum GameState
 
 public class Game
 {
-    private static System.Timers.Timer timer = new(1000);
+    private static System.Timers.Timer asteroidSpawnTimer = new(1000);
+    private static System.Timers.Timer playerShootLockoutTimer = new(500);
     private List<Triangle> lives = new()
     {
         new Triangle(new Vector2(6, 4), Vector2.UnitY, Color.White),
@@ -47,8 +48,12 @@ public class Game
         }
 
         // handles the spawning of asteroids
-        timer.Enabled = true;
-        timer.Elapsed += async (sender, e) => await SpawnAnotherAsteroid(Vector2.Zero);
+        asteroidSpawnTimer.Enabled = true;
+        asteroidSpawnTimer.Elapsed += async (sender, e) => await SpawnAnotherAsteroid(Vector2.Zero);
+
+        // handles the shooting of the player
+        playerShootLockoutTimer.Enabled = true;
+        playerShootLockoutTimer.Elapsed += async (sender, e) => await player.EnableShooting();
     }
 
     #region Private Methods
@@ -105,7 +110,8 @@ public class Game
                 // Runs Game over
                 if (player.Lives == 0)
                 {
-                    timer.Dispose();
+                    asteroidSpawnTimer.Dispose();
+                    playerShootLockoutTimer.Dispose();
                     state = GameState.GameOver;
                     RunGameOver();
                 }

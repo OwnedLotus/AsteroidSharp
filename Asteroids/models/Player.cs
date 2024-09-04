@@ -22,6 +22,7 @@ class Player
     private (int, int) windowDimensions;
     private float coefficientOfFriction;
     private ushort lives = 3;
+    private bool _canShoot = true;
 
     public Vector2[] Corners { get => _shape.Corners; }
     public float RotationAngle { get; private set; }
@@ -60,10 +61,11 @@ class Player
 
         var success = bullets.TryDequeue(out Bullet? bullet);
 
-        if (success && bullet is not null)
+        if (success && bullet is not null && _canShoot)
         {
             bullet.SpawnLocation(_position, _heading);
             activeBullets.Add(bullet);
+            _canShoot = false;
         }
     }
 
@@ -132,6 +134,12 @@ class Player
         }
 
         return false;
+    }
+
+    public Task EnableShooting()
+    {
+        _canShoot = true;
+        return Task.CompletedTask;
     }
 
     public void RespawnPlayer(Vector2 pos)
