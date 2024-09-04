@@ -6,8 +6,6 @@ using Raylib_CSharp.Interact;
 using Raylib_CSharp.Colors;
 using Raylib_CSharp.Rendering;
 using Raylib_CSharp;
-using System.ComponentModel.Design;
-
 public enum GameState
 {
     Startup,
@@ -34,13 +32,14 @@ public class Game
     public GameState state = GameState.Startup;
     private (int, int) windowDimensions;
 
-    public float points { get; private set; } = 0;
+    public float Points { get; private set; } = 0;
+    public float MaxPoints { get; private set; } = 0;
     public uint numberOfAsteroids { get; private set; }
 
     public Game((int, int) dimensions)
     {
         windowDimensions = dimensions;
-        player = new Player(new Vector2(windowDimensions.Item1 / 3, windowDimensions.Item2 / 3), Vector2.Zero, dimensions);
+        player = new Player(new Vector2(windowDimensions.Item1 / 3, windowDimensions.Item2 / 3), Vector2.Zero, windowDimensions);
         asteroids = new List<Asteroid>();
 
         for (int i = 0; i < lives.Count(); i++)
@@ -82,6 +81,22 @@ public class Game
         playerShootLockoutTimer.Enabled = true;
     }
 
+    private void ResetGame()
+    {
+        player = new Player(new Vector2(windowDimensions.Item1 / 3, windowDimensions.Item2 / 3), Vector2.Zero, windowDimensions);
+
+        for (int i = asteroids.Count - 1; i >= 0 ; i--)
+        {
+            asteroids.RemoveAt(i);
+        }
+
+        if (MaxPoints < Points)
+            MaxPoints = Points;
+        
+        Points = 0;
+        player.Lives = 3;
+    }
+
     private void DrawLives()
     {
         foreach (var life in lives)
@@ -113,7 +128,7 @@ public class Game
         // Still showing the game with no game ticks
         DrawGamePlaying(false);
 
-        string info = $"Total Points: {points}";
+        string info = $"Total Points: {Points}";
         string cont = "Continue? (Press Enter)";
         string q = "Quit? (Press Q)";
 
@@ -128,7 +143,7 @@ public class Game
     
     private void DrawPoints()
     {
-        Graphics.DrawText("Points: " + points, 0, 10, 20, Color.White);
+        Graphics.DrawText("Points: " + Points, 0, 10, 20, Color.White);
     }
 
     private void DrawGameOverMenu()
@@ -143,6 +158,11 @@ public class Game
         int x_gameOver_pos = (windowDimensions.Item1 / 2) - gameOverText.Length * 6;
         int x_playAgain_pos = (windowDimensions.Item1 / 2) - playAgainText.Length * 4;
         int x_quit_pos = (windowDimensions.Item1 / 2) - quitText.Length * 4;
+
+        Graphics.DrawText(gameOverText, x_gameOver_pos, windowDimensions.Item2 / 3, 40, Color.White);
+        Graphics.DrawText(playAgainText, x_playAgain_pos, windowDimensions.Item2 / 2, 20, Color.White);
+        Graphics.DrawText(quitText, x_quit_pos, windowDimensions.Item2 * 2 / 3, 20, Color.White);
+        
     }
 
     #endregion
@@ -185,8 +205,8 @@ public class Game
                 // Runs Game over
                 if (player.Lives == 0)
                 {
-                    asteroidSpawnTimer.Dispose();
-                    playerShootLockoutTimer.Dispose();
+                    asteroidSpawnTimer.Enabled = false;
+                    playerShootLockoutTimer.Enabled = false;
                     state = GameState.GameOver;
                     RunGameOver();
                 }
@@ -231,16 +251,17 @@ public class Game
                         SpawnAnotherAsteroid(collidedAsteroid.Position);
                     }
 
-                    points += MathF.Round(100 * collidedAsteroid.Speed * 10 / collidedAsteroid.Scale);
+                    Points += MathF.Round(100 * collidedAsteroid.Speed * 10 / collidedAsteroid.Scale);
 
                     DestroyAsteroid(collidedAsteroid);
                 }
             }
         }
 
-        // first attempt to add pausing to the game
-        if (Input.IsKeyDown(KeyboardKey.Enter) && state != GameState.Paused) state = GameState.Paused;
-        if (Input.IsKeyDown(KeyboardKey.Enter) && state != GameState.Playing) state = GameState.Playing;
+        // handling pausing
+        if(Input.IsKeyPressed(KeyboardKey.Enter) && state == GameState.Playing) state = GameState.Paused;
+        if(Input.IsKeyPressed(KeyboardKey.Enter) && state == GameState.Paused) state = GameState.Playing;
+    
     }
 
     public void DrawGame()
@@ -278,12 +299,21 @@ public class Game
     
     public void PauseMenu()
     {
+        if(Input.IsKeyPressed(KeyboardKey.Enter))
+            state = GameState.Playing;
+
+        QueryQuitGame();
     }
 
     
 
     public void RunGameOver()
     {
+        if(Input.IsKeyPressed(KeyboardKey.Enter))
+        {
+            state = GameState.Playing;
+
+        }
     }
 
 
@@ -295,6 +325,8 @@ public class Game
     {
         if(Input.IsKeyPressed(KeyboardKey.Q))
         {
+            asteroidSpawnTimer.Dispose();
+            playerShootLockoutTimer.Dispose();
             Environment.Exit(0);
         }
     }
