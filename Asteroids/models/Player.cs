@@ -21,7 +21,7 @@ class Player
     private Triangle _shape;
     private (int, int) windowDimensions;
     private float coefficientOfFriction;
-    private ushort lives = 4;
+    private ushort lives = 3;
 
     public Vector2[] Corners { get => _shape.Corners; }
     public float RotationAngle { get; private set; }
@@ -93,20 +93,17 @@ class Player
     public void UpdatePlayer(float deltaTime)
     {
         _heading = _shape.UpdateShape(_position);
-        Console.WriteLine("Heading: ", _heading);
 
         if (Input.IsKeyDown(KeyboardKey.W))
         {
             _position += _heading * Speed * deltaTime;
             _momentum = Speed;
-            Console.WriteLine($"Moving Forward. Position: {_position}, Momentum {_momentum}");
-        } 
+        }
         else
         {
             _momentum -= coefficientOfFriction * _momentum * deltaTime;
             if (_momentum < 0) _momentum = 0;
             _position += _heading * _momentum * deltaTime;
-            Console.WriteLine($"Applying Friction. Position: {_position}, Momentum: {_momentum}");
         }
 
         // rotation
@@ -135,6 +132,11 @@ class Player
         }
 
         return false;
+    }
+
+    public void RespawnPlayer(Vector2 pos)
+    {
+        _position = pos;
     }
 
     #endregion

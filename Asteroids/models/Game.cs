@@ -1,6 +1,7 @@
 using System.Numerics;
 
 using AsteroidSharp.Models;
+using AsteroidSharp.Models.Shapes;
 using Raylib_CSharp.Interact;
 using Raylib_CSharp.Colors;
 using Raylib_CSharp.Rendering;
@@ -17,6 +18,13 @@ public enum GameState
 public class Game
 {
     private static System.Timers.Timer timer = new(1000);
+    private Triangle[] lives = new Triangle[]
+    {
+        new Triangle(new Vector2(6, 4), Vector2.UnitY, Color.White),
+        new Triangle(new Vector2(6, 4), Vector2.UnitY, Color.White),
+        new Triangle(new Vector2(6, 4), Vector2.UnitY, Color.White),
+        new Triangle(new Vector2(6, 4), Vector2.UnitY, Color.White),
+    };
 
     private Player player;
     private List<Asteroid> asteroids;
@@ -32,6 +40,11 @@ public class Game
         windowDimensions = dimensions;
         player = new Player(new Vector2(windowDimensions.Item1 / 3, windowDimensions.Item2 / 3), Vector2.Zero, dimensions);
         asteroids = new List<Asteroid>();
+
+        for (int i = 0; i < lives.Count(); i++)
+        {
+            lives[i].UpdateShape(new Vector2(10 * i + 5, 40));
+        }
 
         // handles the spawning of asteroids
         timer.Enabled = true;
@@ -89,14 +102,26 @@ public class Game
             // check collisions on player and asteroids
             if (currentAsteroid.CheckCollisions(player.Corners))
             {
-                RunGameOver();
-
                 // Runs Game over
                 if (player.Lives == 0)
                 {
                     timer.Dispose();
                     state = GameState.GameOver;
+                    RunGameOver();
                 }
+
+                Random rng = new();
+
+                Asteroid? collidedAsteroids;
+
+                do
+                {
+                    player.RespawnPlayer(new Vector2(rng.Next(0, windowDimensions.Item1), rng.Next(0, windowDimensions.Item2)));
+                    player.UpdatePlayer(0f);
+                    collidedAsteroids = asteroids.FirstOrDefault(asteroid => asteroid.CheckCollisions(player.Corners));
+                } while (collidedAsteroids is not null);
+
+                player.Lives--;
             }
         }
 
@@ -113,18 +138,18 @@ public class Game
             else
             {
                 currentBullet.Move(deltaTime);
-                var collidedAsteroid = asteroids.FirstOrDefault(asteroids => asteroids.CheckCollisions(currentBullet.Corners));
+                var collidedAsteroid = asteroids.FirstOrDefault(asteroid => asteroid.CheckCollisions(currentBullet.Corners));
 
                 if (collidedAsteroid is not null)
                 {
                     player.DespawnBullet(currentBullet);
-                    
+
                     if (collidedAsteroid.State == AsteroidState.Large)
                     {
                         SpawnAnotherAsteroid(collidedAsteroid.Position);
                         SpawnAnotherAsteroid(collidedAsteroid.Position);
                     }
-                    
+
                     points += MathF.Round(100 * collidedAsteroid.Speed * 10 / collidedAsteroid.Scale);
 
                     DestroyAsteroid(collidedAsteroid);
@@ -152,7 +177,10 @@ public class Game
 
     private void DrawLives()
     {
-
+        for (int i = 0; i < player.Lives; i++)
+        {
+            lives[i].DrawShape();
+        }
     }
 
     public void StartMenu()
