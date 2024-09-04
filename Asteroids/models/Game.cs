@@ -18,7 +18,7 @@ public enum GameState
 public class Game
 {
     private static System.Timers.Timer timer = new(1000);
-    private Triangle[] lives = new Triangle[]
+    private List<Triangle> lives = new()
     {
         new Triangle(new Vector2(6, 4), Vector2.UnitY, Color.White),
         new Triangle(new Vector2(6, 4), Vector2.UnitY, Color.White),
@@ -110,10 +110,9 @@ public class Game
                     RunGameOver();
                 }
 
+                // Check for asteroids in the area and respawn player
                 Random rng = new();
-
                 Asteroid? collidedAsteroids;
-
                 do
                 {
                     player.RespawnPlayer(new Vector2(rng.Next(0, windowDimensions.Item1), rng.Next(0, windowDimensions.Item2)));
@@ -121,6 +120,7 @@ public class Game
                     collidedAsteroids = asteroids.FirstOrDefault(asteroid => asteroid.CheckCollisions(player.Corners));
                 } while (collidedAsteroids is not null);
 
+                lives.RemoveAt(player.Lives);
                 player.Lives--;
             }
         }
@@ -177,9 +177,9 @@ public class Game
 
     private void DrawLives()
     {
-        for (int i = 0; i < player.Lives; i++)
+        foreach (var life in lives)
         {
-            lives[i].DrawShape();
+            life.DrawShape();
         }
     }
 
