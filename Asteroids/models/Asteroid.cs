@@ -44,6 +44,7 @@ public class Asteroid
         var xScaler = rng.NextSingle();
         var yScaler = rng.NextSingle();
         _scale = rng.Next(10, 100);
+        //https://stackoverflow.com/questions/218060/random-gaussian-variables
 
         _rotationAngle = rotate / _scale;
         _speed = rng.Next(1, 10);
