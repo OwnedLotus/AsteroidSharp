@@ -122,9 +122,6 @@ public class Asteroid
 
     private (double, int) LineEquation(Vector2 point, float angleTheta)
     {
-        var vx = Math.Cos(angleTheta);
-        var vy = Math.Sin(angleTheta);
-
         var slope = Math.Tan(angleTheta);
 
         int intercept = (int)(point.Y - slope * point.X);
