@@ -86,6 +86,60 @@ public class Asteroid
 
     #region Private Methods
 
+    private (Vector2, Vector2) FindSpawnPointAsteroid(Vector2 origin, (int,int) worldDimensions, float angleTheta)
+    {
+        (float m,int b) = LineEquation(origin, angleTheta);
+        // y = mx + b
+
+        // if y = 0 x = variable
+        // return (var, 0 pos, (diff between origin and intercept).normal);
+
+        // if X = 0 y = variable
+        // return (0, var, (diff between origin and intercept).normal);
+
+        // if y = windowHeight x = variable
+        // return (var, windowHeight, (diff between origin and intercept).normal)
+
+        // if x = windowWidth y = variable
+        // return (windowWidth, var, (diff between origin and intercept).normal)
+
+        // repeat with window width/height
+        Vector2 windowIntercept = Vector2.Zero;
+        Vector2 heading = Vector2.Zero;
+
+        // must be intercepting the 0s
+        if (angleTheta >= Math.PI / 4 && angleTheta < Math.PI * (5 / 4))
+        {
+            if (b >= 0 && b <= worldDimensions.Item1)
+            {
+                windowIntercept = new Vector2(0,b); 
+            }
+            else if (m != 0)
+            {
+                var x = -b / m;
+                windowIntercept = new Vector2(x, 0);
+            }
+        }
+        else
+        {
+            // window width/height intercept
+        }
+
+        return (windowIntercept, heading);
+    }
+
+    private (float, int) LineEquation(Vector2 point, float angleTheta)
+    {
+        var vx = Math.Cos(angleTheta);
+        var vy = Math.Sin(angleTheta);
+
+        var slope = Math.Tan(angleTheta);
+
+        var intercept = point.Y - slope * point.X;
+
+        return (0,0);
+    }
+
     private string GetDebuggerDisplay()
     {
         throw new NotImplementedException();
