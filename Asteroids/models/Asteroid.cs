@@ -88,7 +88,7 @@ public class Asteroid
 
     private (Vector2, Vector2) FindSpawnPointAsteroid(Vector2 origin, (int,int) worldDimensions, float angleTheta)
     {
-        (float m,int b) = LineEquation(origin, angleTheta);
+        (double m, int b) = LineEquation(origin, angleTheta);
         // y = mx + b
 
         // if y = 0 x = variable
@@ -106,38 +106,30 @@ public class Asteroid
         // repeat with window width/height
         Vector2 windowIntercept = Vector2.Zero;
         Vector2 heading = Vector2.Zero;
-
-        // must be intercepting the 0s
-        if (angleTheta >= Math.PI / 4 && angleTheta < Math.PI * (5 / 4))
+        
+        if (b >= 0 && b <= worldDimensions.Item1)
         {
-            if (b >= 0 && b <= worldDimensions.Item1)
-            {
-                windowIntercept = new Vector2(0,b); 
-            }
-            else if (m != 0)
-            {
-                var x = -b / m;
-                windowIntercept = new Vector2(x, 0);
-            }
+            windowIntercept = new Vector2(0,b); 
         }
-        else
+        else if (m != 0)
         {
-            // window width/height intercept
+            var x = -b / m;
+            windowIntercept = new Vector2((float)x, 0);
         }
 
         return (windowIntercept, heading);
     }
 
-    private (float, int) LineEquation(Vector2 point, float angleTheta)
+    private (double, int) LineEquation(Vector2 point, float angleTheta)
     {
         var vx = Math.Cos(angleTheta);
         var vy = Math.Sin(angleTheta);
 
         var slope = Math.Tan(angleTheta);
 
-        var intercept = point.Y - slope * point.X;
+        int intercept = (int)(point.Y - slope * point.X);
 
-        return (0,0);
+        return (slope,intercept);
     }
 
     private string GetDebuggerDisplay()
