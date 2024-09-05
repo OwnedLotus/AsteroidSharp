@@ -38,7 +38,7 @@ while (!Window.ShouldClose())
     game.DrawGame();
 
 #if DEBUG
-    Graphics.DrawFPS((int)windowDimensions.Item1 / 2, 10);
+    Graphics.DrawFPS(windowDimensions.Item1 / 2, 10);
 #endif
 
     Graphics.EndDrawing();

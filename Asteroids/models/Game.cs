@@ -95,6 +95,8 @@ public class Game
         
         Points = 0;
         player.Lives = 3;
+        asteroidSpawnTimer.Enabled = true;
+        playerShootLockoutTimer.Enabled = true;
     }
 
     private void DrawLives()
@@ -312,7 +314,7 @@ public class Game
         if(Input.IsKeyPressed(KeyboardKey.Enter))
         {
             state = GameState.Playing;
-
+            ResetGame();
         }
     }
 
