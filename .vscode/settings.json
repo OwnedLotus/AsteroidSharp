@@ -3,6 +3,7 @@
         "bulletlength",
         "bulletspeed",
         "Despawn",
-        "Raylib"
+        "Raylib",
+        "Respawn"
     ]
 }
