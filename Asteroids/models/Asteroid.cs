@@ -87,38 +87,73 @@ public class Asteroid
 
     #region Private Methods
 
-    private (Vector2, Vector2) FindSpawnPointAsteroid(Vector2 origin, (int,int) worldDimensions, float angleTheta)
+    public (Vector2, Vector2) FindSpawnPointAsteroid(Vector2 origin, (int, int) worldDimensions, float angleTheta)
     {
         (double m, int b) = LineEquation(origin, angleTheta);
-        // y = mx + b
 
-        // if y = 0 x = variable
-        // return (var, 0 pos, (diff between origin and intercept).normal);
-
-        // if X = 0 y = variable
-        // return (0, var, (diff between origin and intercept).normal);
-
-        // if y = windowHeight x = variable
-        // return (var, windowHeight, (diff between origin and intercept).normal)
-
-        // if x = windowWidth y = variable
-        // return (windowWidth, var, (diff between origin and intercept).normal)
-
-        // repeat with window width/height
-        Vector2 windowIntercept = Vector2.Zero;
-        Vector2 heading = Vector2.Zero;
+        (var windowWidth, var windowHeight) = worldDimensions;
         
-        if (b >= 0 && b <= worldDimensions.Item1)
+        var xTop = -b / m;
+        var yLeft = b;
+        var xBottom = (windowHeight - b) / m;
+        var yRight = m * windowWidth + b;
+        Vector2 windowBorderIntercept = Vector2.Zero;
+        
+        // first quad
+        if (angleTheta >= 0 && angleTheta < Math.PI / 2)
         {
-            windowIntercept = new Vector2(0,b); 
+            if (xTop >= 0 && xTop <= windowWidth)
+            {
+                windowBorderIntercept = new Vector2((float)xTop, 0);
+                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));   
+            }
+            if (yRight >= 0 && yRight <= windowHeight)
+            {
+                windowBorderIntercept = new Vector2(windowWidth, (float)yRight);
+                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));   
+            }
+        } 
+        else if (angleTheta >= Math.PI / 2 && angleTheta < Math.PI) // second quad
+        {
+            if (xTop >= 0 && xTop <= windowWidth)
+            {
+                windowBorderIntercept = new Vector2((float)xTop, 0);
+                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));   
+            }
+            if (yLeft >= 0 && yLeft <= windowHeight)
+            {
+                windowBorderIntercept = new Vector2(0, (float)yLeft);
+                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));   
+            }
+        } 
+        else if (angleTheta >= Math.PI && angleTheta < 3 * Math.PI / 2)
+        {
+            if (xBottom >= 0 && xBottom <= windowWidth)
+            {
+                windowBorderIntercept = new Vector2((float) xBottom, windowHeight);
+                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));
+            }
+            if (yLeft >= 0 && yLeft <= windowHeight)
+            {
+                windowBorderIntercept = new Vector2(0, (float)yLeft);
+                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));
+            }
         }
-        else if (m != 0)
+        else if (angleTheta >= 3 * Math.PI / 2 && angleTheta < 2 * Math.PI)
         {
-            var x = -b / m;
-            windowIntercept = new Vector2((float)x, 0);
+            if (xBottom >= 0 && xBottom <= windowWidth)
+            {
+                windowBorderIntercept = new Vector2((float)xBottom, windowHeight);
+                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));
+            }
+            if (yRight >= 0 && yRight <= windowHeight)
+            {
+                windowBorderIntercept = new Vector2(windowWidth, (float)yRight);
+                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));
+            }
         }
 
-        return (windowIntercept, heading);
+        return (Vector2.Zero,Vector2.Zero);
     }
 
     private (double, int) LineEquation(Vector2 point, float angleTheta)
@@ -128,6 +163,12 @@ public class Asteroid
         int intercept = (int)(point.Y - slope * point.X);
 
         return (slope,intercept);
+    }
+
+    private Vector2 CalculateHeading(Vector2 origin, Vector2 intercept)
+    {
+        Vector2 difference = intercept - origin;
+        return Vector2.Normalize(difference);
     }
 
     private string GetDebuggerDisplay()
@@ -199,6 +240,11 @@ public class Asteroid
         };
 
         return rectangleAsteroid;
+    }
+
+    public (Vector2, Vector2) DebugAsteroidSpawn(Vector2 origin, (int, int) worldDimensions, float angleTheta)
+    {
+        return FindSpawnPointAsteroid(origin, worldDimensions, angleTheta);
     }
 
     public void ExplodeAsteroid()
