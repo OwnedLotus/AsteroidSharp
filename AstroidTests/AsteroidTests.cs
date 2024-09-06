@@ -40,6 +40,6 @@ public class AsteroidTests
 
         // Assert
         Assert.Equal(new Vector2(expectedX, expectedY), intercept);
-        Assert.True(heading.Length() > 0); // Ensure heading is a unit vector
+        Assert.True(Math.Abs(heading.Length() - 1) < 1e-6); // Ensure heading is a unit vector
     }    
 }
