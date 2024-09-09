@@ -97,16 +97,26 @@ public class Asteroid
     {
         (var windowWidth, var windowHeight) = worldDimensions;
 
-        var xTop = -b / m;
-        var yLeft = b;
-        var xBottom = (windowHeight - b) / m;
-        var yRight = m * windowWidth + b;
+        double xTop = double.NaN;
+        double yLeft = b;
+        double xBottom = double.NaN;
+        double yRight = double.NaN;
+
+
+        if (m != 0 && b != int.MinValue)
+        {
+            xTop = -b/m;
+            xBottom = (windowHeight -b) / m;
+        }
+
+        yRight = m * windowWidth + b;
+        
         Vector2 windowBorderIntercept;
 
         // first quad
         if (angleTheta >= 0 && angleTheta < Math.PI / 2)
         {
-            if (xTop >= 0 && xTop <= windowWidth)
+            if (double.IsNaN(xTop) && xTop >= 0 && xTop <= windowWidth)
             {
                 windowBorderIntercept = new Vector2((float)xTop, 0);
                 return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));
@@ -119,7 +129,13 @@ public class Asteroid
         }
         else if (angleTheta >= Math.PI / 2 && angleTheta < Math.PI) // second quad
         {
-            if (xTop >= 0 && xTop <= windowWidth)
+            if (b == int.MinValue)
+            {
+                windowBorderIntercept = new Vector2(origin.X, 0);
+                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));
+            }
+
+            if (double.IsNaN(xTop) && xTop >= 0 && xTop <= windowWidth)
             {
                 windowBorderIntercept = new Vector2((float)xTop, 0);
                 return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));
@@ -145,7 +161,13 @@ public class Asteroid
         }
         else if (angleTheta >= 3 * Math.PI / 2 && angleTheta < 2 * Math.PI)
         {
-            if (xBottom >= 0 && xBottom <= windowWidth)
+            if (b == int.MinValue)
+            {
+                windowBorderIntercept = new Vector2(origin.X, windowHeight);
+                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));
+            }
+
+            if (double.IsNaN(xBottom) && xBottom >= 0 && xBottom <= windowWidth)
             {
                 windowBorderIntercept = new Vector2((float)xBottom, windowHeight);
                 return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));
@@ -162,9 +184,21 @@ public class Asteroid
 
     private (double, int) LineEquation(Vector2 point, float angleTheta)
     {
-        var slope = Math.Tan(angleTheta);
+        double slope;
+        int intercept;
 
-        int intercept = (int)(point.Y - slope * point.X);
+        if (Math.Abs(angleTheta % MathF.PI - MathF.PI / 2) < 1e-10 || Math.Abs(angleTheta - 3 * MathF.PI / 2) < 1e-10)
+        {
+            slope = double.MaxValue;
+            intercept = int.MinValue;
+        }
+        else
+        {
+            slope = Math.Tan(angleTheta);
+            intercept = (int)(point.Y - slope * point.X);
+        }
+
+
 
         return (slope,intercept);
     }
