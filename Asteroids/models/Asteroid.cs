@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Raylib_CSharp.Colors;
 using System.Numerics;
 using AsteroidSharp.Models.Shapes;
+using System.Security.Principal;
 
 namespace AsteroidSharp.Models;
 
@@ -90,92 +91,129 @@ public class Asteroid
     public (Vector2, Vector2) FindSpawnPointAsteroid(Vector2 origin, (int, int) worldDimensions, float angleTheta)
     {
         (double m, int b) = LineEquation(origin, angleTheta);
-        return SpawnPoint(origin, worldDimensions, angleTheta, m, b);
+
+        (Vector2, Vector2) spawn = SpawnPoint(origin, worldDimensions, angleTheta, m, b);
+
+        return spawn;
     }
 
     private (Vector2, Vector2) SpawnPoint(Vector2 origin, (int, int) worldDimensions, float angleTheta, double m, int b)
     {
         (var windowWidth, var windowHeight) = worldDimensions;
+        Vector2 collision = Vector2.Zero;
 
-        double xTop = double.NaN;
-        double yLeft = b;
-        double xBottom = double.NaN;
-        double yRight = double.NaN;
-
-
-        if (m != 0 && b != int.MinValue)
+        //awkward edge cases
+        if (double.IsNaN(m))
         {
-            xTop = -b/m;
-            xBottom = (windowHeight -b) / m;
+            var compPi = MathF.PI / 2;
+
+            if (angleTheta == compPi)
+            {
+                // from the top
+                return (new Vector2(origin.X, 0), Vector2.UnitY);
+            }
+            else
+            {
+                // from the bottom
+                return (new Vector2(origin.X, 0), -Vector2.UnitY);
+            }
         }
 
-        yRight = m * windowWidth + b;
-        
-        Vector2 windowBorderIntercept;
+        if (m == 0)
+        {
+            if(angleTheta == Math.PI)
+            {
+                collision = new Vector2(0,origin.Y); 
+                return (collision, -Vector2.UnitX);
+            }
+            else
+            {
+                collision = new Vector2(windowWidth,origin.Y);
+                return (collision, Vector2.UnitX);
+            }
+        }
 
-        // first quad
+        // first quadrant
         if (angleTheta >= 0 && angleTheta < Math.PI / 2)
         {
-            if (double.IsNaN(xTop) && xTop >= 0 && xTop <= windowWidth)
+            //must intersect with top or right
+            
+            // y = mx + b
+            // right window = y = width
+            var y = m*windowWidth + b;
+            if(y >= 0 && y <= windowHeight)
             {
-                windowBorderIntercept = new Vector2((float)xTop, 0);
-                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));
+                // the case that right window border is collided and not negative
+                collision = new Vector2(windowWidth, (float)y);
+                return (collision,  CalculateHeading(origin, collision));
             }
-            if (yRight >= 0 && yRight <= windowHeight)
+            
+            // m should never be zero
+            var x = b/m;
+
+            if (x >= 0 && x <= windowWidth)
             {
-                windowBorderIntercept = new Vector2(windowWidth, (float)yRight);
-                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));
+                collision = new Vector2((float)x, 0);
+                return (collision, CalculateHeading(origin, collision));
             }
         }
-        else if (angleTheta >= Math.PI / 2 && angleTheta < Math.PI) // second quad
+
+        // second Quadrant
+        if (angleTheta >= Math.PI / 2 && angleTheta < Math.PI)
         {
-            if (b == int.MinValue)
+            // must intersect with top or left
+
+            var y = b;
+            if (y >= 0 && y <= windowHeight)
             {
-                windowBorderIntercept = new Vector2(origin.X, 0);
-                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));
+                // collision with left side of window
+                collision = new Vector2(0, y);
+                return (collision, CalculateHeading(origin, collision));
             }
 
-            if (double.IsNaN(xTop) && xTop >= 0 && xTop <= windowWidth)
+            var x = b/m;
+            if (x >= 0 && x < windowWidth)
             {
-                windowBorderIntercept = new Vector2((float)xTop, 0);
-                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));
-            }
-            if (yLeft >= 0 && yLeft <= windowHeight)
-            {
-                windowBorderIntercept = new Vector2(0, (float)yLeft);
-                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));
+                collision = new Vector2((float)x, 0);
+                return (collision, CalculateHeading(origin, collision));
             }
         }
-        else if (angleTheta >= Math.PI && angleTheta < 3 * Math.PI / 2)
+
+        // Third Quadrant
+        if (angleTheta >= Math.PI && angleTheta < 3 * Math.PI / 2)
         {
-            if (xBottom >= 0 && xBottom <= windowWidth)
+            // must intersect with left or bottom
+            var y = b;
+            if (y >= 0 && y <= windowHeight)
             {
-                windowBorderIntercept = new Vector2((float)xBottom, windowHeight);
-                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));
-            }
-            if (yLeft >= 0 && yLeft <= windowHeight)
-            {
-                windowBorderIntercept = new Vector2(0, (float)yLeft);
-                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));
-            }
-        }
-        else if (angleTheta >= 3 * Math.PI / 2 && angleTheta < 2 * Math.PI)
-        {
-            if (b == int.MinValue)
-            {
-                windowBorderIntercept = new Vector2(origin.X, windowHeight);
-                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));
+                collision = new Vector2(0, y);
+                return (collision, CalculateHeading(origin, collision));
             }
 
-            if (double.IsNaN(xBottom) && xBottom >= 0 && xBottom <= windowWidth)
+            var x = windowHeight - b / m;
+            if (x >= 0 && x <= windowWidth)
             {
-                windowBorderIntercept = new Vector2((float)xBottom, windowHeight);
-                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));
+                collision = new Vector2((float)x, windowHeight);
+                return (collision, CalculateHeading(origin, collision));
             }
-            if (yRight >= 0 && yRight <= windowHeight)
+        }
+
+        // Fourth Quadrant
+        if (angleTheta >= 3 * Math.PI / 2 && angleTheta < 2 * Math.PI)
+        {
+            // must intersect with bottom or right
+            var y = m*windowWidth + b;
+            if (y >= 0 && y <= windowHeight)
             {
-                windowBorderIntercept = new Vector2(windowWidth, (float)yRight);
-                return (windowBorderIntercept, CalculateHeading(origin, windowBorderIntercept));
+                collision = new Vector2(windowWidth, (float)y);
+                return (collision, CalculateHeading(origin, collision));
+            }
+
+            var x = windowHeight - b / m;
+            if (x >= 0 && x <= windowWidth)
+            {
+                collision = new Vector2((float)x, windowHeight);
+                return (collision, CalculateHeading(origin, collision));
             }
         }
 
@@ -187,18 +225,16 @@ public class Asteroid
         double slope;
         int intercept;
 
-        if (Math.Abs(angleTheta % MathF.PI - MathF.PI / 2) < 1e-10 || Math.Abs(angleTheta - 3 * MathF.PI / 2) < 1e-10)
+        if (Math.Tan(angleTheta) - double.MaxValue < 1e-10 && angleTheta != 0 && angleTheta != MathF.PI)
         {
-            slope = double.MaxValue;
-            intercept = int.MinValue;
+            slope = double.NaN;
+            intercept = int.MaxValue;
         }
         else
         {
             slope = Math.Tan(angleTheta);
             intercept = (int)(point.Y - slope * point.X);
         }
-
-
 
         return (slope,intercept);
     }
@@ -282,7 +318,9 @@ public class Asteroid
 
     public (Vector2, Vector2) DebugAsteroidSpawn(Vector2 origin, (int, int) worldDimensions, float angleTheta)
     {
-        return FindSpawnPointAsteroid(origin, worldDimensions, angleTheta);
+        (Vector2, Vector2) spawn = FindSpawnPointAsteroid(origin, worldDimensions, angleTheta);
+
+        return spawn;
     }
 
     public void ExplodeAsteroid()
