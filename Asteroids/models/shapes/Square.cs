@@ -133,8 +133,6 @@ class Square : IShape
 
         foreach (var point in points)
         {
-            float sumAngle = 0;
-
             var diffToA = point - Corners[0];
             var diffToB = point - Corners[1];
             var diffToC = point - Corners[2];
@@ -145,7 +143,7 @@ class Square : IShape
             var thetaAC = MathF.Acos(Vector2.Dot(diffToA, diffToC) / (diffToA.Length() * diffToC.Length()));
             var thetaCD = MathF.Acos(Vector2.Dot(diffToC, diffToD) / (diffToC.Length() * diffToD.Length()));
 
-            sumAngle = thetaAB + thetaBD + thetaAC + thetaCD;
+            float sumAngle = thetaAB + thetaBD + thetaAC + thetaCD;
 
             if (MathF.Abs(sumAngle - 2 * MathF.PI) < 1e-5)
                 return true;
