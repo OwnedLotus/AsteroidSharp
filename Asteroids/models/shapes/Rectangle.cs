@@ -20,13 +20,13 @@ class Rect : IShape
     {
         _bounds = bounds;
         globalCoordinates = new Vector2[4];
-        localCoordinates = new Vector2[4]
-        {
+        localCoordinates =
+        [
             new Vector2(-_bounds.X / 2, -_bounds.Y / 2),
             new Vector2(_bounds.X / 2, -_bounds.Y / 2),
             new Vector2(-_bounds.X / 2, _bounds.Y / 2),
             new Vector2(_bounds.X / 2, _bounds.Y / 2),
-        };
+        ];
         ShapeColor = color;
     }
 
