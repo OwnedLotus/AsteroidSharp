@@ -14,6 +14,14 @@ public enum GameState
     GameOver
 }
 
+struct Star
+{
+
+    public Vector2 Position { get; set; }
+    public float Speed { get; set; }
+    public Color Color { get => Speed > .25? Color.White: Color.Gray; }
+}
+
 public class Game
 {
     private static System.Timers.Timer asteroidSpawnTimer = new(1000);
@@ -28,6 +36,8 @@ public class Game
     };
     private Player player;
     private List<Asteroid> asteroids;
+    private Star[] stars = new Star[50];
+    private Random rand = new Random();
 
     public GameState state = GameState.Startup;
     private (int, int) windowDimensions;
@@ -52,9 +62,27 @@ public class Game
 
         // handles the shooting of the player
         playerShootLockoutTimer.Elapsed += async (sender, e) => await player.EnableShooting();
+
+        // star generator
+        for (int i = 0; i < stars.Length; i++)
+        {
+            stars[i] = new Star
+            {
+                Position = new Vector2(rand.Next(0, dimensions.Item1), rand.Next(0,dimensions.Item2)),
+                Speed = MathF.Pow(rand.NextSingle(), 1.5f)
+            };
+        }
     }
 
     #region Private Methods
+
+    private void SpawnNewLocation(ref Star star)
+    {
+        if (star.Position.Y < 0) star.Position = new Vector2(windowDimensions.Item1 * rand.NextSingle(), windowDimensions.Item2 - 1); 
+        if (star.Position.Y > windowDimensions.Item2) star.Position = new Vector2(windowDimensions.Item1 * rand.NextSingle(), 1);
+        if (star.Position.X < 0) star.Position = new Vector2(windowDimensions.Item1 - 1, windowDimensions.Item2 * rand.NextSingle());
+        if (star.Position.X > windowDimensions.Item1) star.Position = new Vector2(1, windowDimensions.Item2 * rand.NextSingle());
+    }
 
     private void DestroyAsteroid(Asteroid asteroid)
     {
@@ -187,7 +215,62 @@ public class Game
         float deltaTime = Time.GetFrameTime();
 
         player.UpdatePlayer(deltaTime);
+        MoveAsteroids(deltaTime);
+        Collide(deltaTime);
 
+        // handling pausing
+        if (Input.IsKeyPressed(KeyboardKey.Enter) && state == GameState.Playing) state = GameState.Paused;
+        if (Input.IsKeyPressed(KeyboardKey.Enter) && state == GameState.Paused) state = GameState.Playing;
+
+        MoveStars();
+
+    }
+
+    private void MoveStars()
+    {
+        for (int i = 0; i < stars.Length; i++)
+        {
+            stars[i].Position -= player.Heading * stars[i].Speed;
+            SpawnNewLocation(ref stars[i]);
+        }
+    }
+
+    private void Collide(float deltaTime)
+    {
+        for (int i = 0; i < player.activeBullets.Count; i++)
+        {
+            var currentBullet = player.activeBullets[i];
+
+            if (currentBullet.Position.X < 0 ||
+                currentBullet.Position.Y < 0 ||
+                currentBullet.Position.X > windowDimensions.Item1 ||
+                currentBullet.Position.Y > windowDimensions.Item2)
+                player.DespawnBullet(currentBullet);
+            else
+            {
+                currentBullet.Move(deltaTime);
+                var collidedAsteroid = asteroids.FirstOrDefault(asteroid => asteroid.CheckCollisions(currentBullet.Corners));
+
+                if (collidedAsteroid is not null)
+                {
+                    player.DespawnBullet(currentBullet);
+
+                    if (collidedAsteroid.State == AsteroidState.Large)
+                    {
+                        SpawnAnotherAsteroid(collidedAsteroid.Position);
+                        SpawnAnotherAsteroid(collidedAsteroid.Position);
+                    }
+
+                    Points += MathF.Round(100 * collidedAsteroid.Speed * 10 / collidedAsteroid.Scale);
+
+                    DestroyAsteroid(collidedAsteroid);
+                }
+            }
+        }
+    }
+
+    private void MoveAsteroids(float deltaTime)
+    {
         // move all Asteroids
         for (int i = 0; i < asteroids.Count; i++)
         {
@@ -227,43 +310,6 @@ public class Game
                 player.Lives--;
             }
         }
-
-
-        for (int i = 0; i < player.activeBullets.Count; i++)
-        {
-            var currentBullet = player.activeBullets[i];
-
-            if (currentBullet.Position.X < 0 ||
-                currentBullet.Position.Y < 0 ||
-                currentBullet.Position.X > windowDimensions.Item1 ||
-                currentBullet.Position.Y > windowDimensions.Item2)
-                player.DespawnBullet(currentBullet);
-            else
-            {
-                currentBullet.Move(deltaTime);
-                var collidedAsteroid = asteroids.FirstOrDefault(asteroid => asteroid.CheckCollisions(currentBullet.Corners));
-
-                if (collidedAsteroid is not null)
-                {
-                    player.DespawnBullet(currentBullet);
-
-                    if (collidedAsteroid.State == AsteroidState.Large)
-                    {
-                        SpawnAnotherAsteroid(collidedAsteroid.Position);
-                        SpawnAnotherAsteroid(collidedAsteroid.Position);
-                    }
-
-                    Points += MathF.Round(100 * collidedAsteroid.Speed * 10 / collidedAsteroid.Scale);
-
-                    DestroyAsteroid(collidedAsteroid);
-                }
-            }
-        }
-
-        // handling pausing
-        if(Input.IsKeyPressed(KeyboardKey.Enter) && state == GameState.Playing) state = GameState.Paused;
-        if(Input.IsKeyPressed(KeyboardKey.Enter) && state == GameState.Paused) state = GameState.Playing;
-    
     }
 
     public void DrawGame()
@@ -283,19 +329,30 @@ public class Game
                 DrawGameOverMenu();
                 break;
         }
+
+        DrawStars();
+    }
+
+    private void DrawStars()
+    {
+        for (int i = 0; i < stars.Length; i++)
+        {
+            Graphics.DrawCircleV(stars[i].Position, 1, Color.White);
+        }
     }
 
     private void DrawGamePlaying(bool showPoints = true)
     {
+
         if (showPoints)
             DrawPoints();
         DrawLives();
 
         player.DrawPlayer();
 
-        foreach (var asteroid in asteroids)
+        for(int i = 0; i < asteroids.Count; i++)
         {
-            asteroid.DrawAsteroid();
+            asteroids[i].DrawAsteroid();
         }
     }
     
@@ -321,7 +378,6 @@ public class Game
 
 
     #endregion
-
 
     private void QueryQuitGame()
     {

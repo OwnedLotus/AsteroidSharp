@@ -15,7 +15,7 @@ class Player
     private Vector2 _heading;
     private Vector2 _position;
     private float _momentum;
-    // private Vector2 _previousPosition;
+    private Vector2 _previousPosition;
     private Queue<Bullet> bullets;
     private uint numberOfBullets = 20;
     private Triangle _shape;
@@ -95,6 +95,8 @@ class Player
     public void UpdatePlayer(float deltaTime)
     {
         _heading = _shape.UpdateShape(_position);
+
+        _previousPosition = _position;
 
         if (Input.IsKeyDown(KeyboardKey.W))
         {
