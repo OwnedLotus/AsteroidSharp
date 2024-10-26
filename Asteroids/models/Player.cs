@@ -10,7 +10,6 @@ namespace AsteroidSharp.Models;
 [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
 class Player
 {
-    // oriented up
     private Color _color = Color.White;
     private Vector2 _heading;
     private Vector2 _position;
@@ -21,9 +20,9 @@ class Player
     private Triangle _shape;
     private (int, int) windowDimensions;
     private float coefficientOfFriction;
-    private ushort lives = 3;
     private bool _canShoot = true;
 
+    public readonly ushort totalLives = 3;
     public Vector2[] Corners { get => _shape.Corners; }
     public float RotationAngle { get; private set; }
     public float Speed { get; private set; }
@@ -33,7 +32,8 @@ class Player
     public Vector2 Position { get => _position; }
     public Vector2 Heading { get => _heading; private set => _heading = Vector2.Normalize(value); }
     public ActorState State { get => _shape.State; }
-    public ushort Lives { get => lives; set => lives = value; }
+
+    public Queue<Triangle> Lives { get; private set; } = new Queue<Triangle>();
 
     public Player(Vector2 pos, Vector2 vel, (int, int) dimensions, float cof = 1f, float s = 250, float r = 5, float m = 10)
     {
@@ -48,6 +48,8 @@ class Player
         _heading = -Vector2.UnitY;
         windowDimensions = dimensions;
         _shape.State = ActorState.Active;
+
+        AddLife(4);
     }
 
     #region Private Methods
@@ -138,6 +140,20 @@ class Player
         return false;
     }
 
+    public void AddLife(int count = 4)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            Console.WriteLine("Life Added");
+            Lives.Enqueue(new Triangle(new Vector2(6, 2), Vector2.UnitY, Color.White));
+        }
+    }
+
+    public void RemoveLife()
+    {
+        Lives.Dequeue();
+    }
+
     public Task EnableShooting()
     {
         _canShoot = true;
@@ -148,6 +164,5 @@ class Player
     {
         _position = pos;
     }
-
     #endregion
 }

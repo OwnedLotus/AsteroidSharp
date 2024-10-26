@@ -19,7 +19,7 @@ struct Star
 
     public Vector2 Position { get; set; }
     public float Speed { get; set; }
-    public Color Color { get => Speed > .25? Color.White: Color.Gray; }
+    public Color Color { get => Speed > .25 ? Color.White : Color.Gray; }
 }
 
 public class Game
@@ -27,13 +27,6 @@ public class Game
     private static System.Timers.Timer asteroidSpawnTimer = new(1000);
     private static System.Timers.Timer playerShootLockoutTimer = new(500);
 
-    private List<Triangle> lives = new()
-    {
-        new Triangle(new Vector2(6, 4), Vector2.UnitY, Color.White),
-        new Triangle(new Vector2(6, 4), Vector2.UnitY, Color.White),
-        new Triangle(new Vector2(6, 4), Vector2.UnitY, Color.White),
-        new Triangle(new Vector2(6, 4), Vector2.UnitY, Color.White),
-    };
     private Player player;
     private List<Asteroid> asteroids;
     private Star[] stars = new Star[50];
@@ -49,14 +42,9 @@ public class Game
     public Game((int, int) dimensions)
     {
         windowDimensions = dimensions;
-        player = new Player(new Vector2(windowDimensions.Item1 / 3, windowDimensions.Item2 / 3), Vector2.Zero, windowDimensions);
         asteroids = new List<Asteroid>();
 
-        for (int i = 0; i < lives.Count(); i++)
-        {
-            lives[i].UpdateShape(new Vector2(10 * i + 10, 40));
-        }
-
+        player = new Player(new Vector2(windowDimensions.Item1 / 3, windowDimensions.Item2 / 3), Vector2.Zero, windowDimensions);
         // handles the spawning of asteroids
         asteroidSpawnTimer.Elapsed += async (sender, e) => await SpawnAnotherAsteroid(Vector2.Zero);
 
@@ -68,7 +56,7 @@ public class Game
         {
             stars[i] = new Star
             {
-                Position = new Vector2(rand.Next(0, dimensions.Item1), rand.Next(0,dimensions.Item2)),
+                Position = new Vector2(rand.Next(0, dimensions.Item1), rand.Next(0, dimensions.Item2)),
                 Speed = MathF.Pow(rand.NextSingle(), 1.5f)
             };
         }
@@ -78,7 +66,7 @@ public class Game
 
     private void SpawnNewLocation(ref Star star)
     {
-        if (star.Position.Y < 0) star.Position = new Vector2(windowDimensions.Item1 * rand.NextSingle(), windowDimensions.Item2 - 1); 
+        if (star.Position.Y < 0) star.Position = new Vector2(windowDimensions.Item1 * rand.NextSingle(), windowDimensions.Item2 - 1);
         if (star.Position.Y > windowDimensions.Item2) star.Position = new Vector2(windowDimensions.Item1 * rand.NextSingle(), 1);
         if (star.Position.X < 0) star.Position = new Vector2(windowDimensions.Item1 - 1, windowDimensions.Item2 * rand.NextSingle());
         if (star.Position.X > windowDimensions.Item1) star.Position = new Vector2(1, windowDimensions.Item2 * rand.NextSingle());
@@ -101,7 +89,7 @@ public class Game
 
         return Task.CompletedTask;
     }
-    
+
     private void LaunchGame()
     {
         state = GameState.Playing;
@@ -113,26 +101,25 @@ public class Game
     {
         player = new Player(new Vector2(windowDimensions.Item1 / 3, windowDimensions.Item2 / 3), Vector2.Zero, windowDimensions);
 
-        for (int i = asteroids.Count - 1; i >= 0 ; i--)
+        asteroids.Clear();
+
+        for (int i = asteroids.Count - 1; i >= 0; i--)
         {
             asteroids.RemoveAt(i);
         }
 
         if (MaxPoints < Points)
             MaxPoints = Points;
-        
+
         Points = 0;
-        player.Lives = 3;
         asteroidSpawnTimer.Enabled = true;
         playerShootLockoutTimer.Enabled = true;
     }
 
     private void DrawLives()
     {
-        foreach (var life in lives)
-        {
-            life.DrawShape();
-        }
+        for (int i = 0; i < player.Lives.Count; i++)
+            player.Lives.Peek().DrawShape();
     }
 
     private void DrawStartMenu()
@@ -143,14 +130,14 @@ public class Game
 
         int x_title_pos = (windowDimensions.Item1 / 2) - title.Length * 13;
         // Console.WriteLine(x_title_pos);
-        int x_start_pos =  (windowDimensions.Item1 / 2) - startText.Length * 5;
+        int x_start_pos = (windowDimensions.Item1 / 2) - startText.Length * 5;
         int x_quit_pos = (windowDimensions.Item1 / 2) - quitText.Length * 6;
 
 
         // Menu showing but no game showing
-        Graphics.DrawText(title, x_title_pos , windowDimensions.Item2 / 3, 40, Color.White );
-        Graphics.DrawText(startText, x_start_pos ,windowDimensions.Item2 /2, 20, Color.White);
-        Graphics.DrawText(quitText, x_quit_pos, windowDimensions.Item2 * 2/3, 20, Color.White);
+        Graphics.DrawText(title, x_title_pos, windowDimensions.Item2 / 3, 40, Color.White);
+        Graphics.DrawText(startText, x_start_pos, windowDimensions.Item2 / 2, 20, Color.White);
+        Graphics.DrawText(quitText, x_quit_pos, windowDimensions.Item2 * 2 / 3, 20, Color.White);
     }
 
     private void DrawPauseMenu()
@@ -166,11 +153,11 @@ public class Game
         int x_cont_pos = windowDimensions.Item1 / 2 - cont.Length * 6;
         int x_q_pos = windowDimensions.Item1 / 2 - q.Length * 8;
 
-        Graphics.DrawText(info, x_info_pos, windowDimensions.Item2 / 3, 20, Color.White );
-        Graphics.DrawText(cont, x_cont_pos, windowDimensions.Item2 / 3, 20, Color.White );
-        Graphics.DrawText(q, x_q_pos, windowDimensions.Item2 / 3, 20, Color.White );
+        Graphics.DrawText(info, x_info_pos, windowDimensions.Item2 / 3, 20, Color.White);
+        Graphics.DrawText(cont, x_cont_pos, windowDimensions.Item2 / 3, 20, Color.White);
+        Graphics.DrawText(q, x_q_pos, windowDimensions.Item2 / 3, 20, Color.White);
     }
-    
+
     private void DrawPoints()
     {
         Graphics.DrawText("Points: " + Points, 0, 10, 20, Color.White);
@@ -180,7 +167,7 @@ public class Game
     {
         // Still showing the game with no game ticks
         DrawGamePlaying(false);
-        
+
         string gameOverText = "Game Over!";
         string playAgainText = "Play Again? (Press Enter)";
         string quitText = "Quit Game? (Press Q)";
@@ -192,7 +179,7 @@ public class Game
         Graphics.DrawText(gameOverText, x_gameOver_pos, windowDimensions.Item2 / 3, 40, Color.White);
         Graphics.DrawText(playAgainText, x_playAgain_pos, windowDimensions.Item2 / 2, 20, Color.White);
         Graphics.DrawText(quitText, x_quit_pos, windowDimensions.Item2 * 2 / 3, 20, Color.White);
-        
+
     }
 
     #endregion
@@ -201,7 +188,7 @@ public class Game
 
     public void StartGame()
     {
-        if(Input.IsKeyPressed(KeyboardKey.Enter))
+        if (Input.IsKeyPressed(KeyboardKey.Enter))
         {
             LaunchGame();
         }
@@ -274,6 +261,8 @@ public class Game
         // move all Asteroids
         for (int i = 0; i < asteroids.Count; i++)
         {
+            // TODO Some asteroids are able to be collided with twice
+
             var currentAsteroid = asteroids[i];
 
             if (currentAsteroid.Position.X < 0 ||
@@ -288,13 +277,15 @@ public class Game
             if (currentAsteroid.CheckCollisions(player.Corners))
             {
                 // Runs Game over
-                if (player.Lives == 0)
+                if (player.Lives.Count == 0)
                 {
                     asteroidSpawnTimer.Enabled = false;
                     playerShootLockoutTimer.Enabled = false;
                     state = GameState.GameOver;
                     RunGameOver();
                 }
+                else
+                    player.RemoveLife();
 
                 // Check for asteroids in the area and respawn player
                 Random rng = new();
@@ -305,9 +296,6 @@ public class Game
                     player.UpdatePlayer(0f);
                     collidedAsteroids = asteroids.FirstOrDefault(asteroid => asteroid.CheckCollisions(player.Corners));
                 } while (collidedAsteroids is not null);
-
-                lives.RemoveAt(player.Lives);
-                player.Lives--;
             }
         }
     }
@@ -350,25 +338,25 @@ public class Game
 
         player.DrawPlayer();
 
-        for(int i = 0; i < asteroids.Count; i++)
+        for (int i = 0; i < asteroids.Count; i++)
         {
             asteroids[i].DrawAsteroid();
         }
     }
-    
+
     public void PauseMenu()
     {
-        if(Input.IsKeyPressed(KeyboardKey.Enter))
+        if (Input.IsKeyPressed(KeyboardKey.Enter))
             state = GameState.Playing;
 
         QueryQuitGame();
     }
 
-    
+
 
     public void RunGameOver()
     {
-        if(Input.IsKeyPressed(KeyboardKey.Enter))
+        if (Input.IsKeyPressed(KeyboardKey.Enter))
         {
             state = GameState.Playing;
             ResetGame();
@@ -381,7 +369,7 @@ public class Game
 
     private void QueryQuitGame()
     {
-        if(Input.IsKeyPressed(KeyboardKey.Q))
+        if (Input.IsKeyPressed(KeyboardKey.Q))
         {
             asteroidSpawnTimer.Dispose();
             playerShootLockoutTimer.Dispose();
